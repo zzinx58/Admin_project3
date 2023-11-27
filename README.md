@@ -32,14 +32,105 @@
     modules: ['@nuxt/ui']
     ```
 
+  - naive-ui
+
+    ```typescript
+    // bash
+    bun add -D naive-ui
+    // For Style overlay issues.
+    // {{projectRoot}}/plugins/naive-ui.client.ts
+    export default defineNuxtPlugin(async () => {
+
+      const meta = document.createElement('meta');
+      meta.name = 'naive-ui-style';
+      document.head.appendChild(meta);
+      // useHead({
+      // meta: [{ name: 'naive-ui-style' }],
+      // });
+    });
+    ```
+
   - VueUse.
 
     ```typescript
     // bash
-    bun add @vueuse/nuxt
+    bun add @vueuse/nuxt @vueuse/core
+    // For useRouteParams and query...
+    bun add @vueuse/router
+    // For useFuse
+    bun add @vueuse/integrations fuse.js
+    // For rxjs
+    bun add @vueuse/rxjs rxjs
+    // For vOnKeyStroke
+    bun add @vueuse/components
     // nuxt.config.ts
     modules: ['@vueuse/nuxt']
+
+    // Some useful funcs.
+    watchDeep
+    watchImmediate
+    watchThrottled
+    watchDebounced
+    useDropZone
+    useDraggable
+    useWindowScroll
+    useParentElement
+    useFavicon
+    useEventListener
+    useEyeDropper
+    useFileDialog
+    useFileSystemAccess
+    useFullscreen
+    useobjectUrl
+    usePermission
+    useScreenSafeArea
+    useTextareaAutosize
+    useTitle
+    useUrlSearchParams
+    useVibrate
+    useWakeLock
+    useWebNotification - Seems not work.
+    useWebWorkerFn
+    onKeyStroke
+    // Sensors
+    useDeviceMotion
+    useDeviceOrientation
+    useDevicePixelRatio
+    useDeviceList
+    useInfiniteScroll
+    useKeyModifier
+    useMagicKeys
+    usePageLeave
+    useParallax
+    useMouse
+    useBroadcastChannel
+    // Time
+    formatTimeAgo
+    useTimeAgo
+    useDateFormat
+    useNow
+    // Utilities
+    useToggle
+    useThrottleFn
+    useDebouncedFn
+    makeDestructurable
+    get
+    set
+    unrefPost
+    isDefined
+    createEventHook
+    useEventBus
+    useOffsetPagination
+    useAsyncQueue
+    useCycleList
+    useMemorize
+    useStepper
+    useSupported
+    //
+    useIdle
     ```
+
+    > https://vueuse.org/core/createReusableTemplate/#createreusabletemplate
 
   - Pinia.
 
@@ -92,6 +183,13 @@
     modules: ['nuxt-typed-router']
     ```
 
+  - rxjs
+
+    ```typescript
+    // bash
+    bun add rxjs
+    ```
+
   - magic-regexp
 
     ```typescript
@@ -104,21 +202,105 @@
 
   - @faker-js/faker
 
+    ```typescript
+    // bash
+    bun add @faker-js/faker
+    ```
+
+    > https://fakerjs.dev/guide/usage.html
+
   - msw
+
+    ```typescript
+    // bash
+    bun add msw
+    // {{projectRoot}}/plugins/mock.client.ts
+    import { worker } from "@/mocks/browser";
+    export default defineNuxtPlugin(async () => {
+      await worker.start({
+      onUnhandledRequest: "bypass",
+      });
+    });
+    // {{projectRoot}}/public/mockServiceWorker.js
+    // {{projectRoot}}/mocks/browser.ts
+    import { setupWorker } from 'msw';
+    import { handlers } from './handlers';
+    export const worker = setupWorker(...handlers);
+    // {{projectRoot}}/mocks/handlers.ts
+    // Use with @faker-js/faker.
+    // Write your own mock api handlers here.
+    import { rest } from "msw";
+    import { fakerZH_CN as faker } from "@faker-js/faker";
+
+    const {
+      person,
+      phone,
+      number,
+      date,
+      string,
+      seed,
+      setDefaultRefDate,
+      location,
+      helpers,
+      lorem,
+      finance,
+    } = faker;
+
+    export const handlers = [
+      rest.get(`{{Your mock api path}}`, (req,res,ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({{anything here}})
+        )
+      }),
+      // rest.get()xxx, etc.
+    ]
+    ```
+
+    > https://mswjs.io/docs/getting-started#step-1-install
 
   - classnames
 
-  - gsap
+    ```typescript
+    // bash
+    bun add classnames
+    ```
 
   - jsonpath-plus
 
+    ```typescript
+    // bash
+    bun add jsonpath-plus
+    ```
+
   - lodash
 
+    ```typescript
+    // bash
+    bun add lodash
+    ```
+
   - xlsx
+
+    Not certain yet, about its import methods. Check it's Docs for details.
+
+    > https://docs.sheetjs.com/docs/getting-started/installation/standalone
+
+    ```typescript
+    // bash
+    bun add xlsx
+    ```
 
 ---
 
 - UX helpful dependencies.
+
+  - gsap
+
+    ```typescript
+    // bash
+    bun add gsap
+    ```
 
   - Auto-animate
 
@@ -364,6 +546,8 @@
     > https://pinia-orm.codedredd.de/guide/getting-started/quick-start
   - Inkline
     > https://www.inkline.io/docs
+
+---
 
 - Init project.
 
