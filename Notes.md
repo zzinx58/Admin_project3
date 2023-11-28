@@ -1,0 +1,5 @@
+- 使用 Nuxtr Vscode 插件可以提高 Nuxt3 项目开发效率。创建模版文件等功能。
+- Nuxt Layout 指明 name，会导致在其他 Page 中指明 Layout 时，样式不生效。
+- UnoCSS config file 创建并 export defineConfig 后，不进行额外配置，基本的样式操作也能生效。
+- Error: "@hebilicious/server-block-nuxt". 与类型“NuxtModule<ModuleOptions>”和“NuxtModule<ModuleOptions>”相比，堆栈深度过高。
+- Storybook with Nuxt3 and bun throwing errors. Use pnpm or else instead.

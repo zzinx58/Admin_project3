@@ -5,7 +5,13 @@ import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   ssr: false,
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true,
+    },
+  },
   typescript: {
     shim: false,
   },
@@ -23,8 +29,6 @@ export default defineNuxtConfig({
     port: 3010,
   },
   modules: [
-    // 与类型“NuxtModule<ModuleOptions>”和“NuxtModule<ModuleOptions>”相比，堆栈深度过高。
-    // "@hebilicious/server-block-nuxt",
     "@unocss/nuxt",
     "@vueuse/nuxt",
     "nuxt-typed-router",

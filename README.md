@@ -632,7 +632,25 @@ devServer: {
 
     > https://vite-pwa-org.netlify.app/frameworks/nuxt
 
+  - @nuxtjs/storybook
+
+    Throwing errors. Cause using bun. You will need a workaround or using pnpm etc. instead.
+
+    ```typescript
+    // bash
+    bun add -D @nuxtjs/storybook
+    // nuxt.config.ts
+    modules: ['@nuxtjs/storybook']
+    storybook: {
+      url: "http://localhost:6006",
+      storybookRoute: "/__storybook__",
+      port: 6006,
+    },
+    ```
+
   - @storybook-vue/nuxt-storybook
+
+    This module is not recommended. It's in its early stages.
 
     ```typescript
     //bash
