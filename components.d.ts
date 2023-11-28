@@ -11,6 +11,7 @@ declare module 'vue' {
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
+    NResult: typeof import('naive-ui')['NResult']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
