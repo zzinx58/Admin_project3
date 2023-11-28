@@ -2,135 +2,294 @@
 
 ## Procedures(DESC)
 
-- Install basic dependencies.
+### Https Support.
 
-  - UnoCSS.
+> Some advanced features needs the https support.
 
-    ```typescript
-    // bash
-    bun add -D @unocss/nuxt
-    // nuxt.config.ts
-    modules: ['@unocss/nuxt']
-    // create a uno.config.ts file:
-    import {defineConfig} from 'unocss'
-    e..d.. defineConfig({
-        //...UnoCSS options.
-    })
-    ```
+- Install the needed `mkcert` npm package first.
+- Create a keys maintain folder in your project's root called `keys`, use the default path in the below script: `./keys/[xxx.cert, etc. your keys and certs.]`. Or use your own valid path, don't forget to change the path either in the below script BTW (by the way).
+- Add these three scripts to your package.json file's scripts section for future use.
+- Config the corresponding section in your project's nuxtConfig: `devServer.https & port` in your nuxt.config.ts file.
+- Open your cert file you generated in `https-cert-script` script step. Not the cert file with `-ca` suffix! ( Which i used to distinguish the credentials generated in the `ca` step. ).
+- Trust it though your specific OS platform procedures.
+- Restart the server, and see the effort.
 
-  - @nuxt/ui
+```typescript
+// package.json
+"https-credentials-gen": "bun run https-ca-script && bun run https-cert-script",
 
-    ```typescript
-    // bash
-    bun add @nuxt/ui
-        // If you want latest updates:
-        // package.json
-        "devDependencies": {
-            "@nuxt/ui": "npm:@nuxt/ui-edge@latest"
-        }
-    // nuxt.config.ts
-    modules: ['@nuxt/ui']
-    ```
+"https-ca-script": "mkcert create-ca --organization zzxLocalDev --key ./keys/zzx-local_dev-ca.key --cert ./keys/zzx-local_dev-ca.cert",
 
-  - naive-ui
+"https-cert-script": "mkcert create-cert --domain localhost --ca-key ./keys/zzx-local_dev-ca.key --ca-cert ./keys/zzx-local_dev-ca.cert --key ./keys/zzx-local_dev.key --cert ./keys/zzx-local_dev.cert"
 
-    ```typescript
-    // bash
-    bun add -D naive-ui
-    // For Style overlay issues.
-    // {{projectRoot}}/plugins/naive-ui.client.ts
-    export default defineNuxtPlugin(async () => {
+// nuxt.config.ts
+devServer: {
+  https: {
+    key: "./keys/zzx-local_dev.key",
+    cert: './keys/zzx-local_dev.cert'
+  },
+  port: 3010,
+},
+```
 
-      const meta = document.createElement('meta');
-      meta.name = 'naive-ui-style';
-      document.head.appendChild(meta);
-      // useHead({
-      // meta: [{ name: 'naive-ui-style' }],
-      // });
-    });
-    ```
+---
 
-  - VueUse.
+### Create and organize project directory structure.
 
-    ```typescript
-    // bash
-    bun add @vueuse/nuxt @vueuse/core
-    // For useRouteParams and query...
-    bun add @vueuse/router
-    // For useFuse
-    bun add @vueuse/integrations fuse.js
-    // For rxjs
-    bun add @vueuse/rxjs rxjs
-    // For vOnKeyStroke
-    bun add @vueuse/components
-    // nuxt.config.ts
-    modules: ['@vueuse/nuxt']
+- components
 
-    // Some useful funcs.
-    watchDeep
-    watchImmediate
-    watchThrottled
-    watchDebounced
-    useDropZone
-    useDraggable
-    useWindowScroll
-    useParentElement
-    useFavicon
-    useEventListener
-    useEyeDropper
-    useFileDialog
-    useFileSystemAccess
-    useFullscreen
-    useobjectUrl
-    usePermission
-    useScreenSafeArea
-    useTextareaAutosize
-    useTitle
-    useUrlSearchParams
-    useVibrate
-    useWakeLock
-    useWebNotification - Seems not work.
-    useWebWorkerFn
-    onKeyStroke
-    // Sensors
-    useDeviceMotion
-    useDeviceOrientation
-    useDevicePixelRatio
-    useDeviceList
-    useInfiniteScroll
-    useKeyModifier
-    useMagicKeys
-    usePageLeave
-    useParallax
-    useMouse
-    useBroadcastChannel
-    // Time
-    formatTimeAgo
-    useTimeAgo
-    useDateFormat
-    useNow
-    // Utilities
-    useToggle
-    useThrottleFn
-    useDebouncedFn
-    makeDestructurable
-    get
-    set
-    unrefPost
-    isDefined
-    createEventHook
-    useEventBus
-    useOffsetPagination
-    useAsyncQueue
-    useCycleList
-    useMemorize
-    useStepper
-    useSupported
-    //
-    useIdle
-    ```
+  For project common components.
 
-    > https://vueuse.org/core/createReusableTemplate/#createreusabletemplate
+  > https://nuxt.com/docs/guide/directory-structure/components
+
+- assets
+
+  For project assets, svg, and png files etc. that won't be served from the public/ directory.
+
+  > https://nuxt.com/docs/guide/directory-structure/assets
+
+  - fonts
+  - svgs
+
+- composables
+
+  For project functional utils with auto import.
+
+  > https://nuxt.com/docs/guide/directory-structure/composables
+
+- keys
+
+  For project needed certifications that supports devServer https feature.
+
+- layouts
+
+  For project layout components.
+
+  > https://nuxt.com/docs/guide/directory-structure/layouts
+
+- middleware
+
+  For project router middleware.
+
+  > https://nuxt.com/docs/guide/directory-structure/middleware
+
+- mocks
+
+  For project mocks feature.
+
+- pages
+
+  For project page components.
+
+  > https://nuxt.com/docs/guide/directory-structure/pages
+
+- plugins
+
+  For project plugins.
+
+  > https://nuxt.com/docs/guide/directory-structure/plugins
+
+- stores
+
+  For project Pinia like state management stores.
+
+- test
+
+  For project test files.
+
+- public
+
+  For project's static assets.
+
+  > https://nuxt.com/docs/guide/directory-structure/public
+
+- modules
+
+  > https://nuxt.com/docs/guide/going-further/modules
+
+  - Nuxt Kit
+    > https://nuxt.com/docs/guide/going-further/kit
+
+- server
+
+  > https://nuxt.com/docs/guide/directory-structure/server
+
+- utils
+
+  The main purpose of the utils/ directory is to allow a semantic distinction between your Vue composables and other auto-imported utility functions.￼
+
+  > https://nuxt.com/docs/guide/directory-structure/utils
+
+---
+
+### Install basic dependencies.
+
+- UnoCSS.
+
+  ```typescript
+  // bash
+  bun add -D @unocss/nuxt
+  // nuxt.config.ts
+  modules: ['@unocss/nuxt']
+  // create a uno.config.ts file:
+  import {defineConfig} from 'unocss'
+  e..d.. defineConfig({
+      //...UnoCSS options.
+  })
+  ```
+
+  > https://unocss.dev/guide/config-file
+
+- naive-ui
+
+  ```typescript
+  // bash
+  bun add -D naive-ui
+  // For Style overlay issues.
+  // {{projectRoot}}/plugins/naive-ui.client.ts
+  export default defineNuxtPlugin(async () => {
+
+    const meta = document.createElement('meta');
+    meta.name = 'naive-ui-style';
+    document.head.appendChild(meta);
+    // useHead({
+    // meta: [{ name: 'naive-ui-style' }],
+    // });
+  });
+  ```
+
+  As this module installs @nuxtjs/tailwindcss and @nuxtjs/color-mode for you, you should remove them from your modules and dependencies if you've previously installed them manually.
+
+- unplugin-vue-components
+
+  ```typescript
+  // bash
+  bun add -D unplugin-vue-components
+  // nuxt.config.ts
+  import Components from "unplugin-vue-components/vite";
+  import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+  vite: {
+    plugins: [
+      Components({
+        dts: true,
+        resolvers: [NaiveUiResolver()],
+      }),
+    ],
+  }
+  ```
+
+- unplugin-auto-import
+
+  Not needed anymore in Nuxt3 though. It's already built in.
+
+  Check the below link and nuxt.config.ts file for more info.
+
+  https://nuxt.com/docs/guide/concepts/auto-imports#auto-import-from-third-party-packages
+
+  ```typescript
+  // bash
+  bun add -D unplugin-auto-import
+  // nuxt.config.ts
+  import AutoImport from "unplugin-auto-import/vite"
+  vite: {
+    plugins: [
+      AutoImport({
+        imports: [
+          {
+            'naive-ui': [
+              'useDialog',
+              'useMessage',
+              'useNotification',
+              'useLoadingBar'
+            ]
+          }
+        ]
+      })
+    ]
+  }
+  ```
+
+- VueUse.
+
+  ```typescript
+  // bash
+  bun add @vueuse/nuxt @vueuse/core
+  // For useRouteParams and query...
+  bun add @vueuse/router
+  // For useFuse
+  bun add @vueuse/integrations fuse.js
+  // For rxjs
+  bun add @vueuse/rxjs rxjs
+  // For vOnKeyStroke
+  bun add @vueuse/components
+  // nuxt.config.ts
+  modules: ['@vueuse/nuxt']
+
+  // Some useful funcs.
+  watchDeep
+  watchImmediate
+  watchThrottled
+  watchDebounced
+  useDropZone
+  useDraggable
+  useWindowScroll
+  useParentElement
+  useFavicon
+  useEventListener
+  useEyeDropper
+  useFileDialog
+  useFileSystemAccess
+  useFullscreen
+  useobjectUrl
+  usePermission
+  useScreenSafeArea
+  useTextareaAutosize
+  useTitle
+  useUrlSearchParams
+  useVibrate
+  useWakeLock
+  useWebNotification - Seems not work.
+  useWebWorkerFn
+  onKeyStroke
+  // Sensors
+  useDeviceMotion
+  useDeviceOrientation
+  useDevicePixelRatio
+  useDeviceList
+  useInfiniteScroll
+  useKeyModifier
+  useMagicKeys
+  usePageLeave
+  useParallax
+  useMouse
+  useBroadcastChannel
+  // Time
+  formatTimeAgo
+  useTimeAgo
+  useDateFormat
+  useNow
+  // Utilities
+  useToggle
+  useThrottleFn
+  useDebouncedFn
+  makeDestructurable
+  get
+  set
+  unrefPost
+  isDefined
+  createEventHook
+  useEventBus
+  useOffsetPagination
+  useAsyncQueue
+  useCycleList
+  useMemorize
+  useStepper
+  useSupported
+  //
+  useIdle
+  ```
+
+  > https://vueuse.org/core/createReusableTemplate/#createreusabletemplate
 
 ---
 
@@ -141,8 +300,6 @@
     ```typescript
     // bash
     bun add date-fns
-    // nuxt.config.ts
-    modules: ['@pinia/nuxt']
     ```
 
   - jsonpath-plus
@@ -169,16 +326,7 @@
     modules: ['magic-regexp/nuxt']
     ```
 
-  - @hebilicious/server-block-nuxt
-
-    > Till 2023-11-23, it doesn't finish support multiple server blocks in a single file TODO yet.
-
-    ```typescript
-    // bash
-    bun add @hebilicious/server-block-nuxt @hebilicious/sfc-server-volar
-    // nuxt.config.ts
-    modules: ['@hebilicious/server-block-nuxt']
-    ```
+    > https://regexp.dev/getting-started/usage
 
   - nuxt-typed-router
 
@@ -188,6 +336,8 @@
     // nuxt.config.ts
     modules: ['nuxt-typed-router']
     ```
+
+    > https://nuxt.com/modules/typed-router
 
   - rxjs
 
@@ -201,6 +351,19 @@
     ```typescript
     // bash
     bun add classnames
+    ```
+
+  - @hebilicious/server-block-nuxt
+
+    > Error: 与类型“NuxtModule<ModuleOptions>”和“NuxtModule<ModuleOptions>”相比，堆栈深度过高。
+
+    > Till 2023-11-23, it doesn't finish support multiple server blocks in a single file TODO yet.
+
+    ```typescript
+    // bash
+    bun add @hebilicious/server-block-nuxt @hebilicious/sfc-server-volar
+    // nuxt.config.ts
+    modules: ['@hebilicious/server-block-nuxt']
     ```
 
 ---
@@ -236,6 +399,22 @@
   - vue-transitions
 
     > https://nuxt.com/modules/vue-transitions
+
+  - @nuxt/ui
+
+    ```typescript
+    // bash
+    bun add @nuxt/ui
+        // If you want latest updates:
+        // package.json
+        "devDependencies": {
+            "@nuxt/ui": "npm:@nuxt/ui-edge@latest"
+        }
+    // nuxt.config.ts
+    modules: ['@nuxt/ui']
+    ```
+
+    > https://ui.nuxt.com/getting-started/installation
 
 ---
 
@@ -319,6 +498,8 @@
     // nuxt.config.ts
     modules: ['@pinia-plugin-persistedstate/nuxt']
     ```
+
+    > https://prazdevs.github.io/pinia-plugin-persistedstate/frameworks/nuxt-3.html
 
   - vitest
 
@@ -594,12 +775,12 @@
 
 ---
 
-- Init project.
+### Init project (DESC)
 
-  - bunx nuxi@latest init . --force
-  - setup Nuxtr Ext recommanded. Update the nuxt.config.ts file => typescript.shim = false.
-    > https://nuxt.com/docs/getting-started/installation
-  - Git commit.
+- bunx nuxi@latest init . --force
+- setup Nuxtr Ext recommanded. Update the nuxt.config.ts file => typescript.shim = false.
+  > https://nuxt.com/docs/getting-started/installation
+- Git commit.
 
 - Create new project in organization.
 
