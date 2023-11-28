@@ -132,35 +132,41 @@
 
     > https://vueuse.org/core/createReusableTemplate/#createreusabletemplate
 
-  - Pinia.
-
-    ```typescript
-    // bash
-    bun add @pinia/nuxt
-    // nuxt.config.ts
-    modules: ['@pinia/nuxt']
-    ```
-
-  - Pinia-plugin-persistedstate
-
-    ```typescript
-    //bash
-    bun add -D @pinia-plugin-persistedstate/nuxt
-    // nuxt.config.ts
-    modules: ['@pinia-plugin-persistedstate/nuxt']
-    ```
-
 ---
 
 - Efficiency tools.
 
-  - VueUse.
+  - date-fns
 
     ```typescript
     // bash
-    bun add @vueuse/nuxt
+    bun add date-fns
     // nuxt.config.ts
-    modules: ['@vueuse/nuxt']
+    modules: ['@pinia/nuxt']
+    ```
+
+  - jsonpath-plus
+
+    ```typescript
+    // bash
+    bun add jsonpath-plus
+    ```
+
+  - lodash
+
+    ```typescript
+    // bash
+    bun add lodash
+    ```
+
+  - magic-regexp
+
+    ```typescript
+    // bash
+    bun add magic-regexp
+    // nuxt.config.ts
+    // This will alse enable auto-imports of magic-regexp helpers.
+    modules: ['magic-regexp/nuxt']
     ```
 
   - @hebilicious/server-block-nuxt
@@ -190,105 +196,11 @@
     bun add rxjs
     ```
 
-  - magic-regexp
-
-    ```typescript
-    // bash
-    bun add magic-regexp
-    // nuxt.config.ts
-    // This will alse enable auto-imports of magic-regexp helpers.
-    modules: ['magic-regexp/nuxt']
-    ```
-
-  - @faker-js/faker
-
-    ```typescript
-    // bash
-    bun add @faker-js/faker
-    ```
-
-    > https://fakerjs.dev/guide/usage.html
-
-  - msw
-
-    ```typescript
-    // bash
-    bun add msw
-    // {{projectRoot}}/plugins/mock.client.ts
-    import { worker } from "@/mocks/browser";
-    export default defineNuxtPlugin(async () => {
-      await worker.start({
-      onUnhandledRequest: "bypass",
-      });
-    });
-    // {{projectRoot}}/public/mockServiceWorker.js
-    // {{projectRoot}}/mocks/browser.ts
-    import { setupWorker } from 'msw';
-    import { handlers } from './handlers';
-    export const worker = setupWorker(...handlers);
-    // {{projectRoot}}/mocks/handlers.ts
-    // Use with @faker-js/faker.
-    // Write your own mock api handlers here.
-    import { rest } from "msw";
-    import { fakerZH_CN as faker } from "@faker-js/faker";
-
-    const {
-      person,
-      phone,
-      number,
-      date,
-      string,
-      seed,
-      setDefaultRefDate,
-      location,
-      helpers,
-      lorem,
-      finance,
-    } = faker;
-
-    export const handlers = [
-      rest.get(`{{Your mock api path}}`, (req,res,ctx) => {
-        return res(
-          ctx.status(200),
-          ctx.json({{anything here}})
-        )
-      }),
-      // rest.get()xxx, etc.
-    ]
-    ```
-
-    > https://mswjs.io/docs/getting-started#step-1-install
-
   - classnames
 
     ```typescript
     // bash
     bun add classnames
-    ```
-
-  - jsonpath-plus
-
-    ```typescript
-    // bash
-    bun add jsonpath-plus
-    ```
-
-  - lodash
-
-    ```typescript
-    // bash
-    bun add lodash
-    ```
-
-  - xlsx
-
-    Not certain yet, about its import methods. Check it's Docs for details.
-
-    > https://docs.sheetjs.com/docs/getting-started/installation/standalone
-
-    ```typescript
-    // bash
-    bun add xlsx
     ```
 
 ---
@@ -389,6 +301,139 @@
 ---
 
 - Features Point.
+
+  - Pinia.
+
+    ```typescript
+    // bash
+    bun add @pinia/nuxt
+    // nuxt.config.ts
+    modules: ['@pinia/nuxt']
+    ```
+
+  - Pinia-plugin-persistedstate
+
+    ```typescript
+    //bash
+    bun add -D @pinia-plugin-persistedstate/nuxt
+    // nuxt.config.ts
+    modules: ['@pinia-plugin-persistedstate/nuxt']
+    ```
+
+  - vitest
+
+    ```typescript
+    // bash
+    bun add -D @nuxt/test-utils vitest
+    // nuxt.config.ts
+    modules: ['@vueuse/nuxt']
+    ```
+
+    > https://nuxt.com/docs/getting-started/testing
+
+    > https://github.com/vitest-dev/vitest
+
+  - @faker-js/faker
+
+    ```typescript
+    // bash
+    bun add @faker-js/faker
+    ```
+
+    > https://fakerjs.dev/guide/usage.html
+
+  - msw
+
+    ```typescript
+    // bash
+    bun add msw
+    // {{projectRoot}}/plugins/mock.client.ts
+    import { worker } from "@/mocks/browser";
+    export default defineNuxtPlugin(async () => {
+      await worker.start({
+      onUnhandledRequest: "bypass",
+      });
+    });
+    // {{projectRoot}}/public/mockServiceWorker.js
+    // {{projectRoot}}/mocks/browser.ts
+    import { setupWorker } from 'msw';
+    import { handlers } from './handlers';
+    export const worker = setupWorker(...handlers);
+    // {{projectRoot}}/mocks/handlers.ts
+    // Use with @faker-js/faker.
+    // Write your own mock api handlers here.
+    import { rest } from "msw";
+    import { fakerZH_CN as faker } from "@faker-js/faker";
+
+    const {
+      person,
+      phone,
+      number,
+      date,
+      string,
+      seed,
+      setDefaultRefDate,
+      location,
+      helpers,
+      lorem,
+      finance,
+    } = faker;
+
+    export const handlers = [
+      rest.get(`{{Your mock api path}}`, (req,res,ctx) => {
+        return res(
+          ctx.status(200),
+          ctx.json({{anything here}})
+        )
+      }),
+      // rest.get()xxx, etc.
+    ]
+    ```
+
+    > https://mswjs.io/docs/getting-started#step-1-install
+
+  - xlsx
+
+    Not certain yet, about its import methods. Check it's Docs for details.
+
+    > https://docs.sheetjs.com/docs/getting-started/installation/standalone
+
+    ```typescript
+    // bash
+    bun add xlsx
+    ```
+
+  - i18n
+
+    ```typescript
+    // bash
+    bun add @nuxtjs/i18n
+    // nuxt.config.ts
+    modules: [
+      ['@nuxtjs/i18n', {
+          locales: ['en','zh-cn'],
+          defaultLocale: 'en'
+          vueI18n: {
+            fallbackLocale: 'en',
+            messages: {
+              en: {
+                greeting: 'Hello World!'
+              },
+              es: {
+                greeting: ''
+              }
+            }
+          }
+        }
+      ]
+    ]
+    // Then use it in your component.
+    <h1>{{$t('greeting')}}</h1>
+    <nuxt-link
+      v-if="$i18n.locale !== 'en'"
+      :to="switchLocalePath('en')"
+    > English </nuxt-link>
+    ```
 
   - @vite-pwa/nuxt
 

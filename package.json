@@ -11,11 +11,38 @@
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
+    "@nuxt/test-utils": "^3.8.1",
+    "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
+    "@storybook-vue/nuxt-storybook": "^0.0.1-latest.7",
+    "@unocss/nuxt": "^0.57.7",
+    "naive-ui": "^2.35.0",
     "nuxt": "^3.8.2",
+    "nuxt-typed-router": "^3.4.0",
+    "vitest": "^0.34.6",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@pinia/nuxt": "^0.5.1"
+    "@faker-js/faker": "^8.3.1",
+    "@formkit/auto-animate": "^0.8.1",
+    "@hebilicious/server-block-nuxt": "^0.3.4",
+    "@hebilicious/sfc-server-volar": "^0.3.4",
+    "@nuxt/ui": "^2.11.0",
+    "@pinia/nuxt": "^0.5.1",
+    "@vueuse/core": "^10.6.1",
+    "@vueuse/integrations": "^10.6.1",
+    "@vueuse/nuxt": "^10.6.1",
+    "@vueuse/router": "^10.6.1",
+    "@vueuse/rxjs": "^10.6.1",
+    "classnames": "^2.3.2",
+    "date-fns": "^2.30.0",
+    "fuse.js": "^7.0.0",
+    "gsap": "^3.12.2",
+    "jsonpath-plus": "^7.2.0",
+    "lodash": "^4.17.21",
+    "magic-regexp": "^0.7.0",
+    "msw": "^2.0.9",
+    "rxjs": "^7.8.1",
+    "xlsx": "^0.18.5"
   }
 }
