@@ -5,6 +5,11 @@
 - UnoCSS config file 创建并 export defineConfig 后，不进行额外配置，基本的样式操作也能生效。
 - Error: "@hebilicious/server-block-nuxt". 与类型“NuxtModule<ModuleOptions>”相比，堆栈深度过高。
 - Storybook with Nuxt3 and bun throwing errors. Use pnpm or else instead.
+- `@pinia/nuxt`'s `autoImports` option has been removed, check the link for detail: https://github.com/vuejs/pinia/blob/3eee3352c9fcabd9043df39380328c393d94ac3b/packages/nuxt/CHANGELOG.md.
+- Nuxt3 autoimports seems no support for import funcs alias.
+- Nuxt3 `utils` directory's auto-import are only available within the Vue part of your app. Only server/utils are auto-imported in the server/ directory.
+- Remember to restart the server while you updated your files in `middleware / utils etc.` directory.
+- JSON: JavaScript Object Notation.
 
 ---
 

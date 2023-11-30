@@ -9,6 +9,7 @@
 - Install the needed `mkcert` npm package first.
 - Create a keys maintain folder in your project's root called `keys`, use the default path in the below script: `./keys/[xxx.cert, etc. your keys and certs.]`. Or use your own valid path, don't forget to change the path either in the below script BTW (by the way).
 - Add these three scripts to your package.json file's scripts section for future use.
+- Run the `https-credentials-gen` script, get the cert files generated in `https-cert-script` step.
 - Config the corresponding section in your project's nuxtConfig: `devServer.https & port` in your nuxt.config.ts file.
 - Open your cert file you generated in `https-cert-script` script step. Not the cert file with `-ca` suffix! ( Which i used to distinguish the credentials generated in the `ca` step. ).
 - Trust it though your specific OS platform procedures.
@@ -35,6 +36,10 @@ devServer: {
 ---
 
 ### Create and organize project directory structure.
+
+Highly recommended using the `Nuxtr` plugin of VSCode.
+You could follow the below link tutorial's `Additional notes for an optimal setup` section.
+https://nuxt.com/docs/getting-started/installation
 
 - components
 
@@ -158,7 +163,9 @@ devServer: {
   });
   ```
 
-  As this module installs @nuxtjs/tailwindcss and @nuxtjs/color-mode for you, you should remove them from your modules and dependencies if you've previously installed them manually.
+  Auto-import has already builtin in Nuxt3.
+  You could see it in https://github.com/unplugin/unplugin-auto-import Nuxt section.
+  Use the imports.presets config option in `nuxt.config.ts` to import your needed functions of Naive-UI.
 
 - unplugin-vue-components
 
@@ -386,6 +393,8 @@ devServer: {
 
   - nuxt-swiper
 
+    > https://swiperjs.com/demos
+
     ```typescript
     // bash
     bun add nuxt-swiper
@@ -394,6 +403,27 @@ devServer: {
     swiper: {
         // Swiper options
     }
+
+    // Some intresting effects.
+    // Routine type
+    Pagination
+    Space between
+    Infinite loop
+    Scrollbar
+    Nested
+    Keyboard control
+    Mousewheel control
+    Autoplay
+    Autoplay progress
+    Thumbs gallery
+    Thumbs gallery loop
+    Responsive breakpoints
+    // Advanced type
+    Effect cube
+    Effect coverflow
+    Effect cards
+    Effect creative
+    Parallax
     ```
 
   - vue-transitions
@@ -415,6 +445,8 @@ devServer: {
     ```
 
     > https://ui.nuxt.com/getting-started/installation
+
+    As this module installs @nuxtjs/tailwindcss and @nuxtjs/color-mode for you, you should remove them from your modules and dependencies if you've previously installed them manually.
 
 ---
 
@@ -793,11 +825,15 @@ devServer: {
 
 ---
 
-### Init project (DESC)
+### Init (DESC)
 
 - bunx nuxi@latest init . --force
 - setup Nuxtr Ext recommanded. Update the nuxt.config.ts file => typescript.shim = false.
+
+  You could follow the below link tutorial's `Additional notes for an optimal setup` section.
+
   > https://nuxt.com/docs/getting-started/installation
+
 - Git commit.
 
 - Create new project in organization.

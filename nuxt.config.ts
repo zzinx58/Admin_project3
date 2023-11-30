@@ -1,6 +1,5 @@
 import Components from "unplugin-vue-components/vite";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
-// import AutoImport from "unplugin-auto-import/vite";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -33,12 +32,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "nuxt-typed-router",
     "magic-regexp/nuxt",
-    [
-      "@pinia/nuxt",
-      {
-        autoImports: [["defineStore", "definePiniaStore"]],
-      },
-    ],
+    "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/image",
   ],
@@ -61,24 +55,6 @@ export default defineNuxtConfig({
   },
   vite: {
     plugins: [
-      /* 
-        The code in the following section is no longer needed.
-        Cause auto-import has already builtin in Nuxt3. 
-        You could see it in https://github.com/unplugin/unplugin-auto-import Nuxt section.
-        Use the upstare imports.presets config option to import your needed functions.
-      */
-      // AutoImport({
-      //   imports: [
-      //     {
-      //       "naive-ui": [
-      //         "useDialog",
-      //         "useMessage",
-      //         "useNotification",
-      //         "useLoadingBar",
-      //       ],
-      //     },
-      //   ],
-      // }),
       Components({
         dts: true,
         resolvers: [NaiveUiResolver()],
