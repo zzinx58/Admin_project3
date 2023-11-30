@@ -1,4 +1,6 @@
+<script setup lang="ts"></script>
 <template>
+  <ProjectEnv />
   <!-- Directly name the layout will cause conflicts when specify the layout in page components. -->
   <!-- <NuxtLayout name="default"> -->
   <n-config-provider>
