@@ -2,6 +2,37 @@
 
 ## Procedures(DESC)
 
+### Routine.(DESC) -- 2023/11/30
+
+- Admin Module
+  - Pinia: Admin Store
+    - Func: login
+    - Func: logout
+    - Func: reAuthLogin
+  - Nitro-API: `admin/login.ts`
+  - Components: `Login.vue`
+- API Scope
+  - `./server/api-map/index.ts`
+- Response Types
+  - `./types/api_map_types/index.ts`
+- `./utils/common.ts`
+  - Func: useJSONPath
+- `./server/utils/common.ts`
+  - Func: getProjectEnv
+  - Func: getProjectBaseUrl
+  - Func: getProjectAPIPath
+- `./composables/common.ts`
+  - Func: userStore
+  - Func: useNaiveMessage
+  - Func: navigateToRedirectFrom
+- getProjectEnv
+  - Upsert: `.env` file, add PROJECT_ENV parameter.
+  - Components: `ProjectEnv.vue`.
+  - Nitro-API: `getProjectEnv.ts`.
+  - Update: `App.vue`.
+- UnoCSS attributify feature enable.
+  - `./uno.config.ts`
+
 ### Https Support.
 
 > Some advanced features needs the https support.
