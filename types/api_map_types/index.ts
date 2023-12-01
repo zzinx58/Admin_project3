@@ -32,7 +32,7 @@ export type API_Response_Raw_POST_Logout = {
   data: {};
 } & Response_Raw_Error_CommonType;
 // ----------------------------------------------------------------
-export type API_Response_GET_getAdminInfo = {
+export type API_Response_Raw_GET_getAdminInfo = {
   code: number;
   data: {
     id: number;
@@ -54,7 +54,7 @@ export type API_Payload_POST_createAdmin = {
   phone?: string;
   admin_type?: Admin_Type_CommonType;
 };
-export type API_Response_Raw_createAdmin = {
+export type API_Response_Raw_POST_createAdmin = {
   code: number;
   data: {
     id: number;
@@ -90,7 +90,7 @@ export type API_Response_Raw_POST_getAdminList = {
 // ----------------------------------------------------------------
 // Users Section.
 // ----------------------------------------------------------------
-export type API_Response_Raw_POST_getUsersList = {
+export type API_Response_Raw_POST_getUserList = {
   code: number;
   data: {
     total: number;
