@@ -12,7 +12,7 @@ useHead({
 const naiveMessage = useNaiveMessage();
 // ----------------------------------------------------------------
 const loginFormRef = ref<FormInst | null>();
-const loginFormPayload: Ref<API_Payload_POST_Login> = ref({
+const payload_loginForm: Ref<API_Payload_POST_Login> = ref({
   username: "",
   password: "",
 });
@@ -45,7 +45,7 @@ const handleClickLogin = async (e: MouseEvent) => {
 };
 const handleValidReqSend = async () => {
   const { data, statusCode, message, ok } = await userStore().login(
-    loginFormPayload.value
+    payload_loginForm.value
   );
   if (ok) {
     // Composable's could only be used in setup scope!!
@@ -79,19 +79,19 @@ const handleValidReqSend = async () => {
       class="sign-in"
       m="b-32"
       ref="loginFormRef"
-      :model="loginFormPayload"
+      :model="payload_loginForm"
       :rules="loginFormValidateRules"
     >
       <n-form-item label="用户名:" path="username">
         <n-input
-          v-model:value="loginFormPayload.username"
+          v-model:value="payload_loginForm.username"
           placeholder="请输入用户名"
           clearable
         ></n-input>
       </n-form-item>
       <n-form-item label="密码:" path="password">
         <n-input
-          v-model:value="loginFormPayload.password"
+          v-model:value="payload_loginForm.password"
           type="password"
           clearable
           placeholder="请输入密码"

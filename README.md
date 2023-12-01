@@ -15,15 +15,22 @@
   - `./server/api-map/index.ts`
 - Response Types
   - `./types/api_map_types/index.ts`
-- `./utils/common.ts`
-  - Func: useJSONPath
-- `./server/utils/common.ts`
+- Utils in FE. - `./utils/common.ts`
+  - Feature: useJSONPath
+  - Feature: \_ (useLodash)
+  - Feature: useMagicRegExp
+  - Feature: useRxjs
+- Utils in BE. - `./server/utils/common.ts`
+  - Func: getAuthorization_ArrPair_fromH3EventHandlerReq
+  - Func: getContextParams_fromH3EventHandlerReq
+  - Feature: useJSONPath
+  - Feature: \_ (useLodash)
   - Func: getProjectEnv
   - Func: getProjectBaseUrl
   - Func: getProjectAPIPath
-- `./composables/common.ts`
-  - Func: userStore
-  - Func: useNaiveMessage
+- Composables in FE. - `./composables/common.ts`
+  - Feature: userStore
+  - Feature: useNaiveMessage
   - Func: navigateToRedirectFrom
 - getProjectEnv
   - Upsert: `.env` file, add PROJECT_ENV parameter.

@@ -10,6 +10,8 @@
 - Nuxt3 `utils` directory's auto-import are only available within the Vue part of your app. Only server/utils are auto-imported in the server/ directory.
 - Remember to restart the server while you updated your files in `middleware / utils etc.` directory.
 - JSON: JavaScript Object Notation.
+- RegExp: Regular Expression.
+- Could not use `naiveMessage, adminStore` composable funs inside store. Not initialize.
 
 ---
 
