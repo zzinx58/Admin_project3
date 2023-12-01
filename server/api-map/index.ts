@@ -8,7 +8,7 @@ export const api_map = {
     List QueryParams available.
     Token needed.
     */
-    getUsersList: "/admin-api/account/user/list",
+    getUserList: "/admin-api/account/user/list",
   },
   admin: {
     /* 
@@ -36,6 +36,6 @@ export const api_map = {
     List QueryParams available.
     Token needed.
     */
-    getAdminsList: "/admin-api/account/admin/list",
+    getAdminList: "/admin-api/account/admin/list",
   },
 };

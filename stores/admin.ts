@@ -1,10 +1,12 @@
+import type { API_Payload_POST_Login } from "~/types/api_map_types";
+
 type TypeUtil_RequireOneOrBoth<T, Keys extends keyof T = keyof T> = {
   // !!
   [K in Keys]-?: Required<Pick<T, K>> & Partial<Omit<T, K>>;
   // [K in Keys]-?: Required<Pick<T, K>>;
 }[Keys];
 
-type User_LoginFormDataType = {
+type User_Payload_LoginForm_Type = {
   username: string;
   password: string;
 };
@@ -14,13 +16,13 @@ type ErrorMessageType = TypeUtil_RequireOneOrBoth<{
   // statusMessage: string;
 }>;
 
-type User_LoginResponseType = {
+type StoreFuncsResponseType = {
   statusCode?: number;
   data?: any;
   ok: boolean;
 } & ErrorMessageType;
 
-export const useUserStore = defineStore("Admin", {
+export const useAdminStore = defineStore("Admin", {
   persist: true,
 
   state: (): {
@@ -32,7 +34,7 @@ export const useUserStore = defineStore("Admin", {
       username: string;
       user_id: string;
       login_type: string;
-      roles: string | number[];
+      roles: string | string[];
     }>;
   } => {
     return {
@@ -42,21 +44,27 @@ export const useUserStore = defineStore("Admin", {
     };
   },
 
+  getters: {
+    ArrPair_authorizationToken: (state) => ["Authorization", state.token],
+  },
+
   actions: {
     async login(
-      loginFormData: User_LoginFormDataType
-    ): Promise<User_LoginResponseType> {
+      payload_loginForm: User_Payload_LoginForm_Type
+    ): Promise<StoreFuncsResponseType> {
       // [error, status] will never be used for BE logic.
       const { data, error, refresh, pending, status } = await useFetch(
         "/api/admin/login",
         {
           method: "POST",
-          body: loginFormData,
+          body: payload_loginForm,
         }
       );
-      console.log(data.value);
-      if (data.value && !data.value?.error) {
-        this.token = data.value.data.token;
+      // console.log(data.value);
+      if (data.value && !data.value.error) {
+        this.token = `Bearer ${data.value.data.token}`;
+        this.isLogin = true;
+        this.getAndSetAdminInfo();
         return {
           ok: true,
           statusCode: data.value.code,
@@ -73,14 +81,31 @@ export const useUserStore = defineStore("Admin", {
       }
     },
 
-    async logout() {
-      this.$reset();
+    async getAndSetAdminInfo(): Promise<StoreFuncsResponseType> {
+      const { data, refresh } = await useFetch("/api/admin/getAdminInfo", {
+        method: "get",
+        headers: Object.fromEntries([this.ArrPair_authorizationToken]),
+      });
+      if (data.value && !data.value.error) {
+        this.adminInfo = data.value.data;
+        return {
+          ok: false,
+          statusCode: data.value?.code,
+          message: "获取用户信息成功",
+          data: data.value,
+        };
+      } else {
+        return {
+          ok: false,
+          statusCode: data.value?.code,
+          message: "获取用户信息失败",
+          data: data.value,
+        };
+      }
     },
 
-    reAuthLogin(currentPath: string) {
-      useNaiveMessage().info("登录信息过期，请重新登录");
-      userStore().$reset();
-      navigateTo(`/Login?callback=${currentPath}`);
+    async logout() {
+      this.$reset();
     },
   },
 });
