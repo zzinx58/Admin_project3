@@ -314,6 +314,8 @@ https://nuxt.com/docs/getting-started/installation
   useDateFormat
   useNow
   // Utilities
+  createInjectionState
+  - useCounterStoreWithDefaultValue
   useToggle
   useThrottleFn
   useDebouncedFn

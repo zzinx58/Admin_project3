@@ -44,7 +44,7 @@ const handleClickLogin = async (e: MouseEvent) => {
   });
 };
 const handleValidReqSend = async () => {
-  const { data, statusCode, message, ok } = await userStore().login(
+  const { data, statusCode, message, ok } = await adminStore().login(
     payload_loginForm.value
   );
   if (ok) {
