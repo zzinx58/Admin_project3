@@ -12,7 +12,7 @@ import type { EventHandler, EventHandlerRequest, H3Event } from "h3";
 //     })
 
 import * as JSONPathPlus from "jsonpath-plus";
-export const JSONPath = JSONPathPlus.JSONPath;
+export const useJSONPath = JSONPathPlus.JSONPath;
 
 import useLodash from "lodash";
 export const _ = useLodash;

@@ -2,6 +2,12 @@
 
 ## Procedures(DESC)
 
+### Routine.(DESC) -- 2023/12/11
+
+- Utils in FE. About [XLSX]. - `./utils/features.ts`
+  - Func: xlsx_sheet_to_json
+  - Func: dictionary_keyValueConvertFunc
+
 ### Routine.(DESC) -- 2023/11/30
 
 - Admin Module
