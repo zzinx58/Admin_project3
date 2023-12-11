@@ -30,11 +30,11 @@ export default defineNuxtConfig({
   modules: [
     "@unocss/nuxt",
     "@vueuse/nuxt",
-    "nuxt-typed-router",
     "magic-regexp/nuxt",
     "@pinia/nuxt",
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/image",
+    "nuxt-typed-router",
   ],
   piniaPersistedstate: {
     storage: "localStorage",
