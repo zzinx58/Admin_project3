@@ -29,6 +29,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
     "@formkit/auto-animate": "^0.8.1",
+    "@iconify/tools": "^3.0.7",
     "@nuxt/image": "^1.1.0",
     "@nuxt/ui": "^2.11.0",
     "@pinia/nuxt": "^0.5.1",
