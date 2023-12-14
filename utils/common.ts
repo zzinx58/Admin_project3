@@ -1,4 +1,7 @@
 // ----------------------------------------------------------------
+import { defineStore } from "pinia";
+export const definePiniaStore = defineStore;
+// ----------------------------------------------------------------
 import * as xlsx from "xlsx";
 const { read: xlsx_read, utils: xlsx_utils } = xlsx;
 const { sheet_to_json: xlsx_utils_sheet_to_json } = xlsx_utils;
@@ -68,7 +71,7 @@ export const dictionary_ObjectKeyMappingConvertFunc = (
       const [key, value] = kvItem;
       return [dictionary_keyValueConvertFunc(dictionary, key), value];
     });
-    return Object.fromEntries(convertedKVArr);
+    return myFuncs.fromPairs(convertedKVArr);
   });
 };
 // ----------------------------------------------------------------
@@ -162,3 +165,6 @@ export const useMagicRegexp = () => ({
   multiline,
 });
 // ----------------------------------------------------------------
+export const myFuncs = {
+  fromPairs: _.fromPairs,
+};

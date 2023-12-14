@@ -8,7 +8,7 @@ export default defineEventHandler(
         getProjectAPIPath("$.admin.getAdminInfo"),
         {
           method: "GET",
-          headers: Object.fromEntries([
+          headers: myFuncs.fromPairs([
             getAuthorization_ArrPair_fromH3EventHandlerReq(event),
           ]),
         }

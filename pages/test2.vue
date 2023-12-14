@@ -1,4 +1,7 @@
 <script lang="ts" setup>
+useHead({
+  title: "XLSX",
+});
 const fileInputRef = ref();
 const fileData_in_json = ref();
 const convertedFileData_in_json = ref();

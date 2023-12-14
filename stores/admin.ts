@@ -22,7 +22,8 @@ type StoreFuncsResponseType = {
   ok: boolean;
 } & ErrorMessageType;
 
-export const useAdminStore = defineStore("Admin", {
+// export const useAdminStore = defineStore("Admin", {
+export const useAdminStore = definePiniaStore("Admin", {
   persist: true,
 
   state: (): {
@@ -82,10 +83,13 @@ export const useAdminStore = defineStore("Admin", {
     },
 
     async getAndSetAdminInfo(): Promise<StoreFuncsResponseType> {
-      const { data, refresh } = await useFetch("/api/admin/getAdminInfo", {
-        method: "get",
-        headers: Object.fromEntries([this.ArrPair_authorizationToken]),
-      });
+      const { data, refresh, error } = await useFetch(
+        "/api/admin/getAdminInfo",
+        {
+          method: "get",
+          headers: myFuncs.fromPairs([this.ArrPair_authorizationToken]),
+        }
+      );
       if (data.value && !data.value.error) {
         this.adminInfo = data.value.data;
         return {

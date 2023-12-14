@@ -1,4 +1,4 @@
-import { API_Response_Raw_POST_getAdminList } from "~/types/api_map_types";
+import type { API_Response_Raw_POST_getAdminList } from "~/types/api_map_types";
 
 export default defineEventHandler(async (event) => {
   const { code, data, error } =
@@ -6,13 +6,10 @@ export default defineEventHandler(async (event) => {
       getProjectAPIPath("$.admin.getAdminList"),
       {
         method: "GET",
-        headers: Object.fromEntries([
+        headers: myFuncs.fromPairs([
           getAuthorization_ArrPair_fromH3EventHandlerReq(event),
         ]),
         query: getQuery(event),
-        // query: Object.fromEntries(
-        //   getQuery_ArrPair_fromH3EventHandlerReq(event)
-        // ),
       }
     );
   return { code, data, error };
