@@ -4,6 +4,7 @@
 
 ### Routine.(DESC) -- 2023/12/13
 
+- Git: learn rebase command. From commit 1,2,3,4; Append commit 3 to commit 1.
 - Manage project needed assets. - `./assets/svgs/*`
 - Page: `projectStyles.vue`
   - display project colors.
