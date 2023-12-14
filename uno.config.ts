@@ -6,7 +6,9 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from "unocss";
+import {} from "@iconify/tools";
 import { unocss_theme_colors } from "./constants/projectStyles";
+
 export default defineConfig({
   presets: [
     presetUno(),
