@@ -167,4 +167,7 @@ export const useMagicRegexp = () => ({
 // ----------------------------------------------------------------
 export const myFuncs = {
   fromPairs: _.fromPairs,
+  random: _.random,
+  toPairs: _.toPairs,
+  defaultTo: _.defaultTo,
 };

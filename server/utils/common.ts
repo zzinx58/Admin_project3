@@ -30,7 +30,7 @@ export const getQuery_ArrPair_fromH3EventHandlerReq = (
   */
   const queryObject = getQuery(event);
   // const result = Object.entries(queryObject);
-  const result = _.toPairs(queryObject);
+  const result = myFuncs.toPairs(queryObject);
   return result;
 };
 // ----------------------------------------------------------------
@@ -69,4 +69,7 @@ export const getProjectAPIPath = (jsonPathToAPI: string) => {
 // ----------------------------------------------------------------
 export const myFuncs = {
   fromPairs: _.fromPairs,
+  random: _.random,
+  toPairs: _.toPairs,
+  defaultTo: _.defaultTo,
 };

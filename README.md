@@ -2,11 +2,24 @@
 
 ## Procedures(DESC)
 
+### Routine.(DESC) -- 2023/12/134
+
+- Make immediate layer for external funcs, like lodash. Reduce application coupling.
+- Replace removeable codes that directly using external funcs with `myFuncs`.
+- Utils in FE & BE. `./utils/common.ts`
+  - Func: myFuncs.fromPairs
+  - Func: myFuncs.random
+  - Func: myFuncs.toPairs
+  - Func: myFuncs.random
+
 ### Routine.(DESC) -- 2023/12/11
 
 - Utils in FE. About [XLSX]. - `./utils/features.ts`
   - Func: xlsx_sheet_to_json
   - Func: dictionary_keyValueConvertFunc
+  - Func: dictionary_ObjectKeyMappingConvertFunc
+  - Func: getFilesFromFileInputElements
+  - TODO: Could be refactor to `./utils/features.ts`.
 
 ### Routine.(DESC) -- 2023/11/30
 
