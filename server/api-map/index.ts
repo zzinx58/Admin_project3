@@ -1,8 +1,10 @@
 export const api_map = {
   baseurl: {
-    stagging: "http://wcucube.fun",
+    // It's staging, not stagging.
+    // stagging: "http://wcucube.fun",
+    staging: "http://wcucube.yicloud.vip",
   },
-  users: {
+  user: {
     /* 
     GET
     List QueryParams available.
