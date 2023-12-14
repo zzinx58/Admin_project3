@@ -2,20 +2,31 @@
 
 ## Procedures(DESC)
 
-### Routine.(DESC) -- 2023/12/134
+### Routine.(DESC) -- 2023/12/13
 
-- Make immediate layer for external funcs, like lodash. Reduce application coupling.
-- Replace removeable codes that directly using external funcs with `myFuncs`.
-- Utils in FE & BE. `./utils/common.ts`
-  - Func: myFuncs.fromPairs
-  - Func: myFuncs.random
-  - Func: myFuncs.toPairs
-  - Func: myFuncs.random
+- Manage project needed assets. - `./assets/svgs/*`
+- Page: `projectStyles.vue`
+  - display project colors.
+  - display project svgs in assets.
+- API Scope
+  - Types: update project API response type. - `./types/api_map_types/index.ts`
+  - URL_path: `./server/api-map/index.ts`
+    - update url path of getUserList.
+    - update project staging version base url.
+- Utils in FE - `./utils/common.ts`
+  - Feature: [myFuncs].
+    - Func: myFuncs.fromPairs
+    - Func: myFuncs.random
+    - Func: myFuncs.toPairs
+    - Func: myFuncs.random
+  - Make immediate layer for external funcs, like lodash. Reduce application coupling.
+  - Replace removeable codes that directly using external funcs with `myFuncs`.
 
 ### Routine.(DESC) -- 2023/12/11
 
-- Utils in FE. About [XLSX]. - `./utils/features.ts`
-  - Func: xlsx_sheet_to_json
+- Utils in FE - `./utils/features.ts`
+  - Feature: [XLSX]
+    - Func: xlsx_sheet_to_json
   - Func: dictionary_keyValueConvertFunc
   - Func: dictionary_ObjectKeyMappingConvertFunc
   - Func: getFilesFromFileInputElements
@@ -29,27 +40,27 @@
     - Func: logout
     - Func: reAuthLogin
   - Nitro-API: `admin/login.ts`
-  - Components: `Login.vue`
+  - Page: `Login.vue`
 - API Scope
   - `./server/api-map/index.ts`
 - Response Types
   - `./types/api_map_types/index.ts`
 - Utils in FE. - `./utils/common.ts`
-  - Feature: useJSONPath
-  - Feature: \_ (useLodash)
-  - Feature: useMagicRegExp
-  - Feature: useRxjs
+  - Feature: [useJSONPath]
+  - Feature: [_ (useLodash)]
+  - Feature: [useMagicRegExp]
+  - Feature: [useRxjs]
 - Utils in BE. - `./server/utils/common.ts`
   - Func: getAuthorization_ArrPair_fromH3EventHandlerReq
   - Func: getContextParams_fromH3EventHandlerReq
-  - Feature: useJSONPath
-  - Feature: \_ (useLodash)
+  - Feature: [useJSONPath]
+  - Feature: [\_ (useLodash)]
   - Func: getProjectEnv
   - Func: getProjectBaseUrl
   - Func: getProjectAPIPath
 - Composables in FE. - `./composables/common.ts`
-  - Feature: userStore
-  - Feature: useNaiveMessage
+  - Feature: [userStore]
+  - Feature: [useNaiveMessage]
   - Func: navigateToRedirectFrom
 - getProjectEnv
   - Upsert: `.env` file, add PROJECT_ENV parameter.
