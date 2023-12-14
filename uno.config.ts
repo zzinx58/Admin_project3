@@ -6,6 +6,7 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from "unocss";
+import { unocss_theme_colors } from "./constants/projectStyles";
 export default defineConfig({
   presets: [
     presetUno(),
@@ -15,5 +16,9 @@ export default defineConfig({
     }),
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
-  theme: {},
+  theme: {
+    colors: {
+      ...unocss_theme_colors,
+    },
+  },
 });

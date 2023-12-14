@@ -165,6 +165,10 @@ export const useMagicRegexp = () => ({
   multiline,
 });
 // ----------------------------------------------------------------
+// import { tournament_tournamentState_styles } from "@/constants/common";
+import * as constants from "@/constants";
+export const useProjectConstants = constants;
+
 export const myFuncs = {
   fromPairs: _.fromPairs,
   random: _.random,
