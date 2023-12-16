@@ -31,9 +31,17 @@ const loginFormValidateRules = {
   },
 };
 // ----------------------------------------------------------------
-// const handleClickLogin = async () => {
-const handleClickLogin = async (e: MouseEvent) => {
+/* Handle keyStroke on `Enter` to Login. */
+onKeyStroke("Enter", (e) => {
   e.preventDefault();
+  handleClickLogin();
+});
+/* UX: Enter keyStorke feature notification. */
+useNaiveNotification().info({
+  content: "你知道吗，你可以敲击键盘上的 `ENTER` 键触发`登录`",
+  duration: 5000,
+});
+const handleClickLogin = async () => {
   loginFormRef.value?.validate(async (errors) => {
     if (!errors) {
       naiveMessage.success("表单验证通过");
@@ -50,7 +58,8 @@ const handleValidReqSend = async () => {
   if (ok) {
     // Composable's could only be used in setup scope!!
     naiveMessage.success(message);
-    navigateToRedirectFrom(useRoute);
+    const navigateToRedirectCallback = navigateToRedirectFrom(1000);
+    navigateToRedirectCallback();
   } else {
     naiveMessage.error(message);
     throw createError({
@@ -98,6 +107,7 @@ const handleValidReqSend = async () => {
         ></n-input>
       </n-form-item>
       <n-button
+        class="mt-3"
         type="primary"
         block
         attr-type="button"
