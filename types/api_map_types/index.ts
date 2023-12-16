@@ -2,7 +2,8 @@
 // Common response types Section.
 // ----------------------------------------------------------------
 
-type Response_Raw_Error_CommonType = {
+export type Response_Raw_Error_CommonType = {
+  code: number;
   error?: string;
 };
 type List_QueryParams_CommonType = {
@@ -98,38 +99,52 @@ export type API_Response_Raw_POST_getAdminList = {
 // ----------------------------------------------------------------
 // Users Section.
 // ----------------------------------------------------------------
+/* Updated: ID_1, before 2023/12/16 */
+/* Updated: ID_2, 2023/12/16 */
 export type API_Response_Raw_POST_getUserList = {
   code: number;
   data:
     | {
         total: number;
         items: {
-          type: User_Type_CommonType;
-          level: number; // 用户等级
-          signature: string; // 用户签名
+          // type: User_Type_CommonType;
+          // level: number; // 用户等级
+          // signature: string; // 用户签名
           location: {
             city_name: string;
             country_name: string;
             region_name: string;
           };
           uid: number;
-          username: string;
+          // username: string;
           nickname: string;
-          deleted: boolean;
-          inserted_at: string;
-          updated_at: string;
-          email: string;
+          // deleted: boolean;
+          // inserted_at: string;
+          // updated_at: string;
+          register_at: string;
+          online_status: boolean;
+          // email: string;
           channel: string; // 下载渠道
-          background: string; // 背景图片 url
+          // background: string; // 背景图片 url
           phone: string;
-          banned: boolean; // 账号是否被禁用
-          gender: string;
-          flag_id: number; // 旗帜 ID
-          recover_effects_id: number; // 复原特效 ID
-          enter_effects_id: number; // 进入特效 ID
-          avatar_box_id: number; // 头像框 ID
-          avatar: string; // 头像 url
+          // banned: boolean; // 账号是否被禁用
+          // gender: string;
+          // flag_id: number; // 旗帜 ID
+          // recover_effects_id: number; // 复原特效 ID
+          // enter_effects_id: number; // 进入特效 ID
+          // avatar_box_id: number; // 头像框 ID
+          // avatar: string; // 头像 url
         }[];
       }
     | undefined;
 } & Response_Raw_Error_CommonType;
+
+export type FE_itemDataType_getUserList = {
+  user_id: number;
+  nickname: string;
+  location_city: string;
+  register_time: string;
+  phone: string;
+  online_status: boolean;
+  download_channel: string;
+};
