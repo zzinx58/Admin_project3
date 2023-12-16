@@ -2,6 +2,41 @@
 
 ## Procedures(DESC)
 
+### Routine. -- 2023/12/16
+
+- API Scope
+  - Types - `./types/api_map_types/index.ts`
+    - Updated `API_Response_Raw_POST_getUserList` type.
+    - Created `FE_itemDataType_getUserList` type.
+- Composable in FE - `./composables/common.ts`
+  - Improve `reAuthLogin` logic.
+  - Imporve `navigateToRedirectFrom` logic.
+  - Feature [route]
+  - Feature [router]
+  - Feature [useNaiveDialog]
+  - Feature [useNaiveNotification]
+  - Func: judgeError_for_ReAuthNeed
+- Utils in FE - `./utils/common.ts`
+  - Feature [XLSX]
+    - Func: xlsx_json_to_sheet
+  - Feature [date-fns]
+    - Func: useDateFns
+    - Func: useDateFns_FP
+- Utils in BE - `./server/utils/common.ts`
+  - Feature [date-fns]
+    - Func: useDateFns
+    - Func: useDateFns_FP
+- UnoCSS - `./uno.config.ts`
+  - Custom SVGs iconSet support.
+- Project assets display. - `./pages/Test/style-display.vue`
+- Page `./pages/Login.vue`
+  - Feature: Now you can use `Enter` to trigger login logic, no need to click on the login button.
+  - UX: Add `Enter` keyStroke feature notification.
+- Chore
+  - Project constants rename, management.
+  - Update README.
+  - Update Notes.
+
 ### Routine.(DESC) -- 2023/12/13
 
 - Git: learn rebase command. From commit 1,2,3,4; Append commit 3 to commit 1.
@@ -68,8 +103,7 @@
   - Components: `ProjectEnv.vue`.
   - Nitro-API: `getProjectEnv.ts`.
   - Update: `App.vue`.
-- UnoCSS attributify feature enable.
-  - `./uno.config.ts`
+- UnoCSS attributify feature enable. - `./uno.config.ts`
 
 ### Https Support.
 
@@ -302,11 +336,23 @@ https://nuxt.com/docs/getting-started/installation
   modules: ['@vueuse/nuxt']
 
   // Some useful funcs.
+  // 1
+  watchOnce
   watchDeep
   watchImmediate
   watchThrottled
   watchDebounced
   useDropZone
+  useTimeout
+  useTimeoutFn
+    // Time
+  formatTimeAgo
+  useTimeAgo
+  useDateFormat
+  useNow
+  useTimestamp
+  // 2
+  useobjectUrl
   useDraggable
   useWindowScroll
   useParentElement
@@ -316,7 +362,6 @@ https://nuxt.com/docs/getting-started/installation
   useFileDialog
   useFileSystemAccess
   useFullscreen
-  useobjectUrl
   usePermission
   useScreenSafeArea
   useTextareaAutosize
@@ -339,11 +384,7 @@ https://nuxt.com/docs/getting-started/installation
   useParallax
   useMouse
   useBroadcastChannel
-  // Time
-  formatTimeAgo
-  useTimeAgo
-  useDateFormat
-  useNow
+
   // Utilities
   createInjectionState
   - useCounterStoreWithDefaultValue

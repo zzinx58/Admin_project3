@@ -46,6 +46,29 @@
 - Errors that created in middleware could not be capture in hook: `['vue:error', nuxtApp.vueApp.config.errorHandler]`.
 - Errors that created in middleware could be capture in hook:`app:error`.
 - You cannot currently define a server-side handler for these errors, but can render an error page, see the Render an Error Page section.
+- When `useFetch` throws an error, you can get the brief description of the error through `statusMessage`, and get error info obj through `error.data`.
+
+---
+
+# Date-Fns
+
+```typescript
+const ISO_formattedTime = useDateFns_FP().parseISO(time);
+const { format } = useDateFns();
+const { format: format_FP } = useDateFns_FP();
+useDateFns_FP().getUnixTime(useDateFns_FP().parseISO(time)), // 1702635580
+useDateFns_FP().parseISO(time).toUTCString(), // GMT+0000 "Fri, 15 Dec 2023 10:19:40 GMT"
+useDateFns_FP().parseISO(time).toTimeString(), // GMT+0800 "18:19:40 GMT+0800 (中国标准时间)"
+useDateFns_FP().parseISO(time).toString(), // GMT+0800 "Fri Dec 15 2023 18:19:40 GMT+0800 (中国标准时间)".
+useDateFns_FP().parseISO(time).toLocaleTimeString(), // GMT+0800 "18:19:40"
+useDateFns_FP().parseISO(time).toLocaleString(), // GMT+0800 "2023/12/15 18:19:40"
+useDateFns_FP().parseISO(time).toLocaleDateString(), // GMT+0800 "2023/12/15"
+useDateFns_FP().parseISO(time).toJSON(), // GMT+0000 "2023-12-15T10:19:40.000Z"
+useDateFns_FP().parseISO(time).toISOString(), // GMT+0000 "2023-12-15T10:19:40.000Z"
+useDateFns_FP().parseISO(time), // GMT+0000 "2023-12-15T10:19:40.000Z"
+[ISO_formattedTime].map(format("yyyy-MM-dd HH:mm:ss")), // GMT+0800 "2023-12-15 18:19:40"
+format(ISO_formattedTime, "yyyy-MM-dd HH:mm:ss"), // GMT+0800 "2023-12-15 18:19:40"
+```
 
 ---
 
