@@ -18,8 +18,7 @@ import {
 import type { IconSet } from "@iconify/tools";
 import type { IconifyJSON } from "@iconify/types";
 import type { CustomIconLoader } from "@iconify/utils/lib/loader/types";
-import { unocss_theme_colors } from "./constants/projectStyles";
-import { needed_unocss_constants } from "./constants";
+import { unocssRelated } from "./constants";
 
 export default defineConfig({
   presets: [
@@ -37,6 +36,8 @@ export default defineConfig({
           loadCustomIconSet_IconifyJSON("./assets/svgs/t_detail"),
         "custom-t_projects": () =>
           loadCustomIconSet_IconifyJSON("./assets/svgs/t_projects"),
+        "custom-quick": () =>
+          loadCustomIconSet_IconifyJSON("./assets/svgs/quick"),
         // "custom-overview": loadCustomIconSet_CustomIconLoader(
         //   "./assets/svgs/overview"
         // ),
@@ -46,10 +47,10 @@ export default defineConfig({
   transformers: [transformerDirectives(), transformerVariantGroup()],
   theme: {
     colors: {
-      ...unocss_theme_colors,
+      ...unocssRelated.unocss_theme_colors,
     },
   },
-  safelist: [...needed_unocss_constants],
+  safelist: [...unocssRelated.needed_unocss_constants],
 });
 
 async function loadCustomIconSet_IconifyJSON(
