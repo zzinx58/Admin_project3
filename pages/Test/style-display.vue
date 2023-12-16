@@ -1,5 +1,8 @@
 <script lang="ts" setup>
-const { unocss_theme_colors } = useProjectConstants;
+const { unocss_theme_colors } = useProjectConstants.projectStyles;
+const { t_projectInfos_constants, t_detail_attrs_obj_withSequence_constants } =
+  useProjectConstants.tournament;
+const { overview_gridItemInfos_constants } = useProjectConstants.overview;
 </script>
 
 <template>
@@ -56,7 +59,42 @@ const { unocss_theme_colors } = useProjectConstants;
     <div class="bg-dataTable-state-negative">bg-dataTable-state-negative</div>
 
     <hr class="mx-40px my-20px" />
-    <div class="text-center">more</div>
+    <div class="text-center">presetIcon - loadCustomIconSet_IconifyJSON</div>
+    <!-- <pre class="">{{ t_projectInfos_constants }}</pre> -->
+    <div class="bg-gray flex flex-wrap gap-2 p-2">
+      <!-- The former one will work in class. bg-green > text-red -->
+      <div
+        v-for="item in t_projectInfos_constants"
+        class="flex flex-col items-center"
+      >
+        <!-- class="flex flex-col items-center odd:bg-blue even:bg-purple" -->
+        <div :class="`${item.iconMeta} text-green text-32px`"></div>
+        <div class="text-16px">{{ item.iconMeta }}</div>
+        <div class="text-16px">{{ item.project_name }}</div>
+      </div>
+    </div>
+    <div class="bg-gray flex flex-wrap gap-2 p-2">
+      <div
+        v-for="item in overview_gridItemInfos_constants"
+        class="flex flex-col items-center"
+      >
+        <div :class="`${item.iconMeta} text-green text-32px`"></div>
+        <div class="text-16px">{{ item.iconMeta }}</div>
+        <div class="text-16px">{{ item.attrLabel }}</div>
+      </div>
+    </div>
+    <div class="bg-gray flex flex-wrap gap-2 p-2">
+      <div
+        v-for="item in t_detail_attrs_obj_withSequence_constants"
+        class="flex flex-col items-center"
+      >
+        <div :class="`${item.iconMeta} text-green text-32px`"></div>
+        <div class="text-16px">{{ item.iconMeta }}</div>
+        <div class="text-16px">{{ item.attrLabel }}</div>
+      </div>
+    </div>
+
+    <div class="p-20 bg-red text-center">end</div>
   </div>
 </template>
 

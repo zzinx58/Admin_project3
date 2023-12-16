@@ -42,6 +42,14 @@ const handleFileUpload = async () => {
 };
 const convertResult = dictionary_keyValueConvertFunc(dictionary, "p_id");
 console.log(convertResult);
+
+/* jsonpath dev use test. */
+const { t_detail_attrs_obj_withSequence_constants } =
+  useProjectConstants.tournament;
+const jsonpath_test = useJSONPath({
+  json: t_detail_attrs_obj_withSequence_constants,
+  path: "$..iconMeta",
+});
 </script>
 
 <template>
@@ -50,6 +58,8 @@ console.log(convertResult);
   <pre>{{ fileData_in_json }}</pre>
   <hr />
   <pre>{{ convertedFileData_in_json }}</pre>
+  <hr />
+  <pre>{{ jsonpath_test }}</pre>
 </template>
 
 <style scoped></style>

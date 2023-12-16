@@ -1,3 +1,4 @@
+/* UnoCSS needed safeList. */
 // ----------------------------------------------------------------
 /* background-colors */
 const bg_dataTable = {
