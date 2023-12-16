@@ -43,7 +43,19 @@ const testAdminLogin = async () => {
   });
 };
 // ----------------------------------------------------------------
-const { data: rawData, refresh: refreshTestData } = await useFetch("/api/test");
+const testListFetchOptionReactive = reactive({
+  page: 1,
+  size: 10,
+  type: undefined,
+  q: "",
+});
+const { data: rawData, refresh: refreshTestData } = await useFetch(
+  "/api/test",
+  {
+    method: "get",
+    watch: [testListFetchOptionReactive],
+  }
+);
 const columns = [
   {
     title: "id",
@@ -136,7 +148,16 @@ const {
     }"
   ></n-data-table>
   <!-- <n-button type="primary" @click="handleTestRefresh">刷新 test 数据</n-button> -->
-  <n-button type="primary" @click="refreshTestData()">刷新 test 数据</n-button>
+  <n-space>
+    <n-button
+      type="primary"
+      @click="() => (testListFetchOptionReactive.size += 1)"
+      >变更参数，刷新 test 数据</n-button
+    >
+    <n-button type="primary" @click="refreshTestData()"
+      >刷新 test 数据</n-button
+    >
+  </n-space>
   <hr />
   <pre>{{ adminList }}</pre>
   <n-button type="primary" @click="refreshAdminListData()"
