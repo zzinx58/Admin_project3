@@ -40,6 +40,20 @@ export const xlsx_sheet_to_json = (
   });
   return result;
 };
+export const xlsx_json_to_sheet = (
+  sheetName: string,
+  fileName: string,
+  dataArr: Record<string, any>[]
+) => {
+  const jsonWorkSheet = xlsx.utils.json_to_sheet(dataArr);
+  const workbook: xlsx.WorkBook = {
+    SheetNames: [sheetName],
+    Sheets: {
+      [sheetName]: jsonWorkSheet,
+    },
+  };
+  return xlsx.writeFile(workbook, fileName);
+};
 // ----------------------------------------------------------------
 export const dictionary_keyValueConvertFunc = (
   dictionary: Record<string, string>,
@@ -164,6 +178,44 @@ export const useMagicRegexp = () => ({
   caseInsensitive,
   not,
   multiline,
+});
+// ----------------------------------------------------------------
+/* 
+targetString:"2023-12-15T10:19:40Z"
+parseISO & parseJSON funcs's result seems same at present. 
+useDateFns_FP().getUnixTime(useDateFns_FP().parseISO(time)), // 1702635580
+useDateFns_FP().parseISO(time).toUTCString(), // GMT+0000 "Fri, 15 Dec 2023 10:19:40 GMT"
+useDateFns_FP().parseISO(time).toTimeString(), // GMT+0800 "18:19:40 GMT+0800 (中国标准时间)"
+useDateFns_FP().parseISO(time).toString(), // GMT+0800 "Fri Dec 15 2023 18:19:40 GMT+0800 (中国标准时间)".
+useDateFns_FP().parseISO(time).toLocaleTimeString(), // GMT+0800 "18:19:40"
+useDateFns_FP().parseISO(time).toLocaleString(), // GMT+0800 "2023/12/15 18:19:40"
+useDateFns_FP().parseISO(time).toLocaleDateString(), // GMT+0800 "2023/12/15"
+useDateFns_FP().parseISO(time).toJSON(), // GMT+0000 "2023-12-15T10:19:40.000Z"
+useDateFns_FP().parseISO(time).toISOString(), // GMT+0000 "2023-12-15T10:19:40.000Z"
+useDateFns_FP().parseISO(time), // GMT+0000 "2023-12-15T10:19:40.000Z"
+[ISO_formattedTime].map(format_FP("yyyy-MM-dd HH:mm:ss")), // GMT+0800 "2023-12-15 18:19:40"
+format(ISO_formattedTime, "yyyy-MM-dd HH:mm:ss"),
+*/
+import * as dateFns_FP from "date-fns/fp";
+export const useDateFns_FP = () => ({
+  ...dateFns_FP,
+});
+import {
+  parse,
+  parseISO,
+  parseJSON,
+  getUnixTime,
+  fromUnixTime,
+  // format: Return the formatted date string in the given format. The result may vary by locale.
+  format,
+} from "date-fns";
+export const useDateFns = () => ({
+  parse,
+  parseISO,
+  parseJSON,
+  getUnixTime,
+  fromUnixTime,
+  format,
 });
 // ----------------------------------------------------------------
 // import { tournament_tournamentState_styles } from "@/constants/common";

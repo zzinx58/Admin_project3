@@ -67,6 +67,27 @@ export const getProjectAPIPath = (jsonPathToAPI: string) => {
   );
 };
 // ----------------------------------------------------------------
+import * as dateFns_FP from "date-fns/fp";
+export const useDateFns_FP = () => ({
+  ...dateFns_FP,
+});
+import {
+  parse,
+  parseISO,
+  parseJSON,
+  getUnixTime,
+  fromUnixTime,
+  format,
+} from "date-fns";
+export const useDateFns = () => ({
+  parse,
+  parseISO,
+  parseJSON,
+  getUnixTime,
+  fromUnixTime,
+  format,
+});
+// ----------------------------------------------------------------
 export const myFuncs = {
   fromPairs: _.fromPairs,
   random: _.random,
