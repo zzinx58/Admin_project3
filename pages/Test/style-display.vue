@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { unocss_theme_colors } = useProjectConstants.projectStyles;
+const { unocssRelated } = useProjectConstants;
 const { t_projectInfos_constants, t_detail_attrs_obj_withSequence_constants } =
   useProjectConstants.tournament;
 const { overview_gridItemInfos_constants } = useProjectConstants.overview;
@@ -47,7 +47,6 @@ const { overview_gridItemInfos_constants } = useProjectConstants.overview;
 
     <hr class="mx-40px my-20px" />
     <div class="text-center">unocss_theme_colors</div>
-    <pre>{{ unocss_theme_colors }}</pre>
     <div class="bg-main-base-header">bg-main-base-header</div>
     <div class="bg-main-base-content">bg-main-base-content</div>
     <div class="bg-main-btn_primary-positive">btn_primary-positive</div>
@@ -59,15 +58,14 @@ const { overview_gridItemInfos_constants } = useProjectConstants.overview;
     <div class="bg-dataTable-state-negative">bg-dataTable-state-negative</div>
 
     <hr class="mx-40px my-20px" />
-    <div class="text-center">presetIcon - loadCustomIconSet_IconifyJSON</div>
-    <!-- <pre class="">{{ t_projectInfos_constants }}</pre> -->
+    <div class="text-center">UnoCSSRelated display</div>
+    <pre>{{ unocssRelated }}</pre>
     <div class="bg-gray flex flex-wrap gap-2 p-2">
       <!-- The former one will work in class. bg-green > text-red -->
       <div
         v-for="item in t_projectInfos_constants"
         class="flex flex-col items-center"
       >
-        <!-- class="flex flex-col items-center odd:bg-blue even:bg-purple" -->
         <div :class="`${item.iconMeta} text-green text-32px`"></div>
         <div class="text-16px">{{ item.iconMeta }}</div>
         <div class="text-16px">{{ item.project_name }}</div>
