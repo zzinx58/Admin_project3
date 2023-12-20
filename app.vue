@@ -1,9 +1,11 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const { naiveUI_theme_styles } = useProjectConstants().projectStyles;
+</script>
 <template>
   <ProjectEnv />
   <!-- Directly name the layout will cause conflicts when specify the layout in page components. -->
   <!-- <NuxtLayout name="default"> -->
-  <n-config-provider>
+  <n-config-provider :theme-overrides="naiveUI_theme_styles">
     <n-message-provider>
       <n-notification-provider>
         <n-dialog-provider>
@@ -24,4 +26,20 @@ body {
   user-select: none;
   white-space: nowrap;
 }
+::-webkit-scrollbar {
+  /* width: 8px; */
+  display: none;
+}
+/*::-webkit-scrollbar-thumb {
+  /~ &:vertical { ~/
+  &:horizontal {
+    background-color: yellow;
+    border-radius: 24px;
+    overflow: overlay;
+  }
+}*/
+/* ::-webkit-scrollbar-track {
+  border-radius: 24px;
+  background-color: black;
+} */
 </style>

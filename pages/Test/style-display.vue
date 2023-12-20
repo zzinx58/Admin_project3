@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-const { unocssRelated } = useProjectConstants;
+const { unocssRelated } = useProjectConstants();
 const { t_projectInfos_constants, t_detail_attrs_obj_withSequence_constants } =
-  useProjectConstants.tournament;
-const { overview_gridItemInfos_constants } = useProjectConstants.overview;
+  useProjectConstants().tournament;
+const { overview_gridItemInfos_constants } = useProjectConstants().overview;
 </script>
 
 <template>

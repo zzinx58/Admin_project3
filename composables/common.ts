@@ -7,9 +7,14 @@ export const navigateToRedirectFrom = (timeout: number) => {
   };
 };
 
+/* UseNaiveUI Setup Scope */
 export const useNaiveMessage = useMessage;
 export const useNaiveNotification = useNotification;
 export const useNaiveDialog = useDialog;
+/* UseNaiveUI NonSetup Scope */
+import { createDiscreteApi } from "naive-ui";
+export const useNaiveDiscrete = () =>
+  createDiscreteApi(["message", "notification", "dialog", "loadingBar"], {});
 
 export const adminStore = useAdminStore;
 
@@ -33,3 +38,19 @@ export const judgeError_for_ReAuthNeed = (
     LoginNavigateCallback();
   }
 };
+
+/* Project Search Info-Meterials. */
+import * as constants from "@/constants";
+export const useProjectConstants = () => ({
+  ...constants,
+  projectSearchInfoMeterials: () => [
+    ...router()
+      .getRoutes()
+      .map((item) => ({
+        name: item.name,
+        title: item.meta.title,
+        path: item.path,
+        itemType: "page",
+      })),
+  ],
+});

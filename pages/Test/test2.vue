@@ -45,7 +45,7 @@ console.log(convertResult);
 
 /* jsonpath dev use test. */
 const { t_detail_attrs_obj_withSequence_constants } =
-  useProjectConstants.tournament;
+  useProjectConstants().tournament;
 const jsonpath_test = useJSONPath({
   json: t_detail_attrs_obj_withSequence_constants,
   path: "$..iconMeta",

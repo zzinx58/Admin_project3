@@ -6,7 +6,7 @@ import * as projectStyles from "./projectStyles";
 
 /* Project needed UnoCSS SafeList export. */
 
-import { unocss_theme_colors } from "./projectStyles";
+import { unocss_theme_colors, unocss_theme_constants } from "./projectStyles";
 import { JSONPath } from "jsonpath-plus";
 import {
   t_projectInfos_constants,
@@ -29,5 +29,6 @@ const needed_unocss_constants = [
 
 const unocssRelated = {
   unocss_theme_colors,
+  unocss_theme_constants,
   needed_unocss_constants,
 };

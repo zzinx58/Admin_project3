@@ -13,11 +13,13 @@
     "https-cert-script": "mkcert create-cert --domain localhost --ca-key ./keys/zzx-local_dev-ca.key --ca-cert ./keys/zzx-local_dev-ca.cert --key ./keys/zzx-local_dev.key --cert ./keys/zzx-local_dev.cert"
   },
   "devDependencies": {
+    "@iconify-json/ep": "^1.1.14",
+    "@iconify-json/mdi": "^1.1.63",
     "@nuxt/devtools": "latest",
     "@nuxt/test-utils": "^3.8.1",
     "@pinia-plugin-persistedstate/nuxt": "^1.2.0",
     "@unocss/nuxt": "^0.58.0",
-    "naive-ui": "^2.35.0",
+    "naive-ui": "^2.36.0",
     "nuxt": "^3.8.2",
     "nuxt-typed-router": "^3.5.0",
     "prettier": "^3.1.1",
@@ -47,6 +49,7 @@
     "magic-regexp": "^0.7.0",
     "msw": "^2.0.9",
     "rxjs": "^7.8.1",
+    "superjson": "^2.2.1",
     "xlsx": "^0.18.5"
   }
 }

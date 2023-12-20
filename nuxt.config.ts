@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/image",
     "nuxt-typed-router",
+    "@formkit/auto-animate",
   ],
   piniaPersistedstate: {
     storage: "localStorage",
