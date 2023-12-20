@@ -87,3 +87,21 @@ format(ISO_formattedTime, "yyyy-MM-dd HH:mm:ss"), // GMT+0800 "2023-12-15 18:19:
 - RegExp: Regular Expression.
 - Could not use `naiveMessage, adminStore` composable funs inside store. Not initialize.
 - `staging`: as project environment state. Meaning project temporary storage stage.
+- `useNaiveMessage` wont be inject inside a function scope. Init in setup first. Or you can consider using naiveDiscret API.
+- `reactive`, `toRefs`, `useFetch.params`, reactive's deconstruction behavior is unfriendly, it will cause responsive connection loss. Use `toRefs` for `ref` instead.
+- NaiveUI DataTable rowSelect proxyObject problem - bug. Solved this bug through `nextTick`.
+- Don't forget `break` in switch case func.
+- Nuxt3 `useFetch`'s auto watch is annoying, use `watch:false` to disable it.
+- Do not use NaiveUI DataTable ellipsis option!
+- Remind Event `stopPopagation`, `preventDefault`, `onKeyStoke`'s target.
+- Use event propagation to prevent events triggered by previous key presses from being passed to newly focused elements. Use larger div element as target.
+
+# Project Map
+
+- Tournaments List.
+- Tournament Create & Modify.
+- Tournament preview.
+- Tournament Details.
+- Users List.
+- User's Detail.
+- Overview Page.

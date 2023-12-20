@@ -2,6 +2,54 @@
 
 ## Procedures(DESC)
 
+## Routine. -- 2023/12/20
+
+- Page - `./layouts/pc.vue`
+  - Feature
+    - Project fuse search support & UX impr.
+    - PopoverSearchInput support.
+    - Page Styles.
+- Project Theme Configuration.
+- Utils & Composable in FE - `./utils/common.ts`
+  - Move Utils - `useProjectConstants` to Composable, because `router` related info needed be compute.
+- Utils in BE - `./server/utils/common.ts`
+  - Feature [useSuperJson]
+- API Scope
+  - API `getUserList` mix fetch feats supported. - `./server/api/user/getUserList.ts`
+
+### Routine. -- 2023/12/19
+
+- Page - `./pages/UserList.vue`
+  - Page styles.
+  - Feature
+    - UserListData fetch filter.
+  - Fix: [About Naive DataTable select behaviors.]
+    - Naive DataTable `uncheckAll` behavior seems faster than `watchArray` func behavior, essential reason don't know yet. Solved Bug through `nextTick` func.
+    - Naive DataTable select behaviors, in BE page fetch circumstance and represent on `rows` parameter, will lose objects track => `undefined`, needed to get the removed items, and change BS logic to solve this behavior problem.
+    - `useFetch`'s annoying auto watch behavior.'
+  - API Scope - `./server/api/user/getUserList.ts`
+    - Improved isFilterFetchJudge logic.
+    - Combined isFilterFetch with userListPageFetch.
+- Project Styles
+
+### Routine. -- 2023/12/18
+
+- Utils in BE - `./server/utils/common.ts`
+  - Feature [useSuperJSON]
+  - Feature [useNaiveDiscret]
+- Project Constants
+  - Project styles.
+    - naiveUI_theme_styles - `./constants/projectStyles.ts`
+- Page - `./pages/UserList.vue`
+  - Feature
+    - select user.
+    - [XLSX: selected user data export].
+      - Data conversions.
+    - TODO: Cleaning of user data that needed export.
+  - Improve
+    - DataTable Ellipsis ToolTip
+    - Data Fetching Logic Impr: `toRefs` for `reactive`, using in fetchParams.
+
 ### Routine. -- 2023/12/16
 
 - API Scope
@@ -28,8 +76,9 @@
     - Func: useDateFns_FP
 - UnoCSS - `./uno.config.ts`
   - Custom SVGs iconSet support.
-- Project assets display. - `./pages/Test/style-display.vue`
-- Page `./pages/Login.vue`
+- Page - `./pages/Test/style-display.vue`
+  - Project assets display.
+- Page - `./pages/Login.vue`
   - Feature: Now you can use `Enter` to trigger login logic, no need to click on the login button.
   - UX: Add `Enter` keyStroke feature notification.
 - Chore
@@ -337,6 +386,13 @@ https://nuxt.com/docs/getting-started/installation
 
   // Some useful funcs.
   // 1
+  watchArray
+  watchAtMost
+  watchIgnorable
+  watchPausable
+  invoke
+  until
+  whenever
   watchOnce
   watchDeep
   watchImmediate
