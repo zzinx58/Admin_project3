@@ -40,6 +40,9 @@ export const useJSONPath = JSONPathPlus.JSONPath;
 import useLodash from "lodash";
 export const _ = useLodash;
 // ----------------------------------------------------------------
+import SuperJSON from "superjson";
+export const useSuperJSON = () => SuperJSON;
+// ----------------------------------------------------------------
 import { api_map } from "../api-map/index";
 type ProjectEnv_Type = "LOCAL" | "STAGGING" | "PRODUCTION" | undefined;
 export const getProjectEnv = (): ProjectEnv_Type => {

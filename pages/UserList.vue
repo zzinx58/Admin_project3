@@ -1,55 +1,164 @@
+div
 <script lang="ts" setup>
-import { NButton, type DataTableColumns } from "naive-ui";
+import { NButton, type DataTableColumns, type DataTableRowKey } from "naive-ui";
+import type { FE_itemDataType_getUserList } from "~/types/api_map_types";
 
 /* Page Meta */
 definePageMeta({
   layout: "pc",
+  title: "用户列表",
+  name: "User List",
 });
 useHeadSafe({
-  title: "U_List - 用户列表",
+  title: `${route().meta.name} - ${route().meta.title}`,
 });
 
 /* Page used Utils */
 const { fromUnixTime, format, parseISO } = useDateFns();
 
 /* UserListData Request Logic Handle */
-const userListFetchOptionReactive = reactive({
+const ulSearchRef = ref();
+onKeyStroke(
+  "Enter",
+  (e) => {
+    e.stopPropagation();
+    executeFetchUserListData();
+  },
+  {
+    target: ulSearchRef,
+  }
+);
+const userListFilterOptions = [
+  {
+    label: "ID",
+    value: "id", // user_id
+  },
+  {
+    label: "昵称",
+    value: "nickname",
+  },
+  {
+    label: "手机号",
+    value: "phone",
+  },
+];
+const UserListDataFetchOptionReactive = reactive({
   page: 1,
   size: 10,
-});
-const userListSearchReactive = reactive({
-  type: undefined,
-  q: "",
+  type: null,
+  q: null,
 });
 const {
   data: UserListData,
-  refresh: refreshUserListData,
   error: UserListDataError,
+  refresh: refreshUserListData,
   execute: executeFetchUserListData,
 } = await useFetch("/api/user/getUserList", {
   method: "get",
   headers: myFuncs.fromPairs([adminStore().ArrPair_authorizationToken]),
-  params: {
-    page: userListFetchOptionReactive.page,
-    size: userListFetchOptionReactive.size,
-    ...userListSearchReactive,
-  },
-  watch: [userListFetchOptionReactive],
+  query: UserListDataFetchOptionReactive,
+  watch: false,
 });
 UserListDataError.value &&
   judgeError_for_ReAuthNeed(UserListDataError.value.data, 1000);
 
-/* SelectedUser Export */
+/* UserListDataTable Remote Async Logic Scope */
+const userListDataTableRef = ref();
+const handleUserListDataTableSorterChange = () => {};
+const handleUserListDataTableFiltersChange = () => {};
+const handleUserListDataTablePageChange = () => {};
+
+/* SelectedUser And DataExport */
 const selectedUserRowsRef = ref<Array<any>>([]);
+const selectUserHelper_rowKeys = ref<Array<any>>([]);
+const selectUserHelperWatcher = ref<{
+  newList: any[];
+  oldList: any[];
+  added: any[];
+  removed: any[];
+}>();
+watchArray(selectUserHelper_rowKeys, (newList, oldList, added, removed) => {
+  selectUserHelperWatcher.value = {
+    newList: newList,
+    oldList: oldList,
+    added: added,
+    removed: removed,
+  };
+});
+const handleSelectUser = (
+  rowKeys: Array<string | number>,
+  rows: object[],
+  meta: {
+    row: object | undefined;
+    action: "check" | "uncheck" | "checkAll" | "uncheckAll";
+  }
+) => {
+  switch (meta.action) {
+    case "check":
+      selectUserHelper_rowKeys.value = rowKeys;
+      selectedUserRowsRef.value.push({
+        ...rows.pop(),
+        register_time: useDateFns()
+          .parseISO(
+            (meta.row as FE_itemDataType_getUserList)?.register_time ?? ""
+          )
+          .toLocaleString(),
+      });
+      break;
+    case "uncheck":
+      selectUserHelper_rowKeys.value = rowKeys;
+      selectedUserRowsRef.value = selectedUserRowsRef.value.filter(
+        (item) => item.user_id !== (meta.row as any)!.user_id
+      );
+      break;
+    case "checkAll":
+      selectUserHelper_rowKeys.value = rowKeys;
+      const newRows = rows
+        .filter((item) => item !== undefined)
+        .map((item) => ({
+          ...item,
+          register_time: useDateFns()
+            .parseISO(
+              (item as FE_itemDataType_getUserList)?.register_time ?? ""
+            )
+            .toLocaleString(),
+        }));
+      selectedUserRowsRef.value.push(...newRows);
+      break;
+    case "uncheckAll":
+      selectUserHelper_rowKeys.value = rowKeys;
+      const newRowKeys = rowKeys;
+      const oldRowKeys = selectUserHelper_rowKeys.value;
+      // Naive DataTable uncheckAll behavior is faster than watchArray?
+      // console.log(selectUserHelperWatcher.value);
+      nextTick(() => {
+        const uncheckedKeys = selectUserHelperWatcher.value?.removed;
+        // console.log(selectUserHelperWatcher.value);
+        selectedUserRowsRef.value = selectedUserRowsRef.value
+          .filter((itemA) => !uncheckedKeys?.includes(itemA.user_id))
+          .map((item) => ({
+            ...item,
+            register_time: useDateFns()
+              .parseISO(
+                (item as FE_itemDataType_getUserList)?.register_time ?? ""
+              )
+              .toLocaleString(),
+          }));
+      });
+      break;
+  }
+};
 
 const handleExportSelectedUsers = () => {
   if (selectedUserRowsRef.value.length > 0) {
     const sheetName = `Sheet1`;
     const fileName = `勾选用户数据导出 - ${useDateFns().format(
       new Date(),
-      "yyyy-MM-dd HH:mm"
-    )}`;
+      "yyyy年MM月dd日_HH时mm分"
+    )}.xlsx`;
     xlsx_json_to_sheet(sheetName, fileName, selectedUserRowsRef.value);
+  } else {
+    useNaiveDiscrete().message.info("未勾选需要导出数据的用户，请先勾选");
   }
 };
 
@@ -157,21 +266,22 @@ const userListDataColumns = (): DataTableColumns => {
         return h(
           "div",
           {
-            class: "flex gap-5",
+            // class: "flex gap-2 overflow-auto",
+            class: "flex gap-2 relative",
           },
           [
             h(
               NButton,
               {
-                quaternary: true,
+                type: "primary",
                 class:
-                  "bg-main-btn_primary-positive text-white rounded-12px text-14px h-40px",
+                  "w-80px bg-main-btn_primary-positive text-white rounded-12px text-14px h-40px hover:opacity-80",
                 iconPlacement: "right",
                 renderIcon() {
                   return h("div", { class: "i-custom-quick:ul-contact" });
                 },
                 onClick(e) {
-                  useNaiveMessage().info("功能暂未完成");
+                  useNaiveDiscrete().message.info("功能暂未完成");
                 },
               },
               "沟通"
@@ -181,13 +291,13 @@ const userListDataColumns = (): DataTableColumns => {
               {
                 quaternary: true,
                 class:
-                  "bg-main-btn_primary-negative text-white rounded-12px text-14px h-40px",
+                  "w-80px bg-main-btn_primary-negative text-white rounded-12px text-14px h-40px hover:opacity-80",
                 iconPlacement: "right",
                 renderIcon() {
                   return h("div", { class: "i-custom-quick:ul-detail" });
                 },
                 onClick(e) {
-                  useNaiveMessage().info("功能暂未完成");
+                  useNaiveDiscrete().message.info("功能暂未完成");
                   // navigateTo(`/UserDetail/${rowData.user_id}`);
                 },
               },
@@ -202,40 +312,145 @@ const userListDataColumns = (): DataTableColumns => {
 </script>
 
 <template>
-  <div class="h-full w-full">
-    <!-- <pre>{{ new Date() }}</pre> -->
+  <!-- <div class="h-full w-full"> -->
+  <div class="flex items-center mb-7" ref="ulSearchRef">
+    <n-input-group class="w-280px">
+      <n-select
+        class="w-120px h-36px select_options_style"
+        placeholder="全部"
+        :options="userListFilterOptions"
+        v-model:value="UserListDataFetchOptionReactive.type"
+        :fallback-option="false"
+      />
+      <n-input
+        class="rounded-10px"
+        placeholder="输入查找参数..."
+        v-model:value="UserListDataFetchOptionReactive.q"
+      >
+        <template #suffix>
+          <n-button
+            quaternary
+            type="primary"
+            @click="executeFetchUserListData()"
+          >
+            <template #icon>
+              <div class="i-custom-base:nav-search" />
+            </template>
+          </n-button>
+        </template>
+      </n-input>
+    </n-input-group>
+    <!-- <n-button
+        class="rounded-24px w-96px text-16px"
+        type="primary"
+        icon-placement="right"
+        @click=""
+        >更多
+        <template #icon>
+          <div class="i-ep:arrow-down" />
+        </template>
+      </n-button> -->
+  </div>
+  <div class="overflow-auto">
+    <!-- :row-class-name="() => ''" -->
     <n-data-table
       class="h-660px"
       :columns="userListDataColumns()"
       :data="UserListData?.resultData.items"
+      :striped="true"
+      :bordered="false"
+      :single-line="true"
+      :single-column="true"
+      :row-key="(row) => row.user_id"
+      @update:checked-row-keys="handleSelectUser"
+      remote
+      ref="userListDataTableRef"
+      @update-sorter="handleUserListDataTableSorterChange"
+      @update-filters="handleUserListDataTableFiltersChange"
+      @update-page="handleUserListDataTablePageChange"
     />
   </div>
   <div
-    class="flex justify-center"
-    @click="
-      () => {
-        userListFetchOptionReactive.page += 1;
+    class="flex items-center gap-2 text-dataTable-base-hintText text-16px mt-3 ml-7"
+  >
+    <span>
+      已选
+      <span class="text-main-btn_primary-positive">
+        {{
+          `${selectedUserRowsRef.length}/${
+            UserListData?.resultData.items_total ?? undefined
+          }`
+        }}
+      </span>
+      位用户
+    </span>
+    <n-button
+      type="primary"
+      class="rounded-10px"
+      @click="handleExportSelectedUsers"
+    >
+      导出选中用户
+    </n-button>
+    <n-button type="primary" class="rounded-10px" @click="">
+      发送邮件
+    </n-button>
+  </div>
+  <n-pagination
+    class="flex place-content-center mt-7"
+    size="large"
+    :page-count="
+      Math.ceil(
+        (UserListData?.resultData.items_total ?? 1) /
+          UserListDataFetchOptionReactive.size
+      )
+    "
+    :page="UserListDataFetchOptionReactive.page"
+    @update-page="
+      (currentPage: number) => {
+        UserListDataFetchOptionReactive.page = currentPage;
+        executeFetchUserListData();
       }
     "
   >
-    change{{ userListFetchOptionReactive.page }}
-  </div>
+    <template #prev>
+      <span class="i-mdi:navigate-before text-30px" />
+      <span class="text-16px">上一步</span>
+    </template>
+    <template #next>
+      <span class="text-16px">下一步</span>
+      <span class="i-mdi:navigate-next text-30px" />
+    </template>
+  </n-pagination>
+  <!-- </div> -->
 </template>
 
 <style scoped lang="css">
 :deep(.n-data-table .n-data-table-td) {
   padding: 0 8px 0 8px;
 }
-
 :deep(.n-data-table-th) {
-  --uno: first: (rounded-l-10px) last: (rounded-r-10px) h-60px;
+  /* prettier-ignore */
+  --uno: first:rounded-l-10px last:rounded-r-10px h-60px;
   background-color: #70708c;
   font-size: 16px;
 }
 :deep(.n-data-table-td) {
-  --uno: first: (rounded-l-10px) last: (rounded-r-10px) h-60px;
-}
-:deep(.n-data-table-td) {
+  /* prettier-ignore */
+  --uno: first:rounded-l-10px last:rounded-r-10px h-60px;
   color: #6b7280;
+}
+
+:deep(.select_options_style .n-base-selection-label) {
+  background-color: #70708c !important;
+  height: 36px;
+}
+:deep(.select_options_style .n-base-selection-placeholder__inner) {
+  color: white;
+}
+:deep(.select_options_style .n-base-selection-input__content) {
+  color: white;
+}
+:deep(.select_options_style .n-base-suffix__arrow svg) {
+  color: white;
 }
 </style>

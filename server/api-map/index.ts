@@ -11,6 +11,7 @@ export const api_map = {
     Token needed.
     */
     getUserList: "/admin-api/user/list",
+    filterUserList: "/admin-api/user/search",
   },
   admin: {
     /* 

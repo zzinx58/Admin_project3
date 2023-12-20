@@ -4,8 +4,13 @@ import type {
 } from "~/types/api_map_types";
 
 export default defineEventHandler(async (event) => {
+  const { type = "", q = "" } = getQuery(event);
+  const isFilterUserList =
+    type?.toString().trim() !== "" && q?.toString().trim() !== "";
   const { code, data, error } = await $fetch<API_Response_Raw_POST_getUserList>(
-    getProjectAPIPath("$.user.getUserList"),
+    getProjectAPIPath(
+      `${isFilterUserList ? "$.user.filterUserList" : "$.user.getUserList"}`
+    ),
     {
       method: "GET",
       headers: myFuncs.fromPairs([
