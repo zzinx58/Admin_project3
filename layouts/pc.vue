@@ -1,9 +1,272 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+// Notice Here.
+import { useFuse } from "@vueuse/integrations/useFuse";
+import type { InputInst } from "naive-ui";
+
+/* Page Templates */
+const [DefineHeader, ReuseHeader] = createReusableTemplate();
+const [DefineSidebarResizer, ReuseSidebarResizer] = createReusableTemplate();
+const [DefineSearchResultContent, ReuseSearchResultContent] =
+  createReusableTemplate();
+
+/* Sidebar Resize Scope */
+const sidebarElRef = ref<HTMLElement>();
+const resize_block = ref<HTMLElement>();
+
+/* Project Search Scope */
+// Browser's input search effect might be little difficult to implement. Use another way temporarily.
+const projectSearchContainerRef = ref<HTMLDivElement>();
+const projectSearchRef = ref<InputInst>();
+const searchResultContainerRef = ref<HTMLDivElement>();
+
+const projectSearchValue = ref("");
+// const projectSearchValueStage = ref("");
+const projectSearchInfoData =
+  useProjectConstants().projectSearchInfoMeterials();
+
+const { results: projectSearchResult } = useFuse(
+  projectSearchValue,
+  // projectSearchValueStage,
+  projectSearchInfoData,
+  {
+    resultLimit: 9,
+    fuseOptions: {
+      keys: ["name", "title"],
+    },
+    matchAllWhenSearchEmpty: true,
+  }
+);
+
+const selectListChildIndex = ref(-1);
+const currentFakeSelectElIndex = computed({
+  get: () => selectListChildIndex.value,
+  // computed-set will return setted result.
+  set: (value: number) => {
+    // console.log(value);
+    switch (value <= -1) {
+      case true:
+        selectListChildIndex.value = searchResultListChildsRef.value.length - 1;
+        break;
+      case false:
+        if (value >= searchResultListChildsRef.value.length) {
+          selectListChildIndex.value = 0;
+        } else {
+          selectListChildIndex.value = value;
+        }
+        break;
+    }
+  },
+});
+const searchResultListChildsRef = ref<HTMLElement[]>([]);
+const currentFakeSelectEl = computed(
+  () => searchResultListChildsRef.value[currentFakeSelectElIndex.value]
+);
+
+onKeyStroke(["Enter"], (e) => {
+  switch (e.key) {
+    case "Enter":
+      projectSearchRef.value?.focus();
+      return false;
+      break;
+  }
+});
+onKeyStroke(
+  ["Enter", "ArrowDown", "ArrowUp"],
+  (e) => {
+    searchResultListChildsRef.value = Array.from(
+      searchResultContainerRef.value?.children as unknown as HTMLElement[]
+    );
+    switch (e.key) {
+      case "Enter":
+        currentFakeSelectEl.value.dispatchEvent(new Event("click"));
+        break;
+      case "ArrowDown":
+        currentFakeSelectElIndex.value += 1;
+        break;
+      case "ArrowUp":
+        currentFakeSelectElIndex.value -= 1;
+        break;
+    }
+  },
+  {
+    target: projectSearchContainerRef,
+  }
+);
+</script>
 
 <template>
-  <div class="w-max-screen h-min-screen">
-    <slot />
+  <DefineSearchResultContent>
+    <div class="w-250px" ref="searchResultContainerRef">
+      <div
+        v-if="projectSearchResult.length !== 0"
+        v-for="(result, index) in projectSearchResult"
+        :tabindex="0"
+        :data-index="index"
+        @click="navigateTo(result.item.path)"
+        :class="`flex items-center justify-between hover:(bg-#F3F3F5) py-1 ${
+          currentFakeSelectElIndex === index ? 'bg-#F3F3F5' : ''
+        }`"
+      >
+        <div class="text-14px">
+          {{ result.item.title ?? result.item.name }}
+        </div>
+        <div
+          :class="`${
+            result.item.itemType === 'page'
+              ? 'h-16px w-16px rounded-full bg-green'
+              : ''
+          }`"
+        />
+      </div>
+    </div>
+  </DefineSearchResultContent>
+  <DefineHeader>
+    <header class="h-full flex justify-between">
+      <div
+        class="flex items-center gap-14 mr-5"
+        ref="projectSearchContainerRef"
+      >
+        <!-- trigger="click" -->
+        <n-popover
+          trigger="focus"
+          :show-arrow="false"
+          placement="bottom"
+          class="rounded-24px"
+          :style="{
+            'border-radius': '10px',
+          }"
+        >
+          <!-- :show="projectSearchFocused" -->
+          <template #trigger>
+            <n-input
+              ref="projectSearchRef"
+              size="large"
+              class="flex items-center"
+              placeholder="搜索系统内容..."
+              :clearable="true"
+              :style="{
+                height: '48px',
+                'border-radius': '24px',
+                'font-size': '16px',
+                width: '288px',
+                'min-width': '200px',
+              }"
+              v-model:value="projectSearchValue"
+            >
+              <!-- @input="console.log('input')" -->
+              <!-- @input-focus="projectSearchFocused = true"
+              @blur="projectSearchFocused = false" -->
+              <template #suffix>
+                <n-button quaternary circle>
+                  <template #icon>
+                    <div
+                      class="i-custom-base:nav-search text-20px text-main-btn_primary-positive"
+                    />
+                  </template>
+                </n-button>
+              </template>
+            </n-input>
+          </template>
+          <ReuseSearchResultContent />
+        </n-popover>
+        <div
+          class="i-custom-base:nav-email w-40px h-35px cursor-pointer hover:opacity-60"
+          text="main-btn_primary-negative hover:main-btn_primary-positive "
+        />
+        <div
+          class="i-custom-base:nav-ringbell w-40px h-35px cursor-pointer hover:opacity-60"
+          text="main-btn_primary-negative hover:main-btn_primary-positive"
+        />
+      </div>
+
+      <div class="flex items-center gap-5 mr-5">
+        <span class="text-24px text-#292968">{{
+          adminStore().adminInfo.username
+        }}</span>
+        <n-avatar round :size="50" class="bg-white">
+          <div class="i-mdi:account text-35px text-main-btn_primary-negative" />
+        </n-avatar>
+      </div>
+    </header>
+  </DefineHeader>
+  <DefineSidebarResizer>
+    <div
+      id="sidebar-resize-area"
+      class="group/resize absolute left-0 top-0 h-full w-32px grid place-content-center -mx-10"
+    >
+      <div
+        class="w-28px h-200px hover:cursor-ew-resize grid place-content-center"
+        @click=""
+        @pointerup="
+          (e) => {
+            console.log('poniterUp');
+          }
+        "
+        ref="resize_block"
+      >
+        <div
+          class="w-12px h-200px rounded-24px transition-colors duration-300 group-hover/resize:bg-[#B9BABE]"
+        ></div>
+      </div>
+    </div>
+  </DefineSidebarResizer>
+
+  <div class="app">
+    <div ref="sidebarElRef" class="left-scope resize-x overflow-hidden"></div>
+    <div class="right-scope mx-10">
+      <ReuseSidebarResizer />
+      <div class="right-header">
+        <ReuseHeader />
+      </div>
+      <div class="right-content overflow-auto">
+        <main class="mx-8 mt-8 mb-19">
+          <slot />
+        </main>
+      </div>
+      <div class="right-footer"></div>
+    </div>
   </div>
 </template>
 
-<style></style>
+<style scoped lang="css">
+.app {
+  --uno: bg-main-base-outside;
+  --uno: h-100vh w-100vw flex flex-row;
+}
+/* --- */
+
+/* --- */
+.right-scope {
+  --uno: h-full w-full grid relative;
+  --headerHeight: theme("headerHeight");
+  --footerHeight: theme("footerHeight");
+  grid-template-areas:
+    "right-header"
+    "right-content"
+    "right-footer";
+  grid-template-rows: var(--headerHeight) 1fr var(--footerHeight);
+}
+.right-header {
+  --uno: grid-area-[right-header];
+}
+.right-content {
+  --uno: grid-area-[right-content];
+  --uno: rounded-24px bg-main-base-content;
+}
+.right-footer {
+  --uno: grid-area-[right-footer];
+}
+/* --- */
+.left-scope {
+  grid-template-areas:
+    "left-header"
+    "aside"
+    "left-footer";
+  --uno: bg-green;
+  /* --uno: min-w-50px; */
+  /* --uno: max-w-250px; */
+}
+.left-scope::-webkit-scrollbar {
+  display: none;
+}
+</style>
