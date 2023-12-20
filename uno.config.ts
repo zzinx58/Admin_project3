@@ -30,6 +30,8 @@ export default defineConfig({
     presetIcons({
       autoInstall: false,
       collections: {
+        "custom-base": () =>
+          loadCustomIconSet_IconifyJSON("./assets/svgs/base"),
         "custom-overview": () =>
           loadCustomIconSet_IconifyJSON("./assets/svgs/overview"),
         "custom-t_detail": () =>
@@ -49,6 +51,7 @@ export default defineConfig({
     colors: {
       ...unocssRelated.unocss_theme_colors,
     },
+    ...unocssRelated.unocss_theme_constants,
   },
   safelist: [...unocssRelated.needed_unocss_constants],
 });
