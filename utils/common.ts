@@ -94,7 +94,9 @@ import * as JSONPathPlus from "jsonpath-plus";
 export const useJSONPath = JSONPathPlus.JSONPath;
 // ----------------------------------------------------------------
 import useLodash from "lodash";
+import useLodash_FP from "lodash/fp";
 export const _ = useLodash;
+export const _FP = useLodash_FP;
 // ----------------------------------------------------------------
 import {
   defaultIfEmpty,
@@ -180,7 +182,8 @@ export const useMagicRegexp = () => ({
   multiline,
 });
 // ----------------------------------------------------------------
-
+import { defu } from "defu";
+export const useDefu = defu;
 // ----------------------------------------------------------------
 /* 
 targetString:"2023-12-15T10:19:40Z"
@@ -210,7 +213,19 @@ import {
   fromUnixTime,
   // format: Return the formatted date string in the given format. The result may vary by locale.
   format,
+  isSameDay,
+  isToday,
+  isBefore,
+  isAfter,
+  isDate,
+  isValid,
+  isPast,
+  isFuture,
+  // interval
+  isWithinInterval,
+  type Interval,
 } from "date-fns";
+
 export const useDateFns = () => ({
   parse,
   parseISO,
@@ -218,12 +233,112 @@ export const useDateFns = () => ({
   getUnixTime,
   fromUnixTime,
   format,
+  isSameDay,
+  isToday,
+  isBefore,
+  isAfter,
+  isDate,
+  isValid,
+  isPast,
+  isFuture,
+  isWithinInterval,
 });
 // ----------------------------------------------------------------
+const isValidUrl_js = (strOrAny: any) => {
+  if (typeof strOrAny === "string") {
+    return strOrAny.startsWith("https://");
+  } else return false;
+};
+const num2ChineseNum = (num: number) => {
+  const chineseNumbers = [
+    "零",
+    "一",
+    "二",
+    "三",
+    "四",
+    "五",
+    "六",
+    "七",
+    "八",
+    "九",
+  ];
+  /* mutation:
+    10: (一)十(零)
+    21: 二十一
+    100: 一百
+    101: 一百[(十)零]一
+    110: 一百一十
+    1010: 一千[(百)零]一十
+    10001: 一万[(千百十)零]一
+    10010: 一万[(千百)零]一十
+  */
+  const chineseMagnitudeWords = ["", "十", "百", "千", "万"];
+  const numStr = String(num);
+  const unitsArr = chineseMagnitudeWords.slice(0, numStr.length);
+  let result = "";
+
+  if (num < 0) return "不支持负数";
+  if (num === 0) return chineseNumbers[0];
+  if (num === 10) return unitsArr.pop();
+  for (let i = 0; i < numStr.length; i++) {
+    const digit = parseInt(numStr.charAt(i));
+    if (num > 10 && num < 20) {
+      return unitsArr.pop() + chineseNumbers[digit];
+    }
+    if (digit !== 0) {
+      result += chineseNumbers[digit] + unitsArr.pop();
+    } else {
+      if (numStr.charAt(i - 1) !== "0") {
+        unitsArr.pop();
+        if (
+          numStr
+            .slice(i)
+            .split("")
+            .findIndex((item) => item !== "0") === -1
+        )
+          break;
+        result += "零";
+      } else {
+        unitsArr.pop();
+      }
+    }
+  }
+  return result;
+};
+
+// IsMagnitudeWord. 10, 1000, 10000 ...
+const isPowerOfTen = (num: number) => Number.isInteger(Math.log10(num));
+
+const formatterComposer = (
+  formattersObj: Record<string, (args: any) => any>,
+  sourcesObj: Record<string, any>
+): {
+  [key: string]: {
+    [key: string]: any;
+    formatter?: (args: any) => any;
+  };
+} => {
+  const isFormattersObjMatchSourceObj = Object.keys(formattersObj).every(
+    (key) => key in sourcesObj
+  );
+  if (!isFormattersObjMatchSourceObj) {
+    throw new Error("Invalid formattersObj");
+  }
+  Object.entries(formattersObj).forEach(([key, value]) => {
+    sourcesObj[key]["formatter"] = value;
+  });
+  return sourcesObj;
+};
 
 export const myFuncs = {
   fromPairs: _.fromPairs,
   random: _.random,
   toPairs: _.toPairs,
   defaultTo: _.defaultTo,
+  // flow: _FP.flow,
+  // compose: _FP.compose,
+  isValidUrl: isValidUrl_js,
+  num2ChineseNum: num2ChineseNum,
+  isPowerOfTen: isPowerOfTen,
+  formatterComposer: formatterComposer,
 };
