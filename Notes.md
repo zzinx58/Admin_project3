@@ -95,13 +95,20 @@ format(ISO_formattedTime, "yyyy-MM-dd HH:mm:ss"), // GMT+0800 "2023-12-15 18:19:
 - Do not use NaiveUI DataTable ellipsis option!
 - Remind Event `stopPopagation`, `preventDefault`, `onKeyStoke`'s target.
 - Use event propagation to prevent events triggered by previous key presses from being passed to newly focused elements. Use larger div element as target.
+- When judging contants using if/else, determine the majority first.
 
 # Project Map
 
-- Tournaments List.
-- Tournament Create & Modify.
-- Tournament preview.
-- Tournament Details.
-- Users List.
-- User's Detail.
-- Overview Page.
+- Schedule Table
+- TDetail Preview
+- Tournament Create
+- Tournament Modify
+- TApplicants Table
+- TResults Table
+- Form Rules
+  - Mail
+  - Tournament C&M
+  - TDetail Page for 2 sections.
+- Form Logic
+- Sidebar Resizable
+- Overview Page

@@ -2,6 +2,43 @@
 
 ## Procedures(DESC)
 
+## Routine. -- 2023/12/23
+
+- Composables - `./composables`
+
+  - Func [t_stateCalc]
+  - Func [t_roundsNameArrCalc]
+
+- Page - `./pages`
+
+  - T_List complete - `./pages/T_List.vue`
+
+- Components - `./components`
+
+  - Feature [TDetailPreview]
+  - Feature [BulkMailSend]
+  - Feature [ProjectStyledModal]
+  - Feature [ProjectStyledDataTable]
+  - Feature [ProjectStyledPagination]
+
+- Utils in FE - `./utils/common.ts`
+
+  - Feature [useDefu]
+  - Scope [myFuncs]
+    - Func [num2ChineseNum]
+    - Func [formatterComposer]
+    - Func [isValidUrl]
+    - Func [isPowerOfTen]
+  - More DateFns Funcs used...
+
+- Test
+  - Page `./pages/Test/test3.vue`, about TDetailPreview.
+  - Feature [Vitest] support.
+  - TestCase [num2ChineseNum]
+  - TestCase [formatterComposer]
+  - Aware testFunc throwing behavior.
+  - TestCase about date format => M-d => 7-23.
+
 ## Routine. -- 2023/12/20
 
 - Page - `./layouts/pc.vue`
