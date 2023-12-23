@@ -1,6 +1,11 @@
 <script lang="ts" setup>
+definePageMeta({
+  title: "Test1",
+  name: "Test1",
+  layout: "pc",
+});
 useHead({
-  title: "Test",
+  title: `${route().meta.name} - ${route().meta.title}`,
 });
 
 //----------------------------------------------------------------

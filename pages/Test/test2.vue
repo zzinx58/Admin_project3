@@ -1,7 +1,13 @@
 <script lang="ts" setup>
-useHead({
-  title: "XLSX",
+definePageMeta({
+  title: "Test2",
+  name: "Test2",
+  layout: "pc",
 });
+useHead({
+  title: `${route().meta.name} - ${route().meta.title}`,
+});
+
 const fileInputRef = ref();
 const fileData_in_json = ref();
 const convertedFileData_in_json = ref();

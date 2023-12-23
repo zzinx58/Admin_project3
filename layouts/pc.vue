@@ -66,7 +66,6 @@ onKeyStroke(["Enter"], (e) => {
   switch (e.key) {
     case "Enter":
       projectSearchRef.value?.focus();
-      return false;
       break;
   }
 });

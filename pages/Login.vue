@@ -79,7 +79,7 @@ const handleValidReqSend = async () => {
     p="8"
     grid="grid-cols-[minmax(336px,1fr)] grid-rows-[repeat(3,auto)]"
   >
-    <div class="header w-98px h-57px bg-black"></div>
+    <div class="header w-98px h-57px i-custom-base:nav-logo"></div>
     <div class="welcome grid place-items-center gap-6" m="b-10 t-16">
       <div class="text-24px">魔域赛事后台管理平台</div>
       <div class="text-18px">欢迎登陆!</div>

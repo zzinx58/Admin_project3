@@ -1,4 +1,12 @@
 <script lang="ts" setup>
+definePageMeta({
+  title: "style-display",
+  name: "style-display",
+  layout: "pc",
+});
+useHead({
+  title: `${route().meta.name} - ${route().meta.title}`,
+});
 const { unocssRelated } = useProjectConstants();
 const { t_projectInfos_constants, t_detail_attrs_obj_withSequence_constants } =
   useProjectConstants().tournament;

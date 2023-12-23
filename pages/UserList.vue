@@ -267,7 +267,7 @@ const userListDataColumns = (): DataTableColumns => {
           "div",
           {
             // class: "flex gap-2 overflow-auto",
-            class: "flex gap-2 relative",
+            class: "flex gap-2",
           },
           [
             h(
@@ -309,6 +309,8 @@ const userListDataColumns = (): DataTableColumns => {
     },
   ];
 };
+
+const bulkMailModalRef = ref();
 </script>
 
 <template>
@@ -422,6 +424,7 @@ const userListDataColumns = (): DataTableColumns => {
     </template>
   </n-pagination>
   <!-- </div> -->
+  <FeaturesBulkMailSend ref="bulkMailModalRef" :modal-title="'邮件'" />
 </template>
 
 <style scoped lang="css">
