@@ -107,6 +107,8 @@ import {
   map,
   startWith,
   scan,
+  take,
+  zip,
 } from "rxjs";
 export const useRxjs = () => {
   return {
@@ -119,6 +121,8 @@ export const useRxjs = () => {
     map,
     startWith,
     scan,
+    take,
+    zip,
     // @vueuse/rxjs
     useObservable,
     from,
@@ -223,7 +227,11 @@ import {
   isFuture,
   // interval
   isWithinInterval,
+  getTime,
   type Interval,
+  getDay,
+  getISODay,
+  differenceInCalendarDays,
 } from "date-fns";
 
 export const useDateFns = () => ({
@@ -242,7 +250,33 @@ export const useDateFns = () => ({
   isPast,
   isFuture,
   isWithinInterval,
+  getTime,
+  getDay,
+  getISODay,
+  differenceInCalendarDays,
 });
+const getISODay_zhcnStr = (dayISOIdentifier: number | string) => {
+  if (isNaN(parseInt("" + dayISOIdentifier)))
+    return "Invalid ISO dayIdentifier";
+  switch (dayISOIdentifier) {
+    case 1:
+      return "星期一";
+    case 2:
+      return "星期二";
+    case 3:
+      return "星期三";
+    case 4:
+      return "星期四";
+    case 5:
+      return "星期五";
+    case 6:
+      return "星期六";
+    case 7:
+      return "星期天";
+    default:
+      return "Outof valid dayIdentifier";
+  }
+};
 // ----------------------------------------------------------------
 const isValidUrl_js = (strOrAny: any) => {
   if (typeof strOrAny === "string") {
@@ -275,15 +309,16 @@ const num2ChineseNum = (num: number) => {
   const chineseMagnitudeWords = ["", "十", "百", "千", "万"];
   const numStr = String(num);
   const unitsArr = chineseMagnitudeWords.slice(0, numStr.length);
+  const useDigit = (index: number) => parseInt(numStr.charAt(index));
   let result = "";
 
   if (num < 0) return "不支持负数";
   if (num === 0) return chineseNumbers[0];
   if (num === 10) return unitsArr.pop();
   for (let i = 0; i < numStr.length; i++) {
-    const digit = parseInt(numStr.charAt(i));
+    const digit = useDigit(i);
     if (num > 10 && num < 20) {
-      return unitsArr.pop() + chineseNumbers[digit];
+      return unitsArr.pop() + chineseNumbers[useDigit(i + 1)];
     }
     if (digit !== 0) {
       result += chineseNumbers[digit] + unitsArr.pop();
@@ -335,10 +370,20 @@ export const myFuncs = {
   random: _.random,
   toPairs: _.toPairs,
   defaultTo: _.defaultTo,
-  // flow: _FP.flow,
-  // compose: _FP.compose,
+  flow: _FP.flow,
+  compose: _FP.compose,
+  over: _FP.over,
+  cloneDeep: _.cloneDeep,
   isValidUrl: isValidUrl_js,
   num2ChineseNum: num2ChineseNum,
   isPowerOfTen: isPowerOfTen,
   formatterComposer: formatterComposer,
+  findIndex: _.findIndex,
+  getISODay_zhcn: getISODay_zhcnStr,
 };
+
+/* Project Search Info-Meterials. */
+import * as constants from "@/constants";
+export const useProjectConstants = () => ({
+  ...constants,
+});
