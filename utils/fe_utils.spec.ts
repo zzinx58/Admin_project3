@@ -60,6 +60,19 @@ describe("numberToChinese", () => {
   test("should be ten thousands", () => {
     expect(numberConvertToChinese(10000)).toEqual("一万");
   });
+  test.concurrent("should pass serial tests", () => {
+    expect(numberConvertToChinese(0)).toEqual("零");
+    expect(numberConvertToChinese(10)).toEqual("十");
+    expect(numberConvertToChinese(11)).toEqual("十一");
+    expect(numberConvertToChinese(21)).toEqual("二十一");
+    expect(numberConvertToChinese(100)).toEqual("一百");
+    expect(numberConvertToChinese(101)).toEqual("一百零一");
+    expect(numberConvertToChinese(110)).toEqual("一百一十");
+    expect(numberConvertToChinese(1000)).toEqual("一千");
+    expect(numberConvertToChinese(1001)).toEqual("一千零一");
+    expect(numberConvertToChinese(1010)).toEqual("一千零一十");
+    expect(numberConvertToChinese(10000)).toEqual("一万");
+  });
 });
 
 import * as dateFNS from "date-fns";

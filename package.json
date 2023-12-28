@@ -1,5 +1,8 @@
 {
-  "name": "nuxt-app",
+  "name": "MOYU_Admin",
+  "author": {
+    "name": "zzx"
+  },
   "private": true,
   "type": "module",
   "scripts": {
@@ -14,6 +17,7 @@
     "https-cert-script": "mkcert create-cert --domain localhost --ca-key ./keys/zzx-local_dev-ca.key --ca-cert ./keys/zzx-local_dev-ca.cert --key ./keys/zzx-local_dev.key --cert ./keys/zzx-local_dev.cert"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "^1.1.27",
     "@iconify-json/ep": "^1.1.14",
     "@iconify-json/mdi": "^1.1.63",
     "@iconify-json/mingcute": "^1.1.14",

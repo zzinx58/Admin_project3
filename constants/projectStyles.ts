@@ -71,8 +71,16 @@ export const naiveUI_theme_styles: GlobalThemeOverrides = {
     primaryColorHover: bg_project_main.btn_primary.positive,
     primaryColorPressed: bg_project_main.btn_primary.positive,
   },
-  Input: {},
-  Button: {},
+  Input: {
+    // borderRadius: "10px",
+  },
+  Button: {
+    // colorQuaternaryHover: bg_project_main.btn_primary.negative,
+  },
   Select: {},
   CollapseTransition: {},
+  Form: {
+    // feedbackHeightMedium: "14px",
+    // feedbackHeightLarge: "14px",
+  },
 };
