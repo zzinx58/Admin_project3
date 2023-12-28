@@ -28,28 +28,43 @@ const detailPrefixItemStylesProps: DetailPrefixItemPropsType = {
   contentClass: "text-16px leading-20px whitespace-pre-wrap",
 };
 
+const { t_state } = useTournamentStore();
+
 const props = defineProps<{
   t_info?: {
     [key: string]: any;
-    t_name: string;
-    time_range: [string, string];
-    apply_time_range: [string, string];
+    // name?: string;
+    // time_range: [string, string];
+    // apply_time_range: [string, string];
+    time_range: [number, number];
+    apply_time_range: [number, number];
+    projects: string;
+    groups: string;
   };
-  projects_detail?: {
-    iconMeta: string;
-    rule_content: string;
-    p_id: number;
-    p_name: string;
-    rounds: {
-      total: number;
-    };
-  }[];
+  projects_detail?: typeof t_state.projects_detail;
+  // projects_detail?: {
+  //   iconMeta: string;
+  //   rule: string;
+  //   id: number;
+  //   name: string;
+  //   rounds: {
+  //     total: number;
+  //     details: {
+  //       id: number;
+  //       time_range?: [number, number];
+  //       promotion_quota?: number;
+  //       round_format?: number;
+  //     }[];
+  //   };
+  //   [key: string]: any;
+  // }[];
 }>();
 
 const { format } = useDateFns();
-const { parseISO: parseISO_FP } = useDateFns_FP();
+const { parseISO: parseISO_FP, fromUnixTime: fromUnixTime_FP } =
+  useDateFns_FP();
 const detailItem_formatters_obj = {
-  apply_web_url: (web_url: string) => {
+  apply_weburl: (web_url: string) => {
     if (web_url)
       return {
         isOutLink: true,
@@ -59,15 +74,20 @@ const detailItem_formatters_obj = {
   mode: (mode: Record<string, any>) => {
     return mode;
   },
-  organizer_web_url: (web_url: string) => {
+  organizer_weburl: (web_url: string) => {
     if (web_url)
       return {
         isOutLink: true,
         web_url: web_url,
       };
   },
-  apply_time_range: (time_range: [string, string]) => {
-    const parsedTimeRange = time_range.map(parseISO_FP);
+  // apply_time_range: (time_range: [string, string]) => {
+  apply_time_range: (time_range: [number, number]) => {
+    if (!time_range) return false;
+    // const parsedTimeRange = time_range.map(parseISO_FP);
+    const parsedTimeRange = time_range
+      .map((item) => item / 1000)
+      .map(fromUnixTime_FP);
     const whetherSameDay = useDateFns().isSameDay(
       ...(parsedTimeRange as [Date, Date])
     );
@@ -78,8 +98,13 @@ const detailItem_formatters_obj = {
           format(parsedTimeRange[1], "M月d日"),
         ].join("-");
   },
-  time_range: (time_range: [string, string]) => {
-    const parsedTimeRange = time_range.map(parseISO_FP);
+  // time_range: (time_range: [string, string]) => {
+  //   const parsedTimeRange = time_range.map(parseISO_FP);
+  time_range: (time_range: [number, number]) => {
+    if (!time_range) return false;
+    const parsedTimeRange = time_range
+      .map((item) => item / 1000)
+      .map(fromUnixTime_FP);
     const formattedTimeRange = parsedTimeRange.map(
       useDateFns_FP().format("yyyy年MM月dd日")
     );
@@ -97,7 +122,7 @@ const detailItem_formatters_obj = {
     return type;
   },
   apply_quota: (apply_quota: number) => {
-    return apply_quota + "人";
+    return apply_quota ?? 0 + "人";
   },
 };
 
@@ -122,8 +147,25 @@ const t_stateObjHelper = (isStyleNeed: boolean) => {
   const baseStyles =
     "h-20px rounded-8px px-2 text-14px text-white place-self-end mb-1.5";
   const { time_range, apply_time_range } = props.t_info!;
+
+  let strs_time_range = [
+    ...time_range
+      .map((item) => item / 1000)
+      .map(useDateFns_FP().fromUnixTime)
+      .map((item) => item.toISOString()),
+  ] as [string, string];
+  let strs_apply_time_range = [
+    ...apply_time_range
+      .map((item) => item / 1000)
+      .map(useDateFns_FP().fromUnixTime)
+      .map((item) => item.toISOString()),
+  ] as [string, string];
+
   try {
-    const { bg_color, label } = t_stateCalc(time_range, apply_time_range)!;
+    const { bg_color, label } = t_stateCalc(
+      strs_time_range,
+      strs_apply_time_range
+    )!;
     const neededStyle = [baseStyles, bg_color].join(" ");
     const result = isStyleNeed ? neededStyle : label;
     return result;
@@ -179,83 +221,87 @@ const t_stateObjHelper = (isStyleNeed: boolean) => {
     </div>
   </DefineDetailPrefixTemplate>
 
-  <!-- <div class="bg-#6F6F8B  rounded-10px min-w-740px"> -->
-  <div class="bg-#6F6F8B pt-5 pb-10 px-8 rounded-10px min-w-740px">
-    <div id="detail-header" class="flex mb-6">
-      <div
-        class="text-30px leading-30px text-white mr-2 h-42px flex items-center"
-        >{{ t_info?.t_name ?? "no match" }}
-      </div>
-      <div
-        :class="
-          (() => {
-            return t_stateObjHelper(true);
-          })()
-        "
-        >{{ t_stateObjHelper(false) }}
-      </div>
+  <div id="detail-header" class="flex mb-6">
+    <div class="text-30px leading-30px text-white mr-2 h-42px flex items-center"
+      >{{ t_info?.name ?? "no match" }}
     </div>
-
     <div
-      id="detail-item-container-part-1"
-      class="grid gap-3 lg:(grid-cols-2 grid-rows-6 grid-flow-col)"
-    >
+      v-if="t_info?.apply_time_range && t_info.time_range"
+      :class="
+        (() => {
+          return t_stateObjHelper(true);
+        })()
+      "
+      >{{ t_stateObjHelper(false) }}
+    </div>
+  </div>
+
+  <div
+    id="detail-item-container-part-1"
+    class="grid gap-3 lg:(grid-cols-2 grid-rows-6 grid-flow-col)"
+  >
+    <ReuseDetailPrefixTemplate
+      v-for="(prefixItemVal, prefixItemKey, index) in finalDetailItemsObj"
+      v-bind="{
+        ...detailPrefixItemStylesProps,
+        ...{
+          labelText: prefixItemVal.attrLabel,
+          iconMeta: prefixItemVal.iconMeta,
+        },
+        content: (() => {
+          const contentFormatter = prefixItemVal.formatter;
+          const result = contentFormatter
+            ? contentFormatter(props.t_info?.[prefixItemKey]) ?? 'no match'
+            : props.t_info?.[prefixItemKey] ?? 'no match';
+          return result;
+        })(),
+        // content: {
+        //   shouldBeOutLink: true,
+        //   web_url: 'https://www.google.com',
+        // },
+      }"
+    ></ReuseDetailPrefixTemplate>
+  </div>
+  <div class="grid gap-3 lg:grid-cols-2 mt-3">
+    <div class="flex-1">
       <ReuseDetailPrefixTemplate
-        v-for="(prefixItemVal, prefixItemKey, index) in finalDetailItemsObj"
         v-bind="{
           ...detailPrefixItemStylesProps,
-          ...{
-            labelText: prefixItemVal.attrLabel,
-            iconMeta: prefixItemVal.iconMeta,
-          },
-          content: (() => {
-            const contentFormatter = prefixItemVal.formatter;
-            const result = contentFormatter
-              ? contentFormatter(props.t_info?.[prefixItemKey]) ?? 'no match'
-              : props.t_info?.[prefixItemKey] ?? 'no match';
-            return result;
-          })(),
-          // content: {
-          //   shouldBeOutLink: true,
-          //   web_url: 'https://www.google.com',
-          // },
+          labelText: '比赛规则',
+          iconMeta: 'i-custom-t_detail:rules',
         }"
-      ></ReuseDetailPrefixTemplate>
-    </div>
-    <div class="grid gap-3 lg:grid-cols-2 mt-3">
-      <div class="">
-        <ReuseDetailPrefixTemplate
-          v-bind="{
-            ...detailPrefixItemStylesProps,
-            labelText: '比赛规则',
-            iconMeta: 'i-custom-t_detail:rules',
-          }"
-        />
+      />
+      <div class="ml-7">
         <ReuseDetailPrefixTemplate
           v-for="(item, index) in projects_detail"
           :style="{ 'text-wrap': 'balance' }"
           v-bind="{
-            labelText: `${item.p_name}魔方比赛分为${t_roundsNameArrCalc(
-              item.rounds.total
+            labelText: `${item.name}魔方比赛分为 ${t_roundsNameArrCalc(
+              item.rounds.total!
             ).join('-')}`,
             iconMeta: item.iconMeta,
-            content: item.rule_content,
+            content: item.rule,
             containerClass: 'text-white',
             prefixWrapperClass:
               'flex space-x-3 font-bold items-center text-16px',
-            contentClass: 'ml-7 mt-2 text-14px',
+            contentClass: 'ml-7 mt-0 text-14px',
           }"
         />
       </div>
-      <div class="">
-        <ReuseDetailPrefixTemplate
-          v-bind="{
-            labelText: '赛程',
-            iconMeta: 'i-custom-t_detail:schedule',
-            ...detailPrefixItemStylesProps,
-          }"
-        />
-      </div>
+    </div>
+    <div class="">
+      <ReuseDetailPrefixTemplate
+        v-bind="{
+          labelText: '赛程',
+          iconMeta: 'i-custom-t_detail:schedule',
+          ...detailPrefixItemStylesProps,
+        }"
+      />
+      <FeaturesTRaceSchedule
+        v-bind="{
+          t_state: t_state,
+        }"
+      ></FeaturesTRaceSchedule>
     </div>
   </div>
 </template>

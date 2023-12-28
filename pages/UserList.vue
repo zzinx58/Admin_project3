@@ -291,7 +291,8 @@ const userListDataColumns = (): DataTableColumns => {
               {
                 quaternary: true,
                 class:
-                  "w-80px bg-main-btn_primary-negative text-white rounded-12px text-14px h-40px hover:opacity-80",
+                  "w-80px rounded-12px text-14px h-40px hover:opacity-80 text-white hover:text-white! focus:text-white!",
+                bg: "main-btn_primary-negative hover:main-btn_primary-negative! focus:main-btn_primary-negative!",
                 iconPlacement: "right",
                 renderIcon() {
                   return h("div", { class: "i-custom-quick:ul-detail" });

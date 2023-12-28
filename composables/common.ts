@@ -17,6 +17,7 @@ export const useNaiveDiscrete = () =>
   createDiscreteApi(["message", "notification", "dialog", "loadingBar"], {});
 
 export const adminStore = useAdminStore;
+export const tournamentStore = useTournamentStore;
 
 export const route = useRoute;
 export const router = useRouter;
@@ -40,17 +41,13 @@ export const judgeError_for_ReAuthNeed = (
 };
 
 /* Project Search Info-Meterials. */
-import * as constants from "@/constants";
-export const useProjectConstants = () => ({
-  ...constants,
-  projectSearchInfoMeterials: () => [
-    ...router()
-      .getRoutes()
-      .map((item) => ({
-        name: item.name,
-        title: item.meta.title,
-        path: item.path,
-        itemType: "page",
-      })),
-  ],
-});
+
+export const useProjectRoutesInfo = () =>
+  router()
+    .getRoutes()
+    .map((item) => ({
+      name: item.name,
+      title: item.meta.title,
+      path: item.path,
+      itemType: "page",
+    }));

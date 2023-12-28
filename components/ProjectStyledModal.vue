@@ -29,7 +29,8 @@ const mailTemplateDefaultConfig = {
   modalContentWrapperClass: "pt-10 px-8",
 };
 const displayTemplateDefaultConfig = {
-  modalBaseClass: "bg-#B0B0C4! min-w-800px max-w-1200px py-5 px-6",
+  modalBaseClass:
+    "bg-#B0B0C4! min-w-740px max-w-1340px py-5 px-6 overflow-auto rounded-10px",
   modalContentWrapperClass:
     "bg-#6F6F8B pt-5 pb-10 px-8 rounded-10px min-w-740px",
 };
@@ -79,12 +80,19 @@ const modalBaseClass = props.useMailTemplate
             <slot name="mail-content"></slot>
           </div>
         </slot>
+
         <slot name="displayTemplate" v-if="useDisplayTemplate">
           <div :class="finalDisplayTemplateConfig.modalContentWrapperClass">
             <slot name="display-content"></slot>
           </div>
         </slot>
       </slot>
+      <!-- <div
+        class="i-mdi:arrow-up-bold text-gray text-34px fixed left-50% top-5 -mx-8 animate-bounce"
+      ></div>
+      <div
+        class="i-mdi:arrow-down-bold text-gray text-34px fixed left-50% bottom-5 -mx-8 animate-bounce"
+      ></div> -->
     </n-card>
   </n-modal>
 </template>
