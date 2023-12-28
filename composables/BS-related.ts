@@ -1,6 +1,17 @@
-const { t_tournamentState_constants, t_roundsName_obj_standards } =
-  useProjectConstants().tournament;
+const {
+  t_tournamentState_constants,
+  t_roundsName_obj_standards,
+  t_roundFormat_options,
+} = useProjectConstants().tournament;
 const { isAfter, isBefore, isWithinInterval } = useDateFns();
+
+export const use_BS_logics = () => {
+  return {
+    t_stateCalc,
+    t_roundsNameArrCalc,
+    t_roundFormat_zhcnStr,
+  };
+};
 
 export const t_stateCalc = (
   t_time_range: [string, string],
@@ -58,5 +69,22 @@ export const t_roundsNameArrCalc = (roundsTotal: number) => {
       return t_roundsName_obj_standards["5"];
     default:
       return ["Invalid rounds total"];
+  }
+};
+
+const t_roundFormat_zhcnStr = (round_format: number | undefined) => {
+  switch (round_format) {
+    case 1:
+      return t_roundFormat_options[-1].label;
+    case 2:
+      return t_roundFormat_options[2].label;
+    case 3:
+      return t_roundFormat_options[0].label;
+    case 4:
+      return t_roundFormat_options[1].label;
+    case 5:
+      return t_roundFormat_options[-2].label;
+    default:
+      return "Invalid round_format id";
   }
 };

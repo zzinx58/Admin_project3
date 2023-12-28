@@ -149,7 +149,8 @@ const tListDataColumns = (): DataTableColumns => {
               {
                 quaternary: true,
                 class:
-                  "w-80px h-40px rounded-12px hover:opacity-80 bg-main-btn_primary-negative text-white",
+                  "w-80px h-40px rounded-12px hover:opacity-80 text-white hover:text-white! focus:text-white!",
+                bg: "main-btn_primary-negative hover:main-btn_primary-negative! focus:main-btn_primary-negative!",
                 iconPlacement: "right",
                 renderIcon() {
                   return h("div", { class: "i-mdi-delete" });

@@ -28,14 +28,14 @@ export default defineNuxtConfig({
     port: 3010,
   },
   modules: [
+    "@pinia/nuxt",
+    "@pinia-plugin-persistedstate/nuxt",
     "@unocss/nuxt",
     "@vueuse/nuxt",
     "magic-regexp/nuxt",
-    "@pinia/nuxt",
-    "@pinia-plugin-persistedstate/nuxt",
     "@nuxt/image",
     "nuxt-typed-router",
-    "@formkit/auto-animate",
+    "@formkit/auto-animate/nuxt",
   ],
   piniaPersistedstate: {
     storage: "localStorage",

@@ -1,5 +1,66 @@
 // ----------------------------------------------------------------
 /* tournament constants */
+export const t_groups_options = ["U8", "U12", "U18", "公开组", "女子组"];
+
+export const t_roundFormat_options = [
+  {
+    round_format_id: 3,
+    label: "五次去头去尾取平均",
+  },
+  {
+    round_format_id: 4,
+    label: "三次取平均",
+  },
+  {
+    round_format_id: 2,
+    label: "三次取最快",
+  },
+  {
+    round_format_id: 5,
+    label: "两次取最快",
+  },
+  {
+    round_format_id: 1,
+    label: "单次",
+  },
+];
+
+export const t_type_options = [
+  {
+    type_id: 1,
+    label: "个人赛",
+  },
+  {
+    type_id: 2,
+    label: "团体赛",
+  },
+  {
+    type_id: 3,
+    label: "综合赛",
+  },
+];
+
+export const t_mode_options = [
+  {
+    mode_id: 1,
+    label: "线下赛",
+  },
+  {
+    mode_id: 2,
+    label: "线上赛",
+  },
+];
+//----------------------------------------------------------------
+//----------------------------------------------------------------
+
+export const t_roundsName_obj_standards = {
+  1: ["决赛"],
+  2: ["初赛", "决赛"],
+  3: ["初赛", "复赛", "决赛"],
+  4: ["初赛", "复赛", "半决赛", "决赛"],
+  5: ["初赛", "复赛", "四分之一决赛", "半决赛", "决赛"],
+};
+
 export const t_tournamentState_constants = [
   {
     id: 1,
@@ -32,30 +93,7 @@ export const t_tournamentState_constants = [
     bg_color: "bg-#535353",
   },
 ];
-//----------------------------------------------------------------
-export const t_roundFormat_options = [
-  {
-    round_format_id: 3,
-    label: "五次去头去尾取平均",
-  },
-  {
-    round_format_id: 4,
-    label: "三次取平均",
-  },
-  {
-    round_format_id: 2,
-    label: "三次取最快",
-  },
-  {
-    round_format_id: 5,
-    label: "两次取最快",
-  },
-  {
-    round_format_id: 1,
-    label: "单次",
-  },
-];
-//----------------------------------------------------------------
+
 export const t_projectInfos_constants: {
   project_id: number;
   project_name: string;
@@ -158,7 +196,7 @@ export const t_detail_attrs_obj_withSequence_constants = {
     iconMeta: "i-custom-t_detail:organizer",
     attrLabel: "主办方",
   },
-  apply_web_url: {
+  apply_weburl: {
     iconMeta: "i-custom-t_detail:apply-weburl",
     attrLabel: "报名链接",
   },
@@ -172,13 +210,14 @@ export const t_detail_attrs_obj_withSequence_constants = {
   },
   groups: {
     iconMeta: "i-custom-t_detail:groups",
-    attrLabel: "组别",
+    // attrLabel: "组别",
+    attrLabel: "参赛组别",
   },
   apply_condition: {
     iconMeta: "i-custom-t_detail:apply-conditions",
     attrLabel: "报名条件",
   },
-  organizer_web_url: {
+  organizer_weburl: {
     iconMeta: "i-custom-t_detail:weburl",
     attrLabel: "主办方网站",
   },
@@ -202,12 +241,4 @@ export const t_detail_attrs_obj_withSequence_constants = {
     iconMeta: "i-custom-t_detail:apply-quota",
     attrLabel: "报名名额",
   },
-};
-
-export const t_roundsName_obj_standards = {
-  1: ["决赛"],
-  2: ["初赛", "决赛"],
-  3: ["初赛", "复赛", "决赛"],
-  4: ["初赛", "复赛", "半决赛", "决赛"],
-  5: ["初赛", "复赛", "四分之一决赛", "半决赛", "决赛"],
 };
