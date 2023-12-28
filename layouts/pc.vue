@@ -21,8 +21,7 @@ const searchResultContainerRef = ref<HTMLDivElement>();
 
 const projectSearchValue = ref("");
 // const projectSearchValueStage = ref("");
-const projectSearchInfoData =
-  useProjectConstants().projectSearchInfoMeterials();
+const projectSearchInfoData = useProjectRoutesInfo();
 
 const { results: projectSearchResult } = useFuse(
   projectSearchValue,
@@ -62,11 +61,14 @@ const currentFakeSelectEl = computed(
   () => searchResultListChildsRef.value[currentFakeSelectElIndex.value]
 );
 
-onKeyStroke(["Enter"], (e) => {
-  switch (e.key) {
-    case "Enter":
-      projectSearchRef.value?.focus();
-      break;
+const { k, command } = useMagicKeys();
+const [isOpenSearchPlate, toggleSearchPlateOpen] = useToggle();
+watch([command, k], (v) => {
+  if (v.every((item) => item === true)) {
+    toggleSearchPlateOpen();
+    isOpenSearchPlate.value
+      ? projectSearchRef.value?.focus()
+      : projectSearchRef.value?.blur();
   }
 });
 onKeyStroke(
@@ -141,7 +143,7 @@ onKeyStroke(
               ref="projectSearchRef"
               size="large"
               class="flex items-center"
-              placeholder="搜索系统内容..."
+              placeholder="Cmd + K , 搜索系统内容..."
               :clearable="true"
               :style="{
                 height: '48px',
@@ -212,12 +214,12 @@ onKeyStroke(
 
   <div class="app">
     <div ref="sidebarElRef" class="left-scope resize-x overflow-hidden"></div>
-    <div class="right-scope mx-10">
+    <div class="right-scope mx-10 overflow-auto">
       <ReuseSidebarResizer />
       <div class="right-header">
         <ReuseHeader />
       </div>
-      <div class="right-content overflow-auto">
+      <div class="right-content overflow-auto grid justify-center items-center">
         <main class="mx-8 mt-8 mb-19">
           <slot />
         </main>
