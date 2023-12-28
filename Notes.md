@@ -96,6 +96,7 @@ format(ISO_formattedTime, "yyyy-MM-dd HH:mm:ss"), // GMT+0800 "2023-12-15 18:19:
 - Remind Event `stopPopagation`, `preventDefault`, `onKeyStoke`'s target.
 - Use event propagation to prevent events triggered by previous key presses from being passed to newly focused elements. Use larger div element as target.
 - When judging contants using if/else, determine the majority first.
+- Assigning a new array to a variable (inspectArr = [targetItem]) inside a function does not modify the original array passed to the function. Could use splice.
 
 # Project Map
 

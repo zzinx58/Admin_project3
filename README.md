@@ -2,6 +2,75 @@
 
 ## Procedures(DESC)
 
+## Routine -- 2023/12/28
+
+- Component - `./components`
+
+  - Feature [CustomCheckGroup] - `./components/CustomCheckGroup.vue`
+    - Headless Component Logics
+    - Component Skeleton
+    - Component inner vue-related BS Logics
+    - Component Test Page
+  - Feature [TDetailPreview] - `./components/features/TDetailPreview.vue`
+    - Component Test Page
+    - Func [formatterComposer]
+  - Feature [TRaceSchedule] - `./components/features/TRaceSchedule.vue`
+    - Completed BS Logic
+      - Func [DataParser]
+    - Completed Component Style
+
+- Composables - `./composables`
+
+  - Scope: - `./composables/BS-related.ts`
+    - Feature [use_BS_logics]
+    - Func [t_roundFormat_zhcnStr]
+  - Scope: - `./composables/common.ts`
+    - Update: Destruct Func `useProjectConstants` to `useProjectRoutesInfo` and `useProjectConstants` , move the latter into `./utils/common.ts`.
+
+- Utils in FE - `./utils/common.ts`
+
+  - Added More - [useRxjs]
+  - Added More - [useDateFns]
+  - Added More - [lodash]
+  - Added More - [lodash/FP]
+  - Scope [myFuncs]
+    - Func [getISODay_zhcnStr]
+    - Fix [num2ChineseNum]
+      - About num > 10 & num < 20 Scope problem.
+
+- Store - `./stores`
+
+  - Feature [useTournamentStore] as Composable - `./composables/common.ts`
+  - Scope: Completed `TournamentStore`
+    - Store State Final Type Structure
+    - Completed Store BS Logics
+    - Func: [Handle_Add/Remove_Project]
+    - Func: [Handle_Add/Remove_Round]
+      - Scope: `break_time`
+      - Scope: `lottery_time`
+
+- Constants - `./constants/tournament.ts`
+
+  - Added - Tournament needed constants.
+  - Update - BS needed constants update.
+
+- Page - `./pages/T_Info.vue`
+
+  - Feature: completed page styles.
+  - Feature: completed BS Logic.
+    - Validations path
+    - And so on.
+
+- UX - Improvement
+  - Page [T_Info] - `./pages/T_Info.vue`
+    - Feature: added animate when add `RoundLikeItem`
+  - Layout [pc] - `./layouts/pc.vue`
+    - Feature: Improved Project Search Platte Open Logic, now using `cmd + k`, instead of `enter(global)`.
+    - Feature: Page Content in center display.
+    - Fix: Fixed Layout doesn't fill all visible space problem, `<main>` content leaking, box structure damage.
+  - Component [ProjectStyledModal] - `./components/ProjectStyledModal.vue`
+    - Fix: Fixed content leaking, box structure damage.
+
 ## Routine. -- 2023/12/23
 
 - Composables - `./composables`
