@@ -41,7 +41,7 @@ export const judgeError_for_ReAuthNeed = (
 };
 
 /* Project Search Info-Meterials. */
-
+const projectMenuItems = useProjectConstants().projectMenuItems;
 export const useProjectRoutesInfo = () =>
   router()
     .getRoutes()
@@ -50,4 +50,7 @@ export const useProjectRoutesInfo = () =>
       title: item.meta.title,
       path: item.path,
       itemType: "page",
+      iconMeta: Object.entries(projectMenuItems).find(([key, value]) => {
+        return key === item.name;
+      })?.[1].iconMeta,
     }));

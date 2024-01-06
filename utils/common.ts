@@ -93,6 +93,9 @@ export const dictionary_ObjectKeyMappingConvertFunc = (
 import * as JSONPathPlus from "jsonpath-plus";
 export const useJSONPath = JSONPathPlus.JSONPath;
 // ----------------------------------------------------------------
+import gsap from "gsap";
+export const useGSAP = () => gsap;
+// ----------------------------------------------------------------
 import useLodash from "lodash";
 import useLodash_FP from "lodash/fp";
 export const _ = useLodash;

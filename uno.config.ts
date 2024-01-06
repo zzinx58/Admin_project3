@@ -30,6 +30,8 @@ export default defineConfig({
     presetIcons({
       autoInstall: false,
       collections: {
+        "custom-aside_menu": () =>
+          loadCustomIconSet_IconifyJSON("./assets/svgs/aside_menu"),
         "custom-base": () =>
           loadCustomIconSet_IconifyJSON("./assets/svgs/base"),
         "custom-overview": () =>
@@ -54,6 +56,7 @@ export default defineConfig({
     ...unocssRelated.unocss_theme_constants,
   },
   safelist: [...unocssRelated.needed_unocss_constants],
+  shortcuts: [...unocssRelated.unocss_shortcuts],
 });
 
 async function loadCustomIconSet_IconifyJSON(

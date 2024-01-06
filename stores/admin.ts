@@ -47,6 +47,9 @@ export const useAdminStore = definePiniaStore("Admin", {
 
   getters: {
     ArrPair_authorizationToken: (state) => ["Authorization", state.token],
+    TokenHeader(): Object {
+      return { headers: myFuncs.fromPairs([this.ArrPair_authorizationToken]) };
+    },
   },
 
   actions: {

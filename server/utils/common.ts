@@ -1,3 +1,4 @@
+// ----------------------------------------------------------------
 import type { EventHandler, EventHandlerRequest, H3Event } from "h3";
 // export const defineWrappedResponseHandler = <T extends EventHandlerRequest, D> (
 //   handler: EventHandler<T, D>
@@ -33,6 +34,9 @@ export const getQuery_ArrPair_fromH3EventHandlerReq = (
   const result = myFuncs.toPairs(queryObject);
   return result;
 };
+// ----------------------------------------------------------------
+import { faker } from "@faker-js/faker";
+export const useFaker = () => faker;
 // ----------------------------------------------------------------
 import * as JSONPathPlus from "jsonpath-plus";
 export const useJSONPath = JSONPathPlus.JSONPath;
