@@ -292,7 +292,8 @@ const refModal = ref();
       </div>
     </div>
   </DefineDynamicProjectsDetailsTempalte>
-  <div class="flex">
+  <!-- shadow-lg -->
+  <div class="flex t_info_shadow plt-8 prb-16 rounded-20px">
     <n-form
       ref="formRef"
       :label-width="80"
@@ -614,7 +615,7 @@ const refModal = ref();
         </n-button>
       </div>
     </n-form>
-
+    <!--  -->
     <div id="preview_schedule">
       <ProjectStyledModal ref="refModal" :use-display-template="true">
         <template #display-content>
@@ -647,7 +648,7 @@ const refModal = ref();
       </ProjectStyledModal>
     </div>
   </div>
-  <pre class="select-text">{{ t_state }}</pre>
+  <!-- <pre class="select-text">{{ t_state }}</pre> -->
 </template>
 
 <style scoped lang="css">
@@ -663,4 +664,13 @@ const refModal = ref();
 :deep(.n-form-item .n-form-item-label) {
   --uno: text-16px;
 }
+/*.t_info_shadow {
+  /~ box-shadow:
+    -5px 0 5px -5px rgba(0, 0, 0, 0.5),
+    5px 0 5px -5px rgba(0, 0, 0, 0.5); ~/
+
+  box-shadow:
+    5px 5px 5px rgba(0, 0, 0, 0.2),
+    -5px -5px 20px rgba(0, 0, 0, 0.2);
+}*/
 </style>
