@@ -2,6 +2,29 @@
 
 ## Procedures(DESC)
 
+## Routine -- 2024/1/6
+
+- Chore
+
+  - Project MenuItem's Assets & Constants solving.
+  - UnoCSS shortcuts rules added. - `./constants/index.ts`
+
+- Utils in FE - `./utils/common.ts`
+
+  - Feature [useGSAP]
+
+- Utils in BE - `./server/utils/common.ts`
+
+  - Feature [useFaker]
+
+- Page `./pages/T_Detail.vue`
+  - Data Filtering & Fetching related logics.
+  - Page UX improvements.
+  - Page Styles.
+  - Sub_Component - `./components/features`
+    - Feature_Component [TApplicantsTable]
+    - Feature_Component [TResultsTable]
+
 ## Routine -- 2023/12/28
 
 - Component - `./components`
