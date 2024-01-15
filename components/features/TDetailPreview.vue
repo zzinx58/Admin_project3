@@ -126,9 +126,10 @@ const detailItem_formatters_obj = {
   },
 };
 
-const finalDetailItemsObj = myFuncs.formatterComposer(
+const finalDetailItemsObj = myFuncs.attrComposer(
   detailItem_formatters_obj,
-  t_detail_attrs_obj_withSequence_constants
+  t_detail_attrs_obj_withSequence_constants,
+  "formatter"
 );
 
 // console.log(

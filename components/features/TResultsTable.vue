@@ -6,29 +6,34 @@ import {
   type DropdownOption,
 } from "naive-ui";
 //----------------------------------------------------------------
-withDefaults(
-  defineProps<
-    Partial<{
-      data?: Record<string, any>[];
-      rowKey?: DataTableCreateRowKey;
-      funcCheckedRowKeys: () => {};
-      funcFilters?: () => {};
-      funcSorter?: () => {};
-    }>
-  >(),
-  {}
-);
+// withDefaults(
+//   defineProps<
+//     Partial<{
+//       data?: Record<string, any>[];
+//       rowKey?: DataTableCreateRowKey;
+//       funcCheckedRowKeys: () => {};
+//       funcFilters?: () => {};
+//       funcSorter?: () => {};
+//     }>
+//   >(),
+//   {}
+// );
+//----------------------------------------------------------------
+
 //----------------------------------------------------------------
 const ResultListDataFetchParamsReactive = reactive<
   Partial<{
-    project: string[];
+    projects: string[];
     page: number;
     size: number;
     q: string | null;
+    phase: number;
   }>
->({});
+>({
+  projects: [],
+});
 const handleSelectedProjectArrUpdate = (_selectedProjectArr: any[]) => {
-  ResultListDataFetchParamsReactive.project = _selectedProjectArr.map(
+  ResultListDataFetchParamsReactive.projects = _selectedProjectArr.map(
     (item) => item.project_name
   );
 };
@@ -91,7 +96,13 @@ const t_result_tableColumns = (): DataTableColumns => {
     },
     {
       title: "晋级",
-      key: "is_rise",
+      key: "is_rised",
+      // className: "flex justify-center items-center",
+      // className: "grid place-content-center",
+      className: "grid place-items-center",
+      render(rowData: any) {
+        return h("div", rowData.is_rised === true ? "是" : "否");
+      },
     },
   ];
 };
@@ -144,9 +155,11 @@ const tableRowProps = (rowData: any) => {
       <div
         class="overflow-auto box-border px-2 max-w-1200px border-(x-amber y-none solid rounded-10px) shadow-inset shadow-lg py-1"
       >
+        <!-- modelValue: [],
+      itemsInfoList: t_projectInfos_constants.slice(0, 5), -->
         <CustomCheckGroup
           v-bind="{
-            modelValue: [],
+            modelValue: ResultListDataFetchParamsReactive.projects ?? [],
             itemsInfoList: t_projectInfos_constants.slice(0, 5),
             selectStrategy: 'multiple',
             targetAttr: 'project_id',
@@ -161,6 +174,7 @@ const tableRowProps = (rowData: any) => {
             flex items-center place-content-center gap-2 
             text-12px
             border-(solid 1px rounded-10px)
+            hover:border-main-btn_primary-positive
             ${isItemSelected ? 'text-main-btn_primary-positive' : ''}
             `"
             >
@@ -182,8 +196,13 @@ const tableRowProps = (rowData: any) => {
           <label class="text-18px text-main-btn_primary-negative"> 轮次 </label>
           <n-select
             placeholder="请选择目标比赛轮次..."
-            v-model:value="ResultListDataFetchParamsReactive.project"
-            :options="[]"
+            v-model:value="ResultListDataFetchParamsReactive.phase"
+            :options="
+              Array.from({ length: 5 }, (_, index) => ({
+                label: `第${myFuncs.num2ChineseNum(index + 1)}轮`,
+                value: index,
+              }))
+            "
           ></n-select>
         </div>
         <div
@@ -203,13 +222,14 @@ const tableRowProps = (rowData: any) => {
         :single-line="true"
         :single-column="true"
         :remote="true"
-        @update:checked-row-keys="funcCheckedRowKeys"
-        @update:filters="funcFilters"
-        @update:sorter="funcSorter"
+        @update:checked-row-keys="() => {}"
+        @update:filters="() => {}"
+        @update:sorter="() => {}"
         :columns="t_result_tableColumns()"
         :data="[
-          { name: 123, is_rise: true },
-          { name: 'zzx' },
+          { name: 123, is_rised: true },
+          { name: 123, is_rised: true, avg_duration: 60 },
+          { name: 'zzx', avg_duration: 1200 },
           { name: 123 },
           { name: 321 },
           { name: 123 },
@@ -222,12 +242,11 @@ const tableRowProps = (rowData: any) => {
           { name: 123 },
           { name: 123 },
           { name: 123 },
-          { name: 123 },
         ]"
-        :row-key="rowKey"
+        :row-key="(rowData) => rowData"
         :row-class-name="
           (row) => {
-            if (row.is_rise === true) return 'risedItem';
+            if (row.is_rised === true) return 'risedItem';
           }
         "
         :row-props="tableRowProps"
@@ -251,11 +270,25 @@ const tableRowProps = (rowData: any) => {
 
 <style scoped lang="css">
 :deep(.risedItem td) {
-  background-color: rgba(74, 222, 128, 1) !important;
-  color: black !important;
+  /* background-color: rgba(74, 222, 128, 1) !important; */
+  /* Why it doesn't work? */
+  /* prettier-ignore */
+  /* --uno: bg-red!; */
+  --uno: box-border relative isolate;
+  /* prettier-ignore */
+  --uno: before:(content-[""] absolute w-full h-20px bg-[rgba(74,222,128,1)] left-0 top-8px -z-1)
+}
+:deep(.risedItem) {
+  display: relative !important;
+  &::before {
+    /* prettier-ignore */
+    --uno: content-["213"] absolute w-full h-full;
+    background-color: red;
+  }
 }
 :deep(.n-data-table .n-data-table-td) {
   padding: 0 8px 0 8px;
+  color: black;
 }
 :deep(.n-data-table-th) {
   /* prettier-ignore */

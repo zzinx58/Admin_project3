@@ -88,7 +88,7 @@ const formDataref_applicants = reactive<
 >({});
 const formDataref_results = reactive<
   Partial<{
-    projects: string[];
+    projectID: number;
     phase: number;
     t_number: string;
     user_id: string;
@@ -100,6 +100,32 @@ const formDataref_results = reactive<
     r5_duration: number;
   }>
 >({});
+const ref_avg_duration = computed(() => {
+  const { r1_duration, r2_duration, r3_duration, r4_duration, r5_duration } =
+    formDataref_results;
+  return (
+    [r1_duration, r2_duration, r3_duration, r4_duration, r5_duration].reduce(
+      (preV, curV) => {
+        let total = preV!;
+        curV && (total += curV);
+        return total;
+      },
+      0
+    ) ?? 0 / ref_recordsTotal
+  );
+});
+
+const {
+  t_state,
+  availableProjects,
+  availableRoundsTotal_for_targetProject,
+  availableRecordsTotal,
+} = useTournamentStore();
+const resetForm = myFuncs.util_resetForm;
+const ref_recordsTotal = availableRecordsTotal(
+  formDataref_results.projectID,
+  formDataref_results.phase
+);
 //----------------------------------------------------------------
 </script>
 
@@ -151,7 +177,12 @@ const formDataref_results = reactive<
             <n-form-item label="项目" path="projects">
               <n-select
                 v-model:value="formDataref_applicants.projects"
-                :options="[]"
+                :options="
+                  availableProjects.map((item) => ({
+                    label: item.name,
+                    value: item.id,
+                  }))
+                "
                 placeholder=""
                 :multiple="true"
               ></n-select>
@@ -198,15 +229,33 @@ const formDataref_results = reactive<
           >
             <n-form-item label="项目" path="projects">
               <n-select
-                :options="[]"
-                v-model:value="formDataref_results.projects"
+                :options="
+                  availableProjects.map((item) => ({
+                    label: '' + item.name,
+                    value: item.id,
+                  }))
+                "
+                v-model:value="formDataref_results.projectID"
                 placeholder=""
-                :multiple="true"
               ></n-select>
             </n-form-item>
             <n-form-item label="轮次" path="phase">
               <n-select
-                :options="[]"
+                :options="
+                  Array.from(
+                    {
+                      length: availableRoundsTotal_for_targetProject(
+                        formDataref_results.projectID
+                      ),
+                    },
+                    (_, index) => {
+                      return {
+                        label: '' + index,
+                        value: index,
+                      };
+                    }
+                  )
+                "
                 v-model:value="formDataref_results.phase"
                 placeholder=""
               ></n-select>
@@ -237,6 +286,7 @@ const formDataref_results = reactive<
                     :show-button="false"
                     placeholder=""
                     v-model:value="formDataref_results.r1_duration"
+                    :disabled="ref_recordsTotal < 1"
                   ></n-input-number>
                 </div>
                 <div class="flex gap-1 items-center">
@@ -245,6 +295,7 @@ const formDataref_results = reactive<
                     :show-button="false"
                     placeholder=""
                     v-model:value="formDataref_results.r2_duration"
+                    :disabled="ref_recordsTotal < 2"
                   ></n-input-number>
                 </div>
                 <div class="flex gap-1 items-center">
@@ -253,6 +304,7 @@ const formDataref_results = reactive<
                     placeholder=""
                     v-model:value="formDataref_results.r3_duration"
                     :show-button="false"
+                    :disabled="ref_recordsTotal < 3"
                   ></n-input-number>
                 </div>
                 <div class="flex gap-1 items-center">
@@ -261,6 +313,7 @@ const formDataref_results = reactive<
                     placeholder=""
                     v-model:value="formDataref_results.r4_duration"
                     :show-button="false"
+                    :disabled="ref_recordsTotal < 4"
                   ></n-input-number>
                 </div>
                 <div class="flex gap-1 items-center">
@@ -269,8 +322,12 @@ const formDataref_results = reactive<
                     placeholder=""
                     v-model:value="formDataref_results.r5_duration"
                     :show-button="false"
+                    :disabled="ref_recordsTotal < 5"
                   ></n-input-number>
                 </div>
+                <div class="text-#6A6A76"
+                  >平均成绩: {{ (ref_avg_duration / 60).toFixed(3) }} 秒</div
+                >
               </div>
             </n-form-item>
           </n-form>

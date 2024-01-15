@@ -5,18 +5,26 @@ import {
   type DropdownOption,
 } from "naive-ui";
 //----------------------------------------------------------------
-withDefaults(
-  defineProps<
-    Partial<{
-      data?: Record<string, any>[];
-      rowKey?: DataTableCreateRowKey;
-      funcCheckedRowKeys: () => {};
-      funcFilters?: () => {};
-      funcSorter?: () => {};
-    }>
-  >(),
-  {}
-);
+// withDefaults(
+//   defineProps<
+//     Partial<{
+//       data?: Record<string, any>[];
+//       rowKey?: DataTableCreateRowKey;
+//       funcCheckedRowKeys: () => {};
+//       funcFilters?: () => {};
+//       funcSorter?: () => {};
+//     }>
+//   >(),
+//   {}
+// );
+//----------------------------------------------------------------
+const {
+  t_state,
+  availableProjects,
+  availableRoundsTotal_for_targetProject,
+  availableRecordsTotal,
+} = useTournamentStore();
+const resetForm = myFuncs.util_resetForm;
 //----------------------------------------------------------------
 const t_applicants_tableColumns = (): DataTableColumns => {
   return [
@@ -101,9 +109,9 @@ const tableRowProps = (rowData: any) => {
         :single-line="true"
         :single-column="true"
         :remote="true"
-        @update:checked-row-keys="funcCheckedRowKeys"
-        @update:filters="funcFilters"
-        @update:sorter="funcSorter"
+        @update:checked-row-keys="() => {}"
+        @update:filters="() => {}"
+        @update:sorter="() => {}"
         :columns="t_applicants_tableColumns()"
         :data="[
           { name: 123 },
@@ -122,7 +130,7 @@ const tableRowProps = (rowData: any) => {
           { name: 123 },
           { name: 123 },
         ]"
-        :row-key="rowKey"
+        :row-key="(rowData) => rowData"
         :row-props="tableRowProps"
       />
     </div>

@@ -212,6 +212,7 @@ const tListDataColumns = (): DataTableColumns => {
     <ProjectStyledDataTable
       :columns="tListDataColumns()"
       :data="T_ListData?.resultData.items"
+      class="2xl:w-1600px"
     />
     <ProjectStyledPagination
       :current-page="T_ListDataFetchOptionReative.page"
