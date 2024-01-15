@@ -66,6 +66,10 @@ watchArray(
   <div v-auto-animate>
     <div v-for="item in t_store.t_state.projects_detail">{{ item }}</div>
   </div>
+  <hr />
+  <div v-auto-animate>
+    <pre>{{ t_store }}</pre>
+  </div>
 
   <!-- <n-select
     :multiple="true"

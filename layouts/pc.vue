@@ -108,7 +108,7 @@ const menuItemsData = projectSearchInfoData.filter((itemA) => {
 // watchEffect(() => {
 //   console.log(projectSearchResult.value.map((item) => item.item));
 // });
-console.log(menuItemsData);
+// console.log(menuItemsData);
 //----------------------------------------------------------------
 </script>
 

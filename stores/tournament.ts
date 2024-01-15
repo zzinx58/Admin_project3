@@ -114,7 +114,7 @@ export const useTournamentStore = definePiniaStore("Tournament", () => {
     const removedProjectId = projectBaseInfo.p_id;
     const itemIndexToRemove = t_state.value.projects_detail.findIndex(
       (item) => {
-        item.id === removedProjectId;
+        return item.id === removedProjectId;
       }
     );
     const removedItem = t_state.value.projects_detail.splice(
