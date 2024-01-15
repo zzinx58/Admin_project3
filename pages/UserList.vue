@@ -354,7 +354,7 @@ const bulkMailModalRef = ref();
         </template>
       </n-button> -->
   </div>
-  <div class="overflow-auto">
+  <div class="overflow-auto 2xl:w-1600px">
     <!-- :row-class-name="() => ''" -->
     <n-data-table
       class="h-660px"

@@ -1,6 +1,7 @@
 export const useTournamentStore = definePiniaStore("Tournament", () => {
   const t_state = ref<
     Partial<{
+      id: string;
       name: string;
       mode: string;
       type: string;
@@ -99,15 +100,14 @@ export const useTournamentStore = definePiniaStore("Tournament", () => {
       details: [{ id: 0 }],
     },
   };
-
+  //----------------------------------------------------------------
   type projectBaseInfoType = { p_id: number; iconMeta: string; p_name: string };
-
   const handleProjectSelect = (projectBaseInfo: projectBaseInfoType) => {
     t_state.value.projects_detail.push({
       id: projectBaseInfo.p_id,
       name: projectBaseInfo.p_name,
       iconMeta: projectBaseInfo.iconMeta,
-      rounds: myFuncs.cloneDeep(_projectDetailTemplate.rounds),
+      rounds: structuredClone(_projectDetailTemplate.rounds),
     });
   };
   const handleProjectRemove = (projectBaseInfo: projectBaseInfoType) => {
@@ -123,7 +123,7 @@ export const useTournamentStore = definePiniaStore("Tournament", () => {
     );
     return removedItem;
   };
-
+  //----------------------------------------------------------------
   const handleRemoveBreakTimeRound = () => {
     t_state.value.break_time?.pop();
   };
@@ -144,7 +144,36 @@ export const useTournamentStore = definePiniaStore("Tournament", () => {
     const lottery_time_arr = t_state.value.lottery_time;
     lottery_time_arr && _addTimeRoundLogic(lottery_time_arr);
   };
-
+  //----------------------------------------------------------------
+  const availableProjects = computed(() =>
+    t_state.value.projects_detail.map((item) => ({
+      name: item.name,
+      id: item.id,
+    }))
+  );
+  const availableRoundsTotal_for_targetProject = (
+    selectedProject_PID: number | undefined
+  ) => {
+    return (
+      t_state.value.projects_detail.find(
+        (item) => item.id === selectedProject_PID
+      )?.rounds.total ?? 0
+    );
+  };
+  const { t_roundFormat_options } = useProjectConstants().tournament;
+  const availableRecordsTotal_for_targetProjectAndRound = (
+    targetProject_PID: number | undefined,
+    targetRoundID: number | undefined
+  ) => {
+    const targetTFormat = t_state.value.projects_detail
+      .find((item) => item.id === targetProject_PID)
+      ?.rounds.details.find((item) => item.id === targetRoundID)?.round_format;
+    const result = t_roundFormat_options.find(
+      (item) => item.round_format_id === targetTFormat
+    )?.records_total;
+    return result ?? 0;
+  };
+  //----------------------------------------------------------------
   return {
     t_state,
     $reset,
@@ -155,6 +184,9 @@ export const useTournamentStore = definePiniaStore("Tournament", () => {
     handleRemoveLotteryTimeRound,
     handleAddLotteryTimeRound,
     handleRemoveBreakTimeRound,
+    availableProjects,
+    availableRoundsTotal_for_targetProject,
+    availableRecordsTotal_for_targetProjectAndRound,
   };
 });
 

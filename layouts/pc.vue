@@ -1,18 +1,19 @@
 <script lang="ts" setup>
 // Notice Here.
 import { useFuse } from "@vueuse/integrations/useFuse";
-import type { InputInst } from "naive-ui";
-
+import { numberAnimationProps, type InputInst } from "naive-ui";
+import { registerRuntimeCompiler } from "vue";
+//----------------------------------------------------------------
 /* Page Templates */
 const [DefineHeader, ReuseHeader] = createReusableTemplate();
 const [DefineSidebarResizer, ReuseSidebarResizer] = createReusableTemplate();
 const [DefineSearchResultContent, ReuseSearchResultContent] =
   createReusableTemplate();
-
+//----------------------------------------------------------------
 /* Sidebar Resize Scope */
 const sidebarElRef = ref<HTMLElement>();
 const resize_block = ref<HTMLElement>();
-
+//----------------------------------------------------------------
 /* Project Search Scope */
 // Browser's input search effect might be little difficult to implement. Use another way temporarily.
 const projectSearchContainerRef = ref<HTMLDivElement>();
@@ -60,7 +61,7 @@ const searchResultListChildsRef = ref<HTMLElement[]>([]);
 const currentFakeSelectEl = computed(
   () => searchResultListChildsRef.value[currentFakeSelectElIndex.value]
 );
-
+//----------------------------------------------------------------
 const { k, command } = useMagicKeys();
 const [isOpenSearchPlate, toggleSearchPlateOpen] = useToggle();
 watch([command, k], (v) => {
@@ -80,6 +81,7 @@ onKeyStroke(
     switch (e.key) {
       case "Enter":
         currentFakeSelectEl.value.dispatchEvent(new Event("click"));
+        projectSearchRef.value?.blur();
         break;
       case "ArrowDown":
         currentFakeSelectElIndex.value += 1;
@@ -93,6 +95,21 @@ onKeyStroke(
     target: projectSearchContainerRef,
   }
 );
+//----------------------------------------------------------------
+const dontNeedRouteItems = ["login"];
+// const dontNeedRouteItems = ["login", "test", "style"];
+const menuItemsData = projectSearchInfoData.filter((itemA) => {
+  const result = dontNeedRouteItems.some((itemB) => {
+    const result = !~itemA.path.toLowerCase().indexOf(itemB);
+    return result;
+  });
+  return result;
+});
+// watchEffect(() => {
+//   console.log(projectSearchResult.value.map((item) => item.item));
+// });
+console.log(menuItemsData);
+//----------------------------------------------------------------
 </script>
 
 <template>
@@ -213,14 +230,35 @@ onKeyStroke(
   </DefineSidebarResizer>
 
   <div class="app">
-    <div ref="sidebarElRef" class="left-scope resize-x overflow-hidden"></div>
+    <!-- <div ref="sidebarElRef" class="left-scope resize-x overflow-hidden w-200px"> -->
+    <!-- <div ref="sidebarElRef" class="left-scope overflow-hidden">
+      <div></div>
+    </div> -->
+    <aside class="left-scope">
+      <div class="left-header">
+        <div class="i-custom-base:nav-logo h-58px w-100px bg-black" />
+      </div>
+      <div class="left-content mt-14">
+        <VMenuBar
+          v-bind="{
+            menuData: menuItemsData,
+            menuItemClass:
+              'text-main-btn_primary-negative text-20px leading-42px hover:text-main-btn_primary-positive hover:bg-#DCDCDC rounded-e-20px',
+          }"
+        ></VMenuBar
+      ></div>
+      <div class="left-footer">123</div>
+    </aside>
     <div class="right-scope mx-10 overflow-auto">
       <ReuseSidebarResizer />
       <div class="right-header">
         <ReuseHeader />
       </div>
-      <div class="right-content overflow-auto grid justify-center items-center">
-        <main class="mx-8 mt-8 mb-19">
+      <!-- items-center? -->
+      <!-- <div class="right-content overflow-auto grid justify-center items-center"> -->
+      <div class="right-content overflow-auto">
+        <!-- <main class="mx-8 mt-8 mb-19"> -->
+        <main class="mx-8 mt-8 mb-12">
           <slot />
         </main>
       </div>
@@ -231,16 +269,23 @@ onKeyStroke(
 
 <style scoped lang="css">
 .app {
+  --uno: h-100vh grid;
+  grid-template-areas: "left-scope right-scope";
+  /* --uno: grid-cols-[280px_1fr]; */
+  /* prettier-ignore */
+  --uno: 2xl:grid-cols-[280px_1fr];
+  /* prettier-ignore */
+  --uno: grid-cols-[160px_1fr] duration-600;
   --uno: bg-main-base-outside;
-  --uno: h-100vh w-100vw flex flex-row;
+  --headerHeight: theme("headerHeight");
+  --footerHeight: theme("footerHeight");
 }
 /* --- */
 
 /* --- */
 .right-scope {
-  --uno: h-full w-full grid relative;
-  --headerHeight: theme("headerHeight");
-  --footerHeight: theme("footerHeight");
+  --uno: grid-area-[right-scope];
+  --uno: h-full grid relative;
   grid-template-areas:
     "right-header"
     "right-content"
@@ -253,21 +298,44 @@ onKeyStroke(
 .right-content {
   --uno: grid-area-[right-content];
   --uno: rounded-24px bg-main-base-content;
+  --uno: shadow-inset shadow-md;
+  /* prettier-ignore */
+  /* --uno: grid 2xl:justify-center; */
+  @media (min-width: 1536px) {
+    main {
+      display: grid;
+      /* place-content: center; */
+      justify-content: safe center;
+    }
+  }
 }
 .right-footer {
   --uno: grid-area-[right-footer];
 }
 /* --- */
 .left-scope {
+  --uno: grid-area-[left-scope];
   grid-template-areas:
     "left-header"
-    "aside"
+    "left-content"
     "left-footer";
-  --uno: bg-green;
+  /* prettier-ignore */
+  --uno: grid grid-rows-[var(--headerHeight)_1fr_100px];
+  /* --uno: bg-green; */
   /* --uno: min-w-50px; */
   /* --uno: max-w-250px; */
 }
 .left-scope::-webkit-scrollbar {
   display: none;
+}
+.left-header {
+  --uno: grid-area-[left-header];
+  --uno: grid place-content-center;
+}
+.left-content {
+  --uno: grid-area-[left-content];
+}
+.left-footer {
+  --uno: grid-area-[left-footer];
 }
 </style>
