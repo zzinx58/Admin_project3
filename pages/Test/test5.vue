@@ -77,8 +77,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <pre>{{ testData }}</pre>
-  <pre>{{ testData2 }}</pre>
+  <!-- <pre>{{ testData }}</pre> -->
+  <!-- <pre>{{ testData2 }}</pre> -->
+  <div class="i-custom-aside_menu:overview"></div>
+  <pre>{{ useRouter() }}</pre>
+  <pre>{{ useProjectRoutesInfo() }}</pre>
+
   <div class="sidebar-menu">
     <aside>
       <ul>

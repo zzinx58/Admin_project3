@@ -2,7 +2,37 @@
 
 ## Procedures(DESC)
 
-## Routine -- 2024/1/6
+### Routine -- 2024/1/15
+
+- Utils in FE - `./utils/common.ts`
+  - Func-Update: formatterComposer => attrComposer.
+  - Func: util_resetForm.
+- Store - `./stores/tournament.ts`
+  - Func: availableProjects
+  - Func: availableRoundsTotal_for_targetProject
+  - Func: availableRecordsTotal_for_targetProjectAndRound
+- Constants - `./constants`
+  - Insert: Page needed constants about itemStyle and itemPrefix. - `./constants/userDetail.ts`
+  - Refactor: Unocss related constants to position. - `./constants/unoRelated.ts`
+  - Update: added `records_total` attr to t_roundFormat_option. - `./constants/tournament.ts`
+  - Insert: Provided unified entrance and exit of constants. - `./constants/index.ts`
+- Composables - `./composables`
+  - Update: about `ProjectNeededMenuItem`'s attrs structure. - `./composables/common.ts`
+- Layout - `./layouts/pc.vue`
+- Test - `./pages/Test/test6.vue`
+  - Menu Test.
+  - Grid Layout Test.
+- Page - `./pages`
+  - TDetailPage - `./pages/T_Detail.vue`
+    - Feat: TDetailPreview Part.
+    - Feat: TApplicantsTable Part.
+    - Feat: TResultsTable Part.
+  - UserDetailPage - `./pages/UserDetail/[id].vue`
+    - Feat: UserDetailPreview Part.
+      - Impr: about KV-Like Item's render Logic Improvement.
+      - Impr: about grid layout display logic improvement.
+
+### Routine -- 2024/1/6
 
 - Chore
 
@@ -25,7 +55,7 @@
     - Feature_Component [TApplicantsTable]
     - Feature_Component [TResultsTable]
 
-## Routine -- 2023/12/28
+### Routine -- 2023/12/28
 
 - Component - `./components`
 
@@ -94,7 +124,7 @@
   - Component [ProjectStyledModal] - `./components/ProjectStyledModal.vue`
     - Fix: Fixed content leaking, box structure damage.
 
-## Routine. -- 2023/12/23
+### Routine. -- 2023/12/23
 
 - Composables - `./composables`
 
@@ -131,7 +161,7 @@
   - Aware testFunc throwing behavior.
   - TestCase about date format => M-d => 7-23.
 
-## Routine. -- 2023/12/20
+### Routine. -- 2023/12/20
 
 - Page - `./layouts/pc.vue`
   - Feature

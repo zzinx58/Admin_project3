@@ -97,7 +97,7 @@ selectedMenuItem.value = projectRouteInfoData.find((item) => {
 .selectedMenuItem {
   --uno: bg-white text-main-btn_primary-positive opacity-100;
   --uno: box-border border-main-btn_primary-positive border-solid border-l-12px
-    border-r-4px border-y-0 ml-6;
+    border-r-0 border-y-0 ml-6;
 }
 .v_menuTree {
   ul {

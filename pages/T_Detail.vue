@@ -119,10 +119,10 @@ const {
   t_state,
   availableProjects,
   availableRoundsTotal_for_targetProject,
-  availableRecordsTotal,
+  availableRecordsTotal_for_targetProjectAndRound,
 } = useTournamentStore();
 const resetForm = myFuncs.util_resetForm;
-const ref_recordsTotal = availableRecordsTotal(
+const ref_recordsTotal = availableRecordsTotal_for_targetProjectAndRound(
   formDataref_results.projectID,
   formDataref_results.phase
 );
