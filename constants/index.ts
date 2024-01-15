@@ -1,45 +1,21 @@
-export { overview, tournament, projectStyles, unocssRelated, projectMenuItems };
+export {
+  overview,
+  tournament,
+  projectStyles,
+  unocssRelated,
+  projectMenuItems,
+  userDetail,
+};
+
+import type { KeyValueLikeItemPrefixType } from "./userDetail";
+
+export type { KeyValueLikeItemPrefixType };
 
 import * as overview from "./overview";
 import * as tournament from "./tournament";
 import * as projectStyles from "./projectStyles";
-
-/* Project needed UnoCSS SafeList export. */
-
-import { unocss_theme_colors, unocss_theme_constants } from "./projectStyles";
-import { JSONPath } from "jsonpath-plus";
-import {
-  t_projectInfos_constants,
-  t_tournamentState_constants,
-  t_detail_attrs_obj_withSequence_constants,
-} from "./tournament";
-import { overview_gridItemInfos_constants } from "./overview";
-import { quick_unocss_constants } from "./quick";
-
-const needed_unocss_constants = [
-  ...t_projectInfos_constants.map((item) => item.iconMeta),
-  ...t_tournamentState_constants.map((item) => item.bg_color),
-  ...overview_gridItemInfos_constants.map((item) => item.iconMeta),
-  ...JSONPath({
-    json: t_detail_attrs_obj_withSequence_constants,
-    path: "$..iconMeta",
-  }),
-  ...quick_unocss_constants,
-];
-
-import type { UserShortcuts } from "unocss";
-
-const unocss_shortcuts: UserShortcuts<any> = [
-  [/^prb-(.*)$/, ([, c]) => `pr-${c} pb-${c}`],
-  [/^plt-(.*)$/, ([, c]) => `pl-${c} pt-${c}`],
-];
-
-const unocssRelated = {
-  unocss_theme_colors,
-  unocss_theme_constants,
-  needed_unocss_constants,
-  unocss_shortcuts,
-};
+import * as userDetail from "./userDetail";
+import { unocssRelated as unocssRelated_temp } from "./unoRelated";
 
 const projectMenuItems = {
   overview: {
@@ -57,4 +33,13 @@ const projectMenuItems = {
   "user-data": {
     iconMeta: "i-custom-aside_menu:user-data",
   },
+};
+
+const { needed_unocss_constants } = unocssRelated_temp;
+const unocssRelated = {
+  ...unocssRelated_temp,
+  needed_unocss_constants: [
+    ...needed_unocss_constants,
+    ...Object.values(projectMenuItems).map((item) => item.iconMeta),
+  ],
 };

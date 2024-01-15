@@ -347,25 +347,45 @@ const num2ChineseNum = (num: number) => {
 // IsMagnitudeWord. 10, 1000, 10000 ...
 const isPowerOfTen = (num: number) => Number.isInteger(Math.log10(num));
 
-const formatterComposer = (
-  formattersObj: Record<string, (args: any) => any>,
-  sourcesObj: Record<string, any>
+const attrComposer = (
+  attrsObj: Record<string, (args: any) => any>,
+  sourcesObj: Record<string, any>,
+  targetAttr: string
 ): {
   [key: string]: {
     [key: string]: any;
     formatter?: (args: any) => any;
   };
 } => {
-  const isFormattersObjMatchSourceObj = Object.keys(formattersObj).every(
+  const isFormattersObjMatchSourceObj = Object.keys(attrsObj).every(
     (key) => key in sourcesObj
   );
   if (!isFormattersObjMatchSourceObj) {
     throw new Error("Invalid formattersObj");
   }
-  Object.entries(formattersObj).forEach(([key, value]) => {
-    sourcesObj[key]["formatter"] = value;
+  Object.entries(attrsObj).forEach(([key, value]) => {
+    sourcesObj[key][targetAttr] = value;
   });
   return sourcesObj;
+};
+
+const util_resetForm = (
+  targetRef: Ref<Record<string, any>>,
+  additionalsObject: Record<string, any>
+) => {
+  const resolvedObj = {
+    ...Object.fromEntries(
+      Object.entries(targetRef.value).map(([key, value]) => {
+        if (typeof value !== "object") {
+          return [key, null];
+        } else {
+          return [key, value];
+        }
+      })
+    ),
+    ...additionalsObject,
+  };
+  targetRef.value = resolvedObj;
 };
 
 export const myFuncs = {
@@ -380,9 +400,10 @@ export const myFuncs = {
   isValidUrl: isValidUrl_js,
   num2ChineseNum: num2ChineseNum,
   isPowerOfTen: isPowerOfTen,
-  formatterComposer: formatterComposer,
+  attrComposer: attrComposer,
   findIndex: _.findIndex,
   getISODay_zhcn: getISODay_zhcnStr,
+  util_resetForm,
 };
 
 /* Project Search Info-Meterials. */

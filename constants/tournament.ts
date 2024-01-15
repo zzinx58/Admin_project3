@@ -6,22 +6,37 @@ export const t_roundFormat_options = [
   {
     round_format_id: 3,
     label: "五次去头去尾取平均",
+    records_total: 5,
   },
   {
     round_format_id: 4,
     label: "三次取平均",
+    records_total: 3,
   },
   {
     round_format_id: 2,
     label: "三次取最快",
+    records_total: 3,
   },
   {
     round_format_id: 5,
     label: "两次取最快",
+    records_total: 2,
   },
   {
     round_format_id: 1,
     label: "单次",
+    records_total: 1,
+  },
+  {
+    round_format_id: 6,
+    label: "三局两胜",
+    records_total: 3,
+  },
+  {
+    round_format_id: 7,
+    label: "五局三胜",
+    records_total: 5,
   },
 ];
 
