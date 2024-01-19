@@ -7,6 +7,7 @@ module.exports = {
         PROJECT_ENV: "LOCAL",
         PORT: "5058",
       },
+      interpreter: "/Users/zzx58/.bun/bin/bun",
       exec_mode: "cluster",
       instances: "2",
       script: ".output/server/index.mjs",
