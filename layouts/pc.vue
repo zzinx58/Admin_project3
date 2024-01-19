@@ -259,6 +259,7 @@ const menuItemsData = projectSearchInfoData.filter((itemA) => {
       <div class="right-content overflow-auto">
         <!-- <main class="mx-8 mt-8 mb-19"> -->
         <main class="mx-8 mt-8 mb-12">
+          <ProjectDataExportHeader />
           <slot />
         </main>
       </div>
