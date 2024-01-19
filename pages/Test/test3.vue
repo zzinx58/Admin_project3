@@ -3,6 +3,7 @@ definePageMeta({
   title: "Test3",
   name: "Test3",
   layout: "pc",
+  showExportData: true,
 });
 useHead({
   title: `${route().meta.name} - ${route().meta.title}`,
@@ -13,8 +14,8 @@ const refModal = ref();
 </script>
 
 <template>
-  <!--  <div class="bg-#6F6F8B pt-5 pb-10 px-8 rounded-10px min-w-740px">
-    <FeaturesTDetailPreview
+  <div class="bg-#6F6F8B pt-5 pb-10 px-8 rounded-10px min-w-740px">
+    <!-- <FeaturesTDetailPreview
       v-bind="{
         t_info: {
           location: 'testLocation',
@@ -39,18 +40,18 @@ const refModal = ref();
           ],
         },
       }"
-    ></FeaturesTDetailPreview>
+    ></FeaturesTDetailPreview> -->
   </div>
-  <!~~ <n-button type="primary" @click="refModal?.open()">open modal</n-button>
+  <n-button type="primary" @click="refModal?.open()">open modal</n-button>
   <ProjectStyledModal ref="refModal">
     <div class="bg-red w-full h-full">123</div>
     <div class="mt-10 bg-blue">123</div>
-  </ProjectStyledModal> ~~>
+  </ProjectStyledModal>
   <n-button type="primary" @click="refModal.open()">open modal</n-button>
   <ProjectStyledModal ref="refModal" :use-display-template="true">
-    <!~~ <template #mail-content>1234</template> ~~>
+    <!-- <template #mail-content>1234</template> -->
     <template #display-content>
-      <FeaturesTDetailPreview
+      <!-- <FeaturesTDetailPreview
         v-bind="{
           t_info: {
             name: '',
@@ -65,9 +66,9 @@ const refModal = ref();
             ],
           },
         }"
-      ></FeaturesTDetailPreview>
+      ></FeaturesTDetailPreview> -->
     </template>
-  </ProjectStyledModal>-->
+  </ProjectStyledModal>
 </template>
 
 <style scoped></style>

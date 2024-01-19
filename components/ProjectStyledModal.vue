@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 const refOpen = ref(false);
 defineExpose({
-  open: () => (refOpen.value = true),
+  toggleModal: () => (refOpen.value = !refOpen.value),
 });
 
 const props = withDefaults(

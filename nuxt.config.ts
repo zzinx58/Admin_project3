@@ -5,7 +5,8 @@ import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 export default defineNuxtConfig({
   ssr: false,
   devtools: {
-    enabled: true,
+    // enabled: true,
+    enabled: false,
 
     timeline: {
       enabled: true,

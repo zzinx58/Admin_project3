@@ -8,8 +8,8 @@ useHead({
   title: `${route().meta.name} - ${route().meta.title}`,
 });
 
-const { data: testData } = useFetch("/api/test/getTResult");
-const { data: testData2 } = useFetch("/api/test/getTApplicants");
+// const { data: testData } = useFetch("/api/test/getTResult");
+// const { data: testData2 } = useFetch("/api/test/getTApplicants");
 
 /* 
 ApplicantsTable:
@@ -74,13 +74,17 @@ onMounted(() => {
   style.innerHTML = followEffectStyle;
   document.head.appendChild(style);
 });
+// Can only work in setup ??
+// console.log(router());
 </script>
 
 <template>
   <!-- <pre>{{ testData }}</pre> -->
   <!-- <pre>{{ testData2 }}</pre> -->
   <div class="i-custom-aside_menu:overview"></div>
-  <pre>{{ useRouter() }}</pre>
+  <pre>{{ route() }}</pre>
+  <!-- Bug Point. -->
+  <!-- <pre>{{ router() }}</pre> -->
   <pre>{{ useProjectRoutesInfo() }}</pre>
 
   <div class="sidebar-menu">

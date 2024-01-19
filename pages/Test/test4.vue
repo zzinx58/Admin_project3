@@ -34,41 +34,46 @@ watchArray(
 </script>
 
 <template>
-  <CustomCheckGroup
-    v-bind="{
-      modelValue: t_store.t_state.projects_detail,
-      itemsInfoList: t_projectInfos_constants,
-      targetAttr: 'project_id',
-      selectStrategy: 'multiple',
-    }"
-    @update:model-value="(e) => handleSelectedArrUpdate(e)"
-    class="box-border p-3 min-w-340px bg-white text-main-btn_primary-negative leading-28px gap-2"
-    border="1px solid gray-300 rounded-10px"
-    grid="~ rows-2 cols-9"
-  >
-    <template #item="{ isItemSelected, itemData }">
-      <div
-        :class="`group grid place-items-center ${
-          isItemSelected ? 'text-main-btn_primary-positive' : ''
-        }`"
-      >
+  <div>
+    <CustomCheckGroup
+      v-bind="{
+        modelValue: selectedProjects,
+        itemsInfoList: t_projectInfos_constants,
+        targetAttr: 'project_id',
+        selectStrategy: 'multiple',
+      }"
+      @update:model-value="(e) => handleSelectedArrUpdate(e)"
+      class="box-border p-3 min-w-340px bg-white text-main-btn_primary-negative leading-28px gap-2"
+      border="1px solid gray-300 rounded-10px"
+      grid="~ rows-2 cols-9"
+    >
+      <template #item="{ isItemSelected, itemData }">
         <div
-          group-hover="bg-main-btn_primary-positive opacity-50"
-          :class="`${itemData.iconMeta} text-28px`"
-        />
-        <label :class="`text-12px group-hover:text-main-btn_primary-positive`">
-          {{ itemData.project_name }}</label
+          :class="`group grid place-items-center ${
+            isItemSelected ? 'text-main-btn_primary-positive' : ''
+          }`"
         >
-      </div>
-    </template>
-  </CustomCheckGroup>
-  <!-- <pre>{{ t_store.$state }}</pre> -->
-  <div v-auto-animate>
-    <div v-for="item in t_store.t_state.projects_detail">{{ item }}</div>
-  </div>
-  <hr />
-  <div v-auto-animate>
-    <pre>{{ t_store }}</pre>
+          <div
+            group-hover="bg-main-btn_primary-positive opacity-50"
+            :class="`${itemData.iconMeta} text-28px`"
+          />
+          <label
+            :class="`text-12px group-hover:text-main-btn_primary-positive`"
+          >
+            {{ itemData.project_name }}</label
+          >
+        </div>
+      </template>
+    </CustomCheckGroup>
+    <div v-auto-animate>
+      <div v-for="item in t_store.t_state.projects_detail">{{ item }}</div>
+    </div>
+    <hr />
+    <div v-auto-animate> </div>
+    <pre>{{ t_store.$state }}</pre>
+    <hr />
+    <!-- Bug Point. -->
+    <!-- <pre>{{ t_store }}</pre> -->
   </div>
 
   <!-- <n-select
