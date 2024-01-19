@@ -8,6 +8,7 @@ definePageMeta({
   layout: "pc",
   title: "用户列表",
   name: "User List",
+  showExportData: false,
 });
 useHeadSafe({
   title: `${route().meta.name} - ${route().meta.title}`,
@@ -149,18 +150,12 @@ const handleSelectUser = (
   }
 };
 
-const handleExportSelectedUsers = () => {
-  if (selectedUserRowsRef.value.length > 0) {
-    const sheetName = `Sheet1`;
-    const fileName = `勾选用户数据导出 - ${useDateFns().format(
-      new Date(),
-      "yyyy年MM月dd日_HH时mm分"
-    )}.xlsx`;
-    xlsx_json_to_sheet(sheetName, fileName, selectedUserRowsRef.value);
-  } else {
-    useNaiveDiscrete().message.info("未勾选需要导出数据的用户，请先勾选");
-  }
-};
+const handleExportSelectedUsers = () =>
+  myFuncs.handleExportData(
+    selectedUserRowsRef.value,
+    "勾选用户数据导出",
+    "未勾选需要导出数据的用户，请先勾选"
+  );
 
 /* UserList Data Display */
 const userListDataColumns = (): DataTableColumns => {

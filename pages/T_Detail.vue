@@ -5,6 +5,7 @@ definePageMeta({
   layout: "pc",
   title: "赛事详情",
   name: "T_Detail",
+  showExportData: true,
 });
 useHead({
   title: `${route().meta.name} - ${route().meta.title}`,
@@ -126,6 +127,30 @@ const ref_recordsTotal = availableRecordsTotal_for_targetProjectAndRound(
   formDataref_results.projectID,
   formDataref_results.phase
 );
+
+/* Data Export Part */
+import type { DataExportOptionType } from "~/components/ProjectDataExportHeader.vue";
+const dataExportOptionsInfoArr: DataExportOptionType[] = [
+  {
+    optionLabel: "赛事详情",
+    relatedFunc: () => {
+      myFuncs.handleExportData([], `${t_state.name} - 赛事数据详情导出`);
+    },
+  },
+  {
+    optionLabel: "参赛选手",
+    relatedFunc: () => {
+      myFuncs.handleExportData([], `${t_state.name} - 赛事参赛选手数据导出`);
+    },
+  },
+  {
+    optionLabel: "赛果",
+    relatedFunc: () => {
+      myFuncs.handleExportData([], `${t_state.name} - 赛事赛果数据导出`);
+    },
+  },
+];
+emitter.emit("dataExport", dataExportOptionsInfoArr);
 //----------------------------------------------------------------
 </script>
 

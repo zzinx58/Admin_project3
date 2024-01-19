@@ -90,6 +90,10 @@ export const dictionary_ObjectKeyMappingConvertFunc = (
   });
 };
 // ----------------------------------------------------------------
+import mitt from "mitt";
+export const useMitt = mitt;
+export const emitter = useMitt();
+// ----------------------------------------------------------------
 import * as JSONPathPlus from "jsonpath-plus";
 export const useJSONPath = JSONPathPlus.JSONPath;
 // ----------------------------------------------------------------
@@ -388,6 +392,15 @@ const util_resetForm = (
   targetRef.value = resolvedObj;
 };
 
+const handleExportData = (dataArr: Record<string, any>[], fileName: string) => {
+  const sheetName = `Sheet1`;
+  const finalFileName = `${fileName} - ${useDateFns().format(
+    new Date(),
+    "yyyy年MM月dd日_HH时mm分"
+  )}.xlsx`;
+  xlsx_json_to_sheet(sheetName, finalFileName, dataArr);
+};
+
 export const myFuncs = {
   fromPairs: _.fromPairs,
   random: _.random,
@@ -404,6 +417,7 @@ export const myFuncs = {
   findIndex: _.findIndex,
   getISODay_zhcn: getISODay_zhcnStr,
   util_resetForm,
+  handleExportData,
 };
 
 /* Project Search Info-Meterials. */

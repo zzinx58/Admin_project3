@@ -175,7 +175,7 @@ const tListDataColumns = (): DataTableColumns => {
       <div
         class="flex items-center gap-2 text-16px text-dataTable-base-hintText"
       >
-        <label>赛事状态</label>
+        <label class="text-20px">赛事状态</label>
         <n-select
           class="w-250px"
           v-model:value="T_ListDataFetchOptionReative.selectedStateFilter"

@@ -602,7 +602,7 @@ const refModal = ref();
           :quaternary="true"
           class="w-120px h-48px rounded-24px hover:opacity-80 text-white hover:text-white! focus:text-white!"
           bg="main-btn_primary-negative hover:main-btn_primary-negative! focus:main-btn_primary-negative!"
-          @click="refModal.open()"
+          @click="refModal.toggleModal()"
         >
           赛事预览
         </n-button>
