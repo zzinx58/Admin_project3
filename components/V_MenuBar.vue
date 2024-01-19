@@ -15,12 +15,18 @@ export type MenuItemProps = {
 const [DefineVMenuItem, ReuseVMenuItem] =
   createReusableTemplate<MenuItemProps>();
 
+const refRoute = ref(route());
 const projectRouteInfoData = useProjectRoutesInfo();
-const currentPagePath = useRoute().path.split("/").pop()!;
-const selectedMenuItem = ref();
-selectedMenuItem.value = projectRouteInfoData.find((item) => {
-  return item.path.includes(currentPagePath);
-})?.itemId;
+const currentPagePath = computed(() => refRoute.value.path.split("/").pop()!);
+const selectedMenuItem = computed(
+  () =>
+    projectRouteInfoData.find((item) => {
+      return item.path.includes(currentPagePath.value);
+    })?.itemId
+);
+watchEffect(() =>
+  console.log("cur:" + currentPagePath.value, "else:" + selectedMenuItem.value)
+);
 </script>
 
 <template>
@@ -34,7 +40,7 @@ selectedMenuItem.value = projectRouteInfoData.find((item) => {
           :class="`label-icon `"
           @click="
             () => {
-              selectedMenuItem = itemId;
+              // selectedMenuItem = itemId;
               path && navigateTo(`${path}`);
             }
           "
@@ -58,30 +64,21 @@ selectedMenuItem.value = projectRouteInfoData.find((item) => {
       <div
         :class="`iconCounter flex items-center contents ${menuItemClass} ${
           selectedMenuItem === itemId ? 'selectedMenuItem' : ''
-        }
-        
+        } 
         `"
       >
         <div :class="`${iconMeta} text-20px`" />
         <label
           @click="
             () => {
-              selectedMenuItem = itemId;
+              // selectedMenuItem = itemId;
               path && navigateTo(`${path}`);
             }
           "
         >
-          <!-- :class="` ${selectedMenuItem === itemId ? 'selectedMenuItem' : ''}`" -->
-          <!-- before:(content-[''] ${iconMeta} text-20px ) -->
           {{ label }}
         </label>
       </div>
-
-      <!-- :class="`${[
-          menuItemClass,
-          // `${selectedMenuItem === itemId ? 'bg-blue!' : ''}`,
-          `${selectedMenuItem === itemId ? 'selectedMenuItem' : ''}`,
-        ].join(' ')}`" -->
     </li>
   </DefineVMenuItem>
 
