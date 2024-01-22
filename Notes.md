@@ -47,6 +47,9 @@
 - Errors that created in middleware could be capture in hook:`app:error`.
 - You cannot currently define a server-side handler for these errors, but can render an error page, see the Render an Error Page section.
 - When `useFetch` throws an error, you can get the brief description of the error through `statusMessage`, and get error info obj through `error.data`.
+- Do not use `useRouter` Func in Template, will cause error in production env, but available in development env.
+- Seems like `router`,`pinia` and more items's composables that related will third party dependencies could not directly use in template.
+- UnoCSS: When using append combinator in css scope, you will have to double quote the value to make it work.
 
 ---
 

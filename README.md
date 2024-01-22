@@ -2,6 +2,24 @@
 
 ## Procedures(DESC)
 
+### Routine -- 2024/1/19
+
+- Component - `./components/ProjectDataExportHeader.vue`
+  - Feat: Support global data export logic.
+  - Update & Chore: Data export related pages logic update.
+- Utils in FE - `./utils/common.ts`
+  - Func: `myFuncs.handleExportData`
+- Page - `./pages/UserDetail/[id].vue`
+  - Page data export logic
+  - Page data fetch logic
+  - Page data selectively display logic
+  - Page styles
+- Bug Fix
+  - `V_MenuBar` - `./components/V_MenuBar.vue`
+    - About selected item not responsive.
+- Config
+  - `./ecosystem.config.cjs`
+
 ### Routine -- 2024/1/15
 
 - Utils in FE - `./utils/common.ts`
