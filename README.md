@@ -2,6 +2,19 @@
 
 ## Procedures(DESC)
 
+### Routine -- 2024/1/29
+
+- Utils in FE - `./utils/common.ts`
+  - Scope [myFuncs]
+    - Func: isObject
+    - Func: flattenObject
+- Page - `./pages/UserDetail/[id].vue`
+  - BE - `./server/api/user/getUserDetail.get.ts`
+    - Data Solver
+    - BE Data Type - `./types/index.ts/index.ts`
+- Store - `./stores/admin.ts`
+  - `ReAuthLogin` callback logic within `TokenHeader` getter.
+
 ### Routine -- 2024/1/19
 
 - Component - `./components/ProjectDataExportHeader.vue`

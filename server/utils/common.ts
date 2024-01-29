@@ -95,9 +95,27 @@ export const useDateFns = () => ({
   format,
 });
 // ----------------------------------------------------------------
+const flattenObject = (obj: object): Record<string, any> => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    if (myFuncs.isObject(value) && !Array.isArray(value)) {
+      return {
+        ...acc,
+        ...flattenObject(value as object),
+      };
+    } else {
+      return {
+        ...acc,
+        [key]: value,
+      };
+    }
+  }, {});
+};
+
 export const myFuncs = {
   fromPairs: _.fromPairs,
   random: _.random,
   toPairs: _.toPairs,
   defaultTo: _.defaultTo,
+  isObject: _.isObject,
+  flattenObject,
 };

@@ -401,6 +401,22 @@ const handleExportData = (dataArr: Record<string, any>[], fileName: string) => {
   xlsx_json_to_sheet(sheetName, finalFileName, dataArr);
 };
 
+const flattenObject = (obj: object): Record<string, any> => {
+  return Object.entries(obj).reduce((acc, [key, value]) => {
+    if (myFuncs.isObject(value) && !Array.isArray(value)) {
+      return {
+        ...acc,
+        ...flattenObject(value as object),
+      };
+    } else {
+      return {
+        ...acc,
+        [key]: value,
+      };
+    }
+  }, {});
+};
+
 export const myFuncs = {
   fromPairs: _.fromPairs,
   random: _.random,
@@ -418,6 +434,8 @@ export const myFuncs = {
   getISODay_zhcn: getISODay_zhcnStr,
   util_resetForm,
   handleExportData,
+  isObject: _.isObject,
+  flattenObject,
 };
 
 /* Project Search Info-Meterials. */

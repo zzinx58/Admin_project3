@@ -17,7 +17,7 @@ type KeyValueLikeItemPrefixType = {
 const UserDetailPart1Prefix: KeyValueLikeItemPrefixType[] = [
   {
     label: "昵称:",
-    key: "nick_name",
+    key: "nickname",
   },
   {
     label: "ID:",

@@ -148,3 +148,116 @@ export type FE_itemDataType_getUserList = {
   online_status: boolean;
   download_channel: string;
 };
+
+// ----------------------------------------------------------------
+export type API_Response_Raw_GET_getUserDetail = {
+  code: number;
+  data: {
+    binded_equipments: {
+      address: string;
+      bind_ts: number;
+      version: string;
+    }[];
+    comp_qualifier: {
+      cup_num: number;
+      drawn_num: number;
+      lose_num: number;
+      max_cup_num: number;
+      max_win_streak: number;
+      win_num: number;
+      win_streak: number;
+    };
+    comp_single: {
+      finish_num: number;
+      used_num: number;
+    };
+    comp_time_traial: {
+      best_ao100: number;
+      best_ao12: number;
+      best_ao5: number;
+      best_duration: number;
+      current_ranking: number;
+      finish_num: number; // 复原场数
+      highest_num: number;
+      used_num: number; // 总共场数
+    };
+    user_info: {
+      location: {
+        city_name: string;
+        country_name: string;
+        region_name: string;
+      };
+      nickname: string;
+      phone: string;
+      register_datetime: string;
+      register_ts: number;
+      uid: number;
+    };
+  };
+} & Response_Raw_Error_CommonType;
+
+export type FE_dataType_getUserDetail = {
+  userDetailPart: {
+    //
+    nickname: string;
+    user_id: string;
+    register_time: number;
+    identity_info?: string;
+    classroom?: string;
+    squad_name?: string;
+    phone: string;
+    location: string;
+    //
+    points_count?: number;
+    voucher_count?: number;
+    //
+    online_time_count?: number;
+    download_channel?: string;
+    login_method?: string;
+    device_OS?: string;
+    device_model?: string;
+    cpu_model?: string;
+    binded_rubikCube_model?: string;
+    mac_address?: string;
+    //
+    deviceScreenSize?: string;
+    log_in_out_time?: string;
+    binding_time?: string;
+    unbinding_time?: string;
+    //
+  };
+  userDataPart1: {
+    userDataPart1tab1: {
+      best_duration: number;
+      best_ao5_duration: number;
+      best_ao12_duration: number;
+      best_ao100_duration: number;
+      current_ranking: number;
+      highest_ranking: number;
+      completions_count_timeTrial: number;
+      completion_rate?: number;
+    };
+    //
+    userDataPart1tab2: {
+      cup_data: string;
+      rank_data?: string;
+      win_data: string;
+      lose_data: string;
+      draw_data: string;
+      winning_streak_data: string;
+    };
+    //
+    userDataPart1tab3: {
+      participations_count: number;
+      completions_count_multiQuickTwist: number;
+    };
+    userDataPart1tab4?: {};
+    userDataPart1tab5?: {};
+  };
+  userDataPart2: {};
+  userDataPart3: {
+    userDataPart3tab1?: {};
+    userDataPart3tab2?: {};
+  };
+};
+// ----------------------------------------------------------------

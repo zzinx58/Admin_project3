@@ -12,10 +12,14 @@ export default defineNuxtPlugin((nuxtApp) => {
     Fatal error will block the page, showing the error page if it exist.
   */
   nuxtApp.hook("vue:error", (error, instance, info) => {
-    console.log("hook: => vue:error", error);
+    // console.log("hook: => vue:error", error);
   });
 
   nuxtApp.hook("app:error", (error) => {
-    console.log("hook: => app:error", error);
+    // console.log("hook: => app:error", error);
+  });
+  emitter.on("reAuthNeeded", (responseError) => {
+    // console.log(responseError);
+    judgeError_for_ReAuthNeed(responseError as any, 500);
   });
 });

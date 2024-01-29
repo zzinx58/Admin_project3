@@ -31,44 +31,6 @@ const [DefineNTabsPart, ReuseNTabsPart] = createReusableTemplate<{
   handlePartTabChange?: (...value: any) => void;
 }>();
 
-const { parseISO, format } = useDateFns();
-const { parseISO: parseISO_FP, format: format_FP } = useDateFns_FP();
-const UserDetailPart1Formatter: Record<string, any> = {
-  identity_info: () => {},
-  register_time: (register_time_ISO: string) => {
-    return format(parseISO(register_time_ISO), "yyyy.MM.dd HH:mm:ss");
-  },
-  online_time_count: (timeCountInSeconds: number) => {
-    const hours = Math.floor(timeCountInSeconds / 3600);
-    const minutes = Math.floor((timeCountInSeconds % 3600) / 60);
-    const seconds = Math.floor(timeCountInSeconds % 60);
-    const formatEachPartFunc = (value: number) => {
-      return String(value).padStart(2, "0");
-    };
-    return [hours, minutes, seconds].map(formatEachPartFunc).join(":");
-  },
-};
-const UserDetailPart3Formatter = {
-  log_in_out_time: (login_or_out_timeRange_ISO: [string, string]) => {
-    return login_or_out_timeRange_ISO
-      .map(parseISO_FP)
-      .map(format_FP("yyyy.MM.dd HH:mm:ss"))
-      .join(" / ");
-  },
-};
-const dataSource: Record<string, any> = {
-  // nick_name: "zzx",
-  // nick_name: undefined,
-  // user_id: 58,
-};
-const renderObj: Record<string, any> = {
-  nick_name: () => {
-    const value = dataSource["nick_name"];
-    if (value) return h("div", { class: "" }, `My name is ${value}.`);
-    else return "没有数据";
-  },
-};
-
 const ref_eachPartCurrentTabColumnData = reactive({
   part1: 1,
   part2: 1,
@@ -106,7 +68,8 @@ const columnsDataPart1 = (): DataTableColumns => {
     },
     {
       title: "完成次数",
-      key: "completion_count",
+      // key: "completions_count",
+      key: "completions_count_timeTrial",
     },
   ];
   const tab2ColumnData: DataTableColumns = [
@@ -117,6 +80,13 @@ const columnsDataPart1 = (): DataTableColumns => {
     {
       title: "月奖杯/最高奖杯",
       key: "cup_data",
+      render(rowData, rowIndex) {
+        return h(
+          "div",
+          // (rowData.cup_data as string).split("/").join("\u00a0/ ")
+          rowData.cup_data as string
+        );
+      },
     },
     {
       title: "月胜场/总胜场",
@@ -138,11 +108,11 @@ const columnsDataPart1 = (): DataTableColumns => {
   const tab3ColumnData: DataTableColumns = [
     {
       title: "参加次数",
-      key: "participation_count",
+      key: "participations_count",
     },
     {
       title: "完成次数",
-      key: "completions_count",
+      key: "completions_count_multiQuickTwist",
     },
     {
       title: "最佳排名",
@@ -303,52 +273,6 @@ const part1TabsNameArr = ["计时赛", "排位赛", "多人速拧", "战队", "�
 const part2TabsNameArr = ["WCU 赛事", "WCA 赛事"];
 const part3TabsNameArr = ["基础信息", "订单信息"];
 
-const infoDataPart1 = () => {
-  const { data: part1Tab1Data } = useFetch("");
-  const { data: part1Tab2Data } = useFetch("");
-  const { data: part1Tab3Data } = useFetch("");
-  const { data: part1Tab4Data } = useFetch("");
-  const { data: part1Tab5Data } = useFetch("");
-  switch (ref_eachPartCurrentTabColumnData.part1) {
-    case 1:
-      return part1Tab1Data.value;
-    case 2:
-      return part1Tab2Data.value;
-    case 3:
-      return part1Tab3Data.value;
-    case 4:
-      return part1Tab4Data.value;
-    case 5:
-      return part1Tab5Data.value;
-    default:
-      return part1Tab1Data;
-  }
-};
-const infoDataPart2 = () => {
-  const { data: part2Tab1Data } = useFetch("");
-  const { data: part2Tab2Data } = useFetch("");
-  switch (ref_eachPartCurrentTabColumnData.part2) {
-    case 1:
-      return part2Tab1Data.value;
-    case 2:
-      return part2Tab2Data.value;
-    default:
-      return part2Tab1Data;
-  }
-};
-const infoDataPart3 = () => {
-  const { data: part3Tab1Data } = useFetch("");
-  const { data: part3Tab2Data } = useFetch("");
-  switch (ref_eachPartCurrentTabColumnData.part2) {
-    case 1:
-      return part3Tab1Data.value;
-    case 2:
-      return part3Tab2Data.value;
-    default:
-      return part3Tab1Data;
-  }
-};
-
 /* Data Export Part */
 const dataExportOptionsInfoArr: DataExportOptionType[] = [
   {
@@ -377,6 +301,51 @@ const dataExportOptionsInfoArr: DataExportOptionType[] = [
   },
 ];
 emitter.emit("dataExport", dataExportOptionsInfoArr);
+
+const { format } = useDateFns();
+const { data: userDetailRawData } = await useFetch("/api/user/getUserDetail", {
+  method: "get",
+  ...adminStore().TokenHeader,
+  query: {
+    uid: 117,
+  },
+});
+const dataSource: Ref<Record<string, any>> = computed(() =>
+  myFuncs.flattenObject(userDetailRawData.value ?? {})
+);
+const renderSolver = (value: any) => {
+  if (!value) return h("dd", "没有数据");
+  else if (typeof value !== typeof h) return h("dd", value);
+  else return value;
+};
+
+const renderObj = (itemKey: string) => {
+  const value = dataSource.value[itemKey];
+  const solverObj: Record<string, any> = {
+    identity_info: () => {
+      return "无数据";
+    },
+    register_time: () => {
+      return value && format(value, "yyyy.MM.dd HH:mm:ss");
+    },
+  };
+  return solverObj[itemKey] ?? value;
+  // online_time_count: (timeCountInSeconds: number) => {
+  //   const hours = Math.floor(timeCountInSeconds / 3600);
+  //   const minutes = Math.floor((timeCountInSeconds % 3600) / 60);
+  //   const seconds = Math.floor(timeCountInSeconds % 60);
+  //   const formatEachPartFunc = (value: number) => {
+  //     return String(value).padStart(2, "0");
+  //   };
+  //   return [hours, minutes, seconds].map(formatEachPartFunc).join(":");
+  // },
+  // log_in_out_time: (login_or_out_timeRange_ISO: [string, string]) => {
+  //   return login_or_out_timeRange_ISO
+  //     .map(parseISO_FP)
+  //     .map(format_FP("yyyy.MM.dd HH:mm:ss"))
+  //     .join(" / ");
+  // },
+};
 </script>
 
 <template>
@@ -384,15 +353,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
   <DefineDataItem v-slot="{ value, ItemClass, label }">
     <div :class="`flex gap-2 ${ItemClass}`">
       <dt>{{ label }}</dt>
-      <component
-        :is="
-          (() => {
-            if (!value) return h('dd', '没有数据');
-            else if (typeof value !== typeof h) return h('dd', value);
-            else return value;
-          })()
-        "
-      />
+      <component :is="renderSolver(value)" />
     </div>
   </DefineDataItem>
   <DefineUserDetailPart1>
@@ -400,7 +361,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
       <ReuseDataItem
         v-for="item in UserDetailPart1Prefix"
         v-bind="{
-          value: renderObj[item.key] ?? dataSource[item.key], // h() / any
+          value: renderObj(item.key),
           ...item,
         }"
       ></ReuseDataItem>
@@ -411,7 +372,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
       <ReuseDataItem
         v-for="item in UserDetailPart2Prefix"
         v-bind="{
-          value: undefined,
+          value: renderObj(item.key),
           ...item,
         }"
       ></ReuseDataItem>
@@ -423,7 +384,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
         <ReuseDataItem
           v-for="item in UserDetailPart3_subPart1Prefix"
           v-bind="{
-            value: undefined,
+            value: renderObj(item.key),
             ...item,
           }"
         ></ReuseDataItem>
@@ -432,7 +393,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
         <ReuseDataItem
           v-for="item in UserDetailPart3_subPart2Prefix"
           v-bind="{
-            value: undefined,
+            value: renderObj(item.key),
             ...item,
           }"
         ></ReuseDataItem>
@@ -447,7 +408,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
         <div
           class="rounded-18px bg-main-btn_primary-positive leading-36px text-27px h-36px w-[clamp(127px,25%,158px)] p-x-4"
         >
-          ID:{{ 12 }}
+          ID：{{ dataSource.user_id ?? "用户不存在" }}
         </div>
       </div>
       <ReuseUserDetailPart1></ReuseUserDetailPart1>
@@ -502,8 +463,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
         },
       }"
     >
-      <!-- :data="(infoDataPart1() as any) ?? []" -->
-      <n-data-table :columns="columnsDataPart1()" :data="[]" />
+      <n-data-table :columns="columnsDataPart1()" :data="[dataSource]" />
     </ReuseNTabsPart>
     <ReuseNTabsPart
       v-bind="{
@@ -511,7 +471,7 @@ emitter.emit("dataExport", dataExportOptionsInfoArr);
         tabsData: part2TabsNameArr,
       }"
     >
-      <n-data-table :columns="columnsDataPart2()" :data="[]" />
+      <n-data-table :columns="columnsDataPart2()" :data="[dataSource]" />
     </ReuseNTabsPart>
     <ReuseNTabsPart
       v-bind="{
