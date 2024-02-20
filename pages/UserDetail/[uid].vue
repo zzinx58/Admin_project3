@@ -303,12 +303,14 @@ const dataExportOptionsInfoArr: DataExportOptionType[] = [
 emitter.emit("dataExport", dataExportOptionsInfoArr);
 
 const { format } = useDateFns();
+// console.log(route().params);
 const { data: userDetailRawData } = await useFetch("/api/user/getUserDetail", {
   method: "get",
   ...adminStore().TokenHeader,
-  query: {
-    uid: 117,
-  },
+  // query: {
+  // uid: 117,
+  // },
+  query: route().params as object,
 });
 const dataSource: Ref<Record<string, any>> = computed(() =>
   myFuncs.flattenObject(userDetailRawData.value ?? {})

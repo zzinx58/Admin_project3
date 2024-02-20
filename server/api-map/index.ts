@@ -12,7 +12,7 @@ export const api_map = {
     */
     getUserList: "/admin-api/user/list",
     filterUserList: "/admin-api/user/search",
-    getUserDetail: "/admin-api/user/",
+    getUserDetail: "/admin-api/user",
   },
   admin: {
     /* 
